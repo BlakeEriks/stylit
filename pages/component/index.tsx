@@ -21,33 +21,25 @@ const Index = (props: IndexProps) => {
       <h1>The Component List</h1>
       <h2>Click On Component to see it individually</h2>
       <br/>
-      <Link href="/component/create" passHref><button>Create a New Todo</button></Link>
+      <Link href="/component/create" passHref><button>Create a New Component</button></Link>
       {/* MAPPING OVER THE COMPONENTS */}
+      <div className="border flex flex-row">
       {components.map(component => (
-        <div key={component._id}>
-          <Link href={`/component/${component._id}`} passHref>
-            <>
-              <div className="border border-black h-44 w-44 flex items-center justify-center">
-                {ComponentType[component.type] === "Button" && 
-                  <button style={component.styles}></button>
-                }
-                {ComponentType[component.type] === "Input" && 
-                  <input style={component.styles}></input>
-                }
-                {ComponentType[component.type] === "Card" && 
-                  <button style={component.styles}></button>
-                }
-              </div>
-              <h3 style={{ cursor: "pointer" }}>
-                creator_id: {component.creator_id}{"  "}
-                type: {ComponentType[component.type]}{"  "}
-                styles: {JSON.stringify(component.styles)}{"  "}
-                likes: {component.likes.count}{"  "}
-              </h3>
-            </>
-          </Link>
+        <div key={component._id} className="w-44 h-44 flex justify-center items-center border">
+          {/* <Link href={`/component/${component._id}`} passHref> */}
+              {ComponentType[component.type] === "Button" && 
+                <button style={component.styles}>Button</button>
+              }
+              {ComponentType[component.type] === "Input" && 
+                <input style={component.styles} placeholder="input..."></input>
+              }
+              {ComponentType[component.type] === "Card" && 
+                <button style={component.styles}></button>
+              }
+          {/* </Link> */}
         </div>
       ))}
+      </div>
     </div>
   )
 }
