@@ -6,7 +6,7 @@ export interface ResponseFuncs {
   DELETE?: Function
 }
 
-enum ComponentType {Button, Input, Card}
+export enum ComponentType {Button, Input, Card}
 
 export interface User {
   _id?: string
