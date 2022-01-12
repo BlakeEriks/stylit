@@ -6,6 +6,13 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+#__next {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -13,6 +20,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+input {
+  border: 1px solid black;
 }
 
 @tailwind base;
