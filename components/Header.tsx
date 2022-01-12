@@ -25,6 +25,9 @@ const Header = (props: IndexProps) => {
       <Link href="/component">
         Browse
       </Link>
+      <Link href="/component/create">
+        Create Component
+      </Link>
       <button onClick={onClick} className="bg-red-500 rounded-lg px-2">
         Sign in
       </button>
