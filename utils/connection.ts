@@ -25,7 +25,7 @@ export const connect = async () => {
   const ComponentSchema = new Schema({
     creator_id: {type: Schema.Types.ObjectId, ref: 'User'},
     type: Number,
-    styles: Array,
+    styles: Object,
     likes: {count: Number, users: [{type:Schema.Types.ObjectId, ref: 'User'}]},
   })
 
