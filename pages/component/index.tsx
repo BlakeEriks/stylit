@@ -23,22 +23,25 @@ const Index = (props: IndexProps) => {
       <br/>
       <Link href="/component/create" passHref><button>Create a New Component</button></Link>
       {/* MAPPING OVER THE COMPONENTS */}
-      <div className="border flex flex-row">
-      {components.map(component => (
-        <div key={component._id} className="w-44 h-44 flex justify-center items-center border">
-          {/* <Link href={`/component/${component._id}`} passHref> */}
-              {ComponentType[component.type] === "Button" && 
-                <button style={component.styles}>Button</button>
-              }
-              {ComponentType[component.type] === "Input" && 
-                <input style={component.styles} placeholder="input..."></input>
-              }
-              {ComponentType[component.type] === "Card" && 
-                <button style={component.styles}></button>
-              }
-          {/* </Link> */}
-        </div>
-      ))}
+      <div className="border flex flex-row flex-wrap justify-center">
+        {components.map(component => (
+          <div key={component._id} className="component-container m-3 border">
+            {ComponentType[component.type] === "Button" && 
+              <button style={component.styles}>Button</button>
+            }
+            {ComponentType[component.type] === "Input" && 
+              <input style={component.styles} placeholder="input..."></input>
+            }
+            {ComponentType[component.type] === "Card" && 
+              <div 
+                style={component.styles}
+                className="card"
+              >
+                Card
+              </div>
+            }
+          </div>
+        ))}
       </div>
     </div>
   )
