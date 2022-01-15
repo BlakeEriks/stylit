@@ -21,4 +21,5 @@ export interface Component {
   type: ComponentType
   styles: object
   likes: {count: number, users: string[]}
+  createdAt: number
 }
