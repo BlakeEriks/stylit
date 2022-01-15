@@ -1,5 +1,7 @@
+import { Button } from '@mui/material';
 import Link from 'next/link';
 import useSocialAuth from 'utils/auth';
+import AddIcon from '@mui/icons-material/Add';
 
 // Define the users props
 interface IndexProps {
@@ -18,19 +20,26 @@ const Header = (props: IndexProps) => {
   }
 
   return (
-    <div className="w-full flex justify-between p-5">
-      <div className="text-4xl font-semibold">
-        Stylit💄
-      </div>
+    <div className="w-full flex justify-between items-center p-5 bg-opacity-50 bg-gray text-white border-b border-white">
+      <Link href="/" passHref>
+        <div className="text-4xl font-semibold cursor-pointer">
+          stylit💄
+        </div>
+      </Link>
       <Link href="/component">
         Browse
       </Link>
-      <Link href="/component/create">
-        Create Component
+      <Link href="/component">
+        How It Works
       </Link>
-      <button onClick={onClick} className="bg-red-500 rounded-lg px-2">
+      <Link href="/component/create" passHref>
+        <Button variant='outlined' className="text-gold border-gold hover:border-gold" endIcon={<AddIcon />}>
+          New Component
+        </Button>
+      </Link>
+      <Button variant='contained' onClick={onClick} className="text-black bg-gold">
         Sign in
-      </button>
+      </Button>
     </div>
   )
 }
