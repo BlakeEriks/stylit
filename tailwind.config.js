@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -5,11 +7,19 @@ module.exports = {
   ],
   theme: {
     colors: {
+      sky: colors.sky,
+      rose: colors.rose,
+      lime: colors.lime,
+      'transparent': 'transparent',
       'red': '#DB2438',
       'gold': '#f5ba31',
       'black': '#191A19',
       'gray': '#a1a1aa',
-      'white': '#FFFFFF'
+      'white': '#FFFFFF',
+      'offWhite': '#F2E8E8'
+    },
+    fontFamily: {
+      'body': 'Roboto, sans-serif'
     },
     extend: {},
   },
