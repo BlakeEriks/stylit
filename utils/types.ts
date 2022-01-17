@@ -23,3 +23,29 @@ export interface Component {
   likes: {count: number, users: string[]}
   createdAt: number
 }
+
+export interface Styles {
+  color?: string
+  fontSize?: string
+  fontWeight?: string
+  fontFamily?: string
+  letterSpacing?: string
+  background?: string
+  borderColor?: string
+  borderWidth?: string
+  padding?: string
+  borderRadius?: string
+  boxShadow?: string
+  outline?: string
+}
+
+export interface StyleGroups {
+  "text": (keyof Styles)[]
+  "background": (keyof Styles)[]
+  "padding": (keyof Styles)[]
+  "border": (keyof Styles)[]
+}
+
+export enum ComponentState {
+  normal, focus, hover
+}
