@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+:root {
+  --red: #db2438;
+  --gold: #f5ba31;
+  --black: #191A19;
+  --gray: #a1a1aa;
+  --white: #FFFFFF;
+  --offWhite: #F2E8E8;
+}
+
 html, body {
   padding: 0;
   margin: 0;
@@ -37,32 +46,14 @@ a {
   }
 
   .card {
-    @apply flex items-center justify-center w-full h-52
+    @apply flex items-center justify-center w-full cursor-pointer h-52
   }
 }
 
 @layer utilities {
   .logo-gradient {
     background: rgb(219,40,58);
-background: linear-gradient(180deg, rgba(219,40,58,1) 40%, rgba(217,188,125,1) 80%, rgba(25,26,25,1) 91%);
+    background: linear-gradient(180deg, rgba(219,40,58,1) 40%, rgba(217,188,125,1) 80%, rgba(25,26,25,1) 91%);
     background-clip: text;
   }
 }
-
-/* .MuiSelect-select {
-  padding: 4px;
-  font-size:
-}
-
-.MuiSelect-select:focus {
-  outline: none;
-  border: 2px solid rgb(245 186 49);
-}
-
-.MuiList-root, .MuiMenuItem-root, .MuiPaper-root {
-  background: #f3d2d6;
-}
-
-.MuiPaper-root {
-  border: 1px solid black;
-} */
