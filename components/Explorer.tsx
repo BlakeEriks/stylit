@@ -15,10 +15,17 @@ const Explorer = ({components}: {components: Component[]}) => {
         {components.map(component => (
           <div key={component._id} className="component-container m-3 border">
             {ComponentType[component.type] === "Button" && 
-              <button css={component.styles as Interpolation<Theme>}>Button</button>
+              <button 
+                css={component.styles as Interpolation<Theme>}
+              >
+                Button
+              </button>
             }
             {ComponentType[component.type] === "Input" && 
-              <input css={component.styles as Interpolation<Theme>} placeholder="input..."></input>
+              <input 
+                css={component.styles as Interpolation<Theme>} 
+                placeholder="input..." 
+              />
             }
             {ComponentType[component.type] === "Card" && 
               <div 
