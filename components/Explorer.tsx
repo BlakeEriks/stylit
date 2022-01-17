@@ -1,12 +1,8 @@
+/** @jsxImportSource @emotion/react */
+import { Interpolation, Theme } from "@emotion/react"
 import Link from "next/link"
 import { Component, ComponentType } from "utils/types"
 import ExploreHeader from "./ExploreHeader"
-
-const components = [
-  <button key="0"></button>,
-  <input key="1"></input>,
-  <div key="2"></div>
-]
 
 const Explorer = ({components}: {components: Component[]}) => {
   return (
@@ -19,14 +15,14 @@ const Explorer = ({components}: {components: Component[]}) => {
         {components.map(component => (
           <div key={component._id} className="component-container m-3 border">
             {ComponentType[component.type] === "Button" && 
-              <button style={component.styles}>Button</button>
+              <button css={component.styles as Interpolation<Theme>}>Button</button>
             }
             {ComponentType[component.type] === "Input" && 
-              <input style={component.styles} placeholder="input..."></input>
+              <input css={component.styles as Interpolation<Theme>} placeholder="input..."></input>
             }
             {ComponentType[component.type] === "Card" && 
               <div 
-                style={component.styles}
+                css={component.styles as Interpolation<Theme>}
                 className="card"
               >
                 Card
