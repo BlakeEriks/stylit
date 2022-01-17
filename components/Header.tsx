@@ -32,7 +32,10 @@ const Header = (props: IndexProps) => {
         How It Works
       </Link>
       <Link href="/component">
-        Browse Components
+        Browse
+      </Link>
+      <Link href="/drafts">
+        Drafts
       </Link>
       <Link href="/component/create" passHref>
         <Button variant='outlined' className="text-gold border-gold hover:border-gold" endIcon={<AddIcon />}>
