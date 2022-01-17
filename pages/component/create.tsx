@@ -2,8 +2,11 @@ import { useRouter } from "next/router"
 import { FormEventHandler, useState } from "react"
 import { Component, ComponentType } from "utils/types"
 import { CompactPicker } from 'react-color';
-import { Button, MenuItem, Popover, Select, Slider, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Button, MenuItem, Popover, Select, ToggleButton, ToggleButtonGroup, IconButton } from "@mui/material";
 import SubHero from "components/SubHero";
+import EditSlider from "components/util/EditSlider";
+import { UndoRounded } from "@mui/icons-material";
+var _ = require('lodash/core');
 
 /* 
   Need a way to restrict field edits per component
@@ -39,12 +42,16 @@ interface Styles {
   outline?: string
 }
 
+interface StyleGroups {
+  [index: string]: (keyof Styles)[]
+}
+
 const fontOptions = ["Montserrat", "Open Sans", "Raleway", "Roboto"]
 const defaultStyles: Styles = {
+  fontFamily: "Montserrat, sans-serif",
   color: "#000000",
   fontSize: "24px",
   fontWeight: "500",
-  fontFamily: "Montserrat, sans-serif",
   letterSpacing: "0px",
   background: "white",
   borderColor: "#000000",
@@ -54,6 +61,31 @@ const defaultStyles: Styles = {
   boxShadow: "0px 0px 0px 0px #000000",
   outline: "none"
 }
+const styleGroups: StyleGroups = {
+  text: [
+    "fontFamily",
+    "color",
+    "fontSize",
+    "fontWeight",
+    "letterSpacing",
+  ],
+  background: [
+    "background"
+  ],
+  padding: [
+    "padding"
+  ],
+  border: [
+    "borderColor",
+    "borderWidth",
+    "borderRadius"
+  ],
+  shadow: [
+    "boxShadow"
+  ]
+}
+const MAX_SHADOWS_ALLOWED = 4
+
 // Define Component
 const Create = (props: CreateComponentProps) => {
 
@@ -66,6 +98,7 @@ const Create = (props: CreateComponentProps) => {
   const [componentType, setComponentType] = useState(ComponentType.Button)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [componentState, setComponentState] = useState<ComponentState>(ComponentState.normal);
+  const [selectedShadow, setSelectedShadow] = useState<number>(0)
 
   const getStyle = (style: keyof Styles): string => {
     if (styles[componentState].hasOwnProperty(style)) return styles[componentState][style]!
@@ -75,6 +108,7 @@ const Create = (props: CreateComponentProps) => {
   const getStyles = () => ({...styles[ComponentState.normal], ...styles[componentState]})
 
   const setStyle = (style: keyof Styles, value: string) => {
+    if (styles[componentState][style] === value) return
     let newStyles = {...styles}
     newStyles[componentState][style] = value
     setStyles(newStyles)
@@ -85,7 +119,21 @@ const Create = (props: CreateComponentProps) => {
     event.preventDefault()
 
     // construct new component
-    let component: Component = { creator_id: "61dcce4e2fa77b6e4b654bd7", type: componentType, styles: styles, likes: { count: 0, users: [] }, createdAt: 0 }
+    let component: Component = { 
+      creator_id: "61dcce4e2fa77b6e4b654bd7", 
+      type: componentType, 
+      styles: {
+        ...styles[ComponentState.normal],
+        '&:hover': {
+          ...styles[ComponentState.hover]
+        },
+        '&:focus': {
+          ...styles[ComponentState.focus]
+        }
+      }, 
+      likes: { count: 0, users: [] }, 
+      createdAt: 0 
+    }
   
     // Make the API request
     await fetch(`${props.url}/components`, {
@@ -103,15 +151,22 @@ const Create = (props: CreateComponentProps) => {
   const getPadding = (axis: string) => Number(getStyle("padding").split(" ")[axis === 'x' ? 1 : 0].replace("px", ""))
 
   const getShadowFragment = (index: number) => {
-    const fragment = getStyle("boxShadow").split(" ")[index]
+    const fragment = getStyle("boxShadow").split(',')[selectedShadow].split(" ")[index]
     if (index === 4) return fragment
     return fragment.replace("px", "")
   }
 
   const setShadow = (value: number | string, index: number) => {
-    const fragments = getStyle("boxShadow").split(" ")
+    const fragments = getStyle("boxShadow").split(",")[selectedShadow].split(" ")
     fragments[index] = value + (index !== 4 ? "px" : '')
-    setStyle("boxShadow", fragments.join(" "))
+    let newShadows = getStyle("boxShadow").split(",")
+    newShadows[selectedShadow] = fragments.join(" ")
+    setStyle("boxShadow", newShadows.join(","))
+  }
+
+  const addShadow = () => {
+    const newShadow = getStyle("boxShadow") + "," + defaultStyles["boxShadow"]
+    setStyle("boxShadow", newShadow)
   }
 
   const setColorByAnchoredEl = (hex: string) => {
@@ -128,6 +183,7 @@ const Create = (props: CreateComponentProps) => {
   const getComponentType = () => ComponentType[componentType]
 
   const toggleComponentState = (state: ComponentState) => {
+    setSelectedShadow(0)
     if (componentState === state) setComponentState(ComponentState.normal)
     else setComponentState(state)
   }
@@ -135,6 +191,15 @@ const Create = (props: CreateComponentProps) => {
   const getStatesForComponent = () => {
     if (componentType === ComponentType.Card) return [ComponentState.hover]
     return [ComponentState.hover, ComponentState.focus]
+  }
+
+  // If the component state is normal -> reset to default styles
+  // If the component state is hover / focus -> reset to normal styles
+  const resetStyles = (styleGroup: string) => {
+    const resetState = (componentState === ComponentState.normal) ? defaultStyles : styles[ComponentState.normal]
+    for (const style of styleGroups[styleGroup]) {
+      setStyle(style, resetState[style]!)
+    }
   }
 
   return (
@@ -150,16 +215,23 @@ const Create = (props: CreateComponentProps) => {
       <form onSubmit={handleSubmit} className="flex flex-row">
 
         {/* Left Side Edit Panel */}
-        <div className="flex flex-col items-center justify-between w-1/3 ">
+        <div className="flex flex-col items-center justify-between w-1/3">
 
           {/* Font Edit Section */}
-          <div className="my-2 w-full flex flex-col">
+          <div className="my-2 w-full flex flex-col mx-2">
 
-            <div className="px-6 text-xl font-medium">
-              ✍🏼Text
+            <div className="text-xl font-medium border-b flex justify-between items-end">
+              <span>
+                ✍🏼 Text
+              </span>
+              <IconButton
+                size="small"
+                children={<UndoRounded />}
+                onClick={() => resetStyles("text")}
+              />
             </div>
 
-            <div className="flex items-center w-full px-2 my-1">
+            <div className="flex items-center w-full my-1">
               <div className="w-1/4">
                 font
               </div>
@@ -168,14 +240,11 @@ const Create = (props: CreateComponentProps) => {
                 value={getStyle("fontFamily").split(",")[0]}
                 onChange={ event => (
                   setStyle("fontFamily", `${event.target.value}, sans-serif`))}
-                  displayEmpty
+                variant="standard"
                 sx={{
                   '& .MuiSelect-select': {
                     padding: '1px 0px 1px 8px',
                     fontSize: '14px'
-                  },
-                  '.MuiPaper-root': {
-                    background: '#000000 !important'
                   }
                 }}
               >
@@ -183,7 +252,7 @@ const Create = (props: CreateComponentProps) => {
                   <MenuItem 
                   key={font} 
                   value={font}
-                  style={{fontFamily: `${font}, sans-serif`, fontWeight: "600"}}
+                  style={{fontFamily: `${font}, sans-serif`, fontWeight: "600", fontSize: '12px'}}
                   >
                     {font}
                   </MenuItem>
@@ -191,7 +260,7 @@ const Create = (props: CreateComponentProps) => {
               </Select>
             </div>
 
-            <div className="flex items-center w-full px-2 my-1">
+            <div className="flex items-center w-full my-1">
               <div className="w-1/4">
                 color
               </div>
@@ -203,28 +272,24 @@ const Create = (props: CreateComponentProps) => {
               </button>
             </div>
 
-            <div className="flex items-center w-full px-2 my-1">
+            <div className="flex items-center w-full my-1">
               <div className="w-1/4">
                 size
               </div>
-              <Slider
-                className="w-3/4"
-                size="small"
+              <EditSlider
                 max={40}
                 min={10}
-                aria-label="Small"
-                onChange={(e, v) => setStyle("fontSize", `${v}px`)}
+                step={2}
+                onChange={(e: Event, v: number | number[]) => setStyle("fontSize", `${v}px`)}
                 value={Number(getStyle("fontSize").replace("px", ""))}
               />
             </div>
 
-            <div className="flex items-center w-full px-2 my-1">
+            <div className="flex items-center w-full my-1">
               <div className="w-1/4">
                 weight
               </div>
-              <Slider
-                className="w-3/4"
-                size="small"
+              <EditSlider
                 max={900}
                 min={100}
                 step={100}
@@ -233,13 +298,11 @@ const Create = (props: CreateComponentProps) => {
               />
             </div>
             
-            <div className="flex items-center w-full px-2 my-1">
+            <div className="flex items-center w-full my-1">
               <div className="w-1/4">
                 space
               </div>
-              <Slider
-                className="w-3/4"
-                size="small"
+              <EditSlider
                 max={10}
                 onChange={(e, v) => setStyle("letterSpacing", v + 'px')}
                 value={Number(getStyle("letterSpacing").replace("px",""))}
@@ -248,46 +311,67 @@ const Create = (props: CreateComponentProps) => {
           </div>
 
           {/* Background Edit Section */}
-          <div className="my-2 w-full flex flex-col">
+          <div className="my-2 w-full flex flex-col mx-2">
 
-            <div className="px-6 text-xl font-medium">
-              Background
+            <div className="text-xl font-medium border-b flex justify-between items-end">
+              <span>
+              🌈 Background
+              </span>
+              <IconButton
+                size="small"
+                children={<UndoRounded />}
+                onClick={() => resetStyles("background")}
+              />
             </div>
 
-            <button type="button"
-              name="background"
-              className="p-4 rounded-lg border-2"
-              style={{ background: getStyle("background") }}
-              onClick={e => setAnchorEl(e.currentTarget)}>
-            </button>
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                color
+              </div>
+              <button type="button"
+                name="background"
+                className="p-2 rounded-lg border-2 w-3/4"
+                style={{ background: getStyle("background") }}
+                onClick={e => setAnchorEl(e.currentTarget)}>
+              </button>
+            </div>
           </div>
 
           {/* Padding Edit Section */}
           <div className="my-2 w-full">
-            <div className="px-2 text-center">Padding</div>
-            <div className="flex flex-row w-full justify-center">
-              x
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={40}
-                  aria-label="Small"
-                  onChange={(e, v) => setStyle("padding", `${getStyle("padding").split(" ")[0]} ${v}px`)}
-                  value={getPadding("x")}
-                />
+
+            <div className="text-xl font-medium border-b flex justify-between items-end">
+              <span>
+              👌 Padding
               </span>
+              <IconButton
+                size="small"
+                children={<UndoRounded />}
+                onClick={() => resetStyles("padding")}
+              />
             </div>
-            <div className="flex flex-row w-full justify-center">
-              y
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={40}
-                  aria-label="Small"
-                  onChange={(e, v) => setStyle("padding", `${v}px ${getStyle("padding").split(" ")[1]}`)}
-                  value={getPadding("y")}
-                />
-              </span>
+            
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                x
+              </div>
+              <EditSlider
+                max={40}
+                step={2}
+                onChange={(e, v) => setStyle("padding", `${getStyle("padding").split(" ")[0]} ${v}px`)}
+                value={getPadding("x")}
+              />
+            </div>
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                y
+              </div>
+              <EditSlider
+                max={30}
+                step={2}
+                onChange={(e, v) => setStyle("padding", `${v}px ${getStyle("padding").split(" ")[1]}`)}
+                value={getPadding("y")}
+              />
             </div>
           </div>
         </div>
@@ -315,7 +399,7 @@ const Create = (props: CreateComponentProps) => {
             {ComponentType[componentType] === "Button" &&
               <button 
                 style={getStyles()}
-                className="transition-all duration-150 ease-linear">
+                className="transition-all duration-75 ease-linear">
                 Button
               </button>
             }
@@ -323,13 +407,13 @@ const Create = (props: CreateComponentProps) => {
               <input 
                 style={getStyles()} 
                 placeholder="input..." 
-                className="transition-all duration-150 ease-linear w-5/6"  
+                className="transition-all duration-75 ease-linear w-5/6"  
               />
             }
             {ComponentType[componentType] === "Card" &&
               <div
                 style={getStyles()}
-                className="flex items-center justify-center transition-all duration-150 ease-linear card cursor-pointer"
+                className="transition-all duration-75 ease-linear card"
               >
                 Card
               </div>
@@ -345,21 +429,7 @@ const Create = (props: CreateComponentProps) => {
               >
                 :{ComponentState[state]}
               </Button>
-            ))
-
-            }
-            {/* <Button
-              className={"normal-case rounded-xl " + (componentState === ComponentState.Hover ? "text-[#DB2438]" : "text-gray")}
-              onClick={() => toggleComponentState(ComponentState.Hover)}
-            >
-              :hover
-            </Button>
-            <Button
-              className={"normal-case rounded-xl " + (componentState === ComponentState.Focus ? "text-[#DB2438]" : "text-gray")}
-              onClick={() => toggleComponentState(ComponentState.Focus)}
-            >
-              :focus
-            </Button> */}
+            ))}
           </div>
 
           {/* Save Component */}
@@ -372,98 +442,166 @@ const Create = (props: CreateComponentProps) => {
         </div>
 
         {/* Edit the component on the right */}
-        <div className="flex flex-col items-center w-1/3 p-4">
+        <div className="flex flex-col items-center justify-evenly w-1/3">
 
           {/* Border Edit Section */}
-          <div className="my-2 w-full flex flex-col">
-            <div className="px-2 text-center">Border</div>
-            <button type="button"
-              name="borderColor"
-              className="p-4 rounded-lg border-2"
-              style={{ background: getStyle("borderColor") }}
-              onClick={e => setAnchorEl(e.currentTarget)}>
-            </button>
-            <div className="flex flex-row w-full justify-center">
-              width
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={8}
-                  step={0.1}
-                  aria-label="Small"
-                  onChange={(e, v) => setStyle("borderWidth", `${v}px`)}
-                  value={Number(getStyle("borderWidth").replace("px", ""))}
-                />
+          <div className="my-2 w-full">
+
+            <div className="text-xl font-medium border-b flex justify-between items-end">
+              <span>
+                🧱 Border
               </span>
+              <IconButton
+                size="small"
+                children={<UndoRounded />}
+                onClick={() => resetStyles("border")}
+              />
             </div>
-            <div className="flex flex-row w-full justify-center">
-              radius
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={30}
-                  onChange={(e, v) => setStyle("borderRadius", `${v}px`)}
-                  value={Number(getStyle("borderRadius").replace("px", ""))}
-                />
-              </span>
+
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                  color
+              </div>
+
+              <button type="button"
+                name="borderColor"
+                className="p-2 rounded-lg border-2 w-3/4"
+                style={{ background: getStyle("borderColor") }}
+                onClick={e => setAnchorEl(e.currentTarget)}>
+              </button>
+            </div>
+            
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                width
+              </div>
+              <EditSlider
+                max={8}
+                step={0.1}
+                onChange={(e, v) => setStyle("borderWidth", `${v}px`)}
+                value={Number(getStyle("borderWidth").replace("px", ""))}
+              />
+            </div>
+
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                radius
+              </div>
+              <EditSlider
+                max={30}
+                onChange={(e, v) => setStyle("borderRadius", `${v}px`)}
+                value={Number(getStyle("borderRadius").replace("px", ""))}
+              />
             </div>
           </div>
 
           {/* Shadow Edit Section */}
-          <div className="my-2 w-full flex flex-col">
-            <div className="px-2 text-center">Shadow</div>
-            <button type="button"
-              name="shadow"
-              className="p-4 rounded-lg border-2"
-              style={{ background: getShadowFragment(4) }}
-              onClick={e => setAnchorEl(e.currentTarget)}>
-            </button>
-            <div className="flex flex-row w-full justify-center">
-              offset x
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={25}
-                  min={-25}
-                  onChange={(e, v) => setShadow(Number(v), 0)}
-                  value={Number(getShadowFragment(0))}
-                />
+          <div className="my-2 w-full">
+
+            <div className="text-xl font-medium border-b flex justify-between items-end">
+              <span>
+                ❐ Shadow 
               </span>
+              <IconButton
+                size="small"
+                children={<UndoRounded />}
+                onClick={() => {setSelectedShadow(0);resetStyles("shadow")}}
+              />
             </div>
-            <div className="flex flex-row w-full justify-center">
-              offset y
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={25}
-                  min={-25}
-                  onChange={(e, v) => setShadow(Number(v), 1)}
-                  value={Number(getShadowFragment(1))}
-                />
-              </span>
+
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                  color
+              </div>
+
+              <button type="button"
+                name="shadow"
+                className="p-2 rounded-lg border-2 w-3/4"
+                style={{ background: getShadowFragment(4) }}
+                onClick={e => setAnchorEl(e.currentTarget)}>
+              </button>
             </div>
-            <div className="flex flex-row w-full justify-center">
-              blur
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={25}
-                  onChange={(e, v) => setShadow(Number(v), 2)}
-                  value={Number(getShadowFragment(2))}
-                />
-              </span>
+
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                offset x
+              </div>
+              <EditSlider
+                max={25}
+                min={-25}
+                onChange={(e, v) => setShadow(Number(v), 0)}
+                value={Number(getShadowFragment(0))}
+              />
+
             </div>
-            <div className="flex flex-row w-full justify-center">
-              size
-              <span className="w-2/3 px-4">
-                <Slider
-                  size="small"
-                  max={getComponentType() === "Card" ? 10 : 15}
-                  min={-5}
-                  onChange={(e, v) => setShadow(Number(v), 3)}
-                  value={Number(getShadowFragment(3))}
-                />
-              </span>
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                offset y
+              </div>
+              <EditSlider
+                max={25}
+                min={-25}
+                onChange={(e, v) => setShadow(Number(v), 1)}
+                value={Number(getShadowFragment(1))}
+              />
+
+            </div>
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                blur
+              </div>
+              <EditSlider
+                max={25}
+                onChange={(e, v) => setShadow(Number(v), 2)}
+                value={Number(getShadowFragment(2))}
+              />
+            </div>
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                size
+              </div>
+              <EditSlider
+                max={getComponentType() === "Card" ? 10 : 15}
+                min={-5}
+                onChange={(e, v) => setShadow(Number(v), 3)}
+                value={Number(getShadowFragment(3))}
+              />
+            </div>
+
+            <div className="flex items-center w-full my-1">
+              <div className="w-1/4">
+                select
+              </div>
+              <Select
+                className="w-3/4"
+                value={selectedShadow}
+                onChange={ event => setSelectedShadow(Number(event.target.value))}
+                variant="standard"
+                sx={{
+                  '& .MuiSelect-select': {
+                    padding: '1px 0px 1px 8px',
+                    fontSize: '14px'
+                  }
+                }}
+              >
+                {getStyle("boxShadow").split(',').map( (shadow,index) => (
+                  <MenuItem 
+                    key={index} 
+                    value={index}
+                    style={{fontWeight: "600", fontSize: '12px'}}
+                  >
+                    Box Shadow #{index + 1}
+                  </MenuItem>
+                ))}
+                {getStyle("boxShadow").split(',').length < MAX_SHADOWS_ALLOWED &&
+                <MenuItem
+                  value={getStyle("boxShadow").split(',').length}
+                  style={{fontWeight: "600", fontSize: '12px'}}
+                  onClick={() => addShadow()}
+                >
+                  + Add Shadow
+                </MenuItem>}
+              </Select>
             </div>
           </div>
         </div>
