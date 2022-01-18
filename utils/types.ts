@@ -21,7 +21,7 @@ export interface Component {
   type: ComponentType
   styles: object
   likes: {count: number, users: string[]}
-  createdAt: number
+  createdAt?: number
 }
 
 export interface Styles {
