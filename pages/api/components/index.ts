@@ -15,8 +15,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // RESPONSE FOR GET REQUESTS
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
+      const includedComponents = (req.query.type as string).split(',').map(type => Number(type))
       const { Component } = await connect() // connect to database
-      res.json(await Component.find({}).catch(catcher))
+      res.json(await Component.find({type: includedComponents}).catch(catcher))
     },
 
     // RESPONSE POST REQUESTS
