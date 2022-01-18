@@ -6,11 +6,11 @@ interface ButtonProps {
   onClick? : MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: React.FC<ButtonProps> = ({children, active, className, onClick}) => {
+const Btn: React.FC<ButtonProps> = ({children, active, className, onClick}) => {
   return (
     <button 
-      type="button" 
-      className={`font-body px-3 py-2 hover:text-red transition-all duration-150 ${className}`}
+      type="button"
+      className={`font-body px-3 py-1 transition-all duration-150 ${className}`}
       onClick={onClick}  
     >
       {children}
@@ -18,4 +18,4 @@ const Button: React.FC<ButtonProps> = ({children, active, className, onClick}) =
   )
 }
 
-export default Button
+export default Btn
