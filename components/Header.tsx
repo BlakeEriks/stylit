@@ -34,12 +34,15 @@ const Header = (props: IndexProps) => {
       <Link href="/component">
         Browse
       </Link>
+      <Link href="/bookmarks">
+        Bookmarks
+      </Link>
       <Link href="/drafts">
         Drafts
       </Link>
       <Link href="/component/create" passHref>
         <Button variant='outlined' className="text-gold border-gold hover:border-gold" endIcon={<AddIcon />}>
-          New Component
+          Create
         </Button>
       </Link>
       <Button variant='contained' onClick={onClick} className="text-black bg-gold">
