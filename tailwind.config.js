@@ -10,13 +10,14 @@ module.exports = {
       sky: colors.sky,
       rose: colors.rose,
       lime: colors.lime,
+      green: colors.green,
       'transparent': 'transparent',
       'red': '#DB2438',
       'gold': '#f5ba31',
       'black': '#191A19',
       'gray': '#a1a1aa',
       'white': '#FFFFFF',
-      'offWhite': '#F2E8E8'
+      'offWhite': '#F2EDED'
     },
     fontFamily: {
       'body': 'Roboto, sans-serif'
