@@ -1,16 +1,16 @@
 import { useRouter } from "next/router"
 import { FormEventHandler, useState } from "react"
 import { Component, ComponentState, ComponentType, StyleGroups, Styles } from "utils/types"
-
-import { Button, Popover, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import SubHero from "components/SubHero";
-import { ChromePicker, Color, ColorResult, RGBColor } from "react-color";
+import { RGBColor } from "react-color";
 import TextEdit from "components/util/TextEdit";
 import BackgroundEdit from "components/util/BackgroundEdit";
 import PaddingEdit from "components/util/PaddingEdit";
 import BorderEdit from "components/util/BorderEdit";
 import ColorPicker from "components/util/ColorPicker";
 import ShadowEdit from "components/util/ShadowEdit";
+import Btn from "components/Btn";
 var _ = require('lodash/core');
 
 // Define props
@@ -81,6 +81,26 @@ const Create = (props: CreateComponentProps) => {
     setStyles(newStyles)
   }
 
+  const saveAsDraft = () => {
+    let drafts = []
+    if (window.localStorage.getItem('drafts')) {
+      drafts = JSON.parse(window.localStorage.getItem('drafts')!)
+    }
+    drafts.push({
+      type: componentType, 
+      styles: {
+        ...styles[ComponentState.normal],
+        '&:hover': {
+          ...styles[ComponentState.hover]
+        },
+        '&:focus': {
+          ...styles[ComponentState.focus]
+        }
+      }
+    })
+    localStorage.setItem("drafts", drafts)
+  }
+
   // Function to create new component
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault()
@@ -98,8 +118,7 @@ const Create = (props: CreateComponentProps) => {
           ...styles[ComponentState.focus]
         }
       }, 
-      likes: { count: 0, users: [] }, 
-      createdAt: 0 
+      likes: { count: 0, users: [] }
     }
   
     // Make the API request
@@ -143,137 +162,145 @@ const Create = (props: CreateComponentProps) => {
   return (
     <>
     <SubHero />
-    <div className="border w-full h-5/6 px-4 flex flex-col justify-center mx-auto max-w-[1000px] bg-white rounded-xl bg-opacity-80">
-      <div className="text-center text-4xl my-3 ">
-        🎨{" "}
-        <span className="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 bg-clip-text text-transparent">Create a New Component</span> 
-        {" "}🖌
+    <div className="flex flex-col items-center w-full mx-4 bg-white text-gray">
+      <div className="text-center text-4xl py-3 w-full bg-black bg-opacity-50">
+          🎨{" "}
+          <span className="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 bg-clip-text text-transparent">Create a New Component</span> 
+          {" "}🖌
       </div>
+      <div className="flex flex-col justify-center max-w-[1100px] w-full min-w-[800px]">
 
-      <form onSubmit={handleSubmit} className="flex flex-row">
+        <form onSubmit={handleSubmit} className="flex flex-row">
 
-        {/* Left Side Edit Panel */}
-        <div className="flex flex-col items-center justify-between w-1/3">
+          {/* Left Side Edit Panel */}
+          <div className="flex flex-col items-center justify-between w-1/3">
 
-          {/* Text Edit Section */}
-          <TextEdit 
-            getStyle={getStyle} 
-            resetStyles={resetStyles}
-            setStyle={setStyle}
-            setAnchorEl={setAnchorEl} 
-          />
+            {/* Text Edit Section */}
+            <TextEdit 
+              getStyle={getStyle} 
+              resetStyles={resetStyles}
+              setStyle={setStyle}
+              setAnchorEl={setAnchorEl} 
+            />
 
-          {/* Background Edit Section */}
-          <BackgroundEdit
-            getStyle={getStyle}
-            resetStyles={resetStyles}
-            setAnchorEl={setAnchorEl}
-          />
+            {/* Background Edit Section */}
+            <BackgroundEdit
+              getStyle={getStyle}
+              resetStyles={resetStyles}
+              setAnchorEl={setAnchorEl}
+            />
 
-          {/* Padding Edit Section */}
-          <PaddingEdit
-            getStyle={getStyle} 
-            resetStyles={resetStyles}
-            setStyle={setStyle}
-          />
-          
-        </div>
+            {/* Padding Edit Section */}
+            <PaddingEdit
+              getStyle={getStyle} 
+              resetStyles={resetStyles}
+              setStyle={setStyle}
+            />
+            
+          </div>
 
-        {/* Center Panel Component View */}
-        <div className="w-1/3 flex flex-col items-center">
-          <ToggleButtonGroup
-            value={componentType}
-            exclusive
-            onChange={(e,v) => {if (v !== null) setComponentType(v)}}
-            className="my-4"
-          >
-            <ToggleButton value={ComponentType.Button} aria-label="button">
-              Button
-            </ToggleButton>
-            <ToggleButton value={ComponentType.Input} aria-label="input">
-              Input
-            </ToggleButton>
-            <ToggleButton value={ComponentType.Card} aria-label="card">
-              Card
-            </ToggleButton>
-          </ToggleButtonGroup>
-          
-          <div className="component-container h-52">
-            {ComponentType[componentType] === "Button" &&
-              <button 
-                type="button"
-                style={getStyles()}
-                className="transition-all duration-75 ease-linear">
+          {/* Center Panel Component View */}
+          <div className="flex flex-col items-center w-1/3">
+            <ToggleButtonGroup
+              value={componentType}
+              exclusive
+              onChange={(e,v) => {if (v !== null) setComponentType(v)}}
+              className="my-4"
+            >
+              <ToggleButton value={ComponentType.Button} aria-label="button">
                 Button
-              </button>
-            }
-            {ComponentType[componentType] === "Input" &&
-              <input 
-              style={getStyles()}
-                maxLength={10}
-                placeholder="input..." 
-                className="transition-all duration-75 ease-linear w-5/6"
-                onKeyDown={event => {if (event.keyCode === 13) event.preventDefault()}}
-              />
-            }
-            {ComponentType[componentType] === "Card" &&
-              <div
-              style={getStyles()}
-                className="transition-all duration-75 ease-linear card"
-              >
+              </ToggleButton>
+              <ToggleButton value={ComponentType.Input} aria-label="input">
+                Input
+              </ToggleButton>
+              <ToggleButton value={ComponentType.Card} aria-label="card">
                 Card
-              </div>
-            }
-          </div>
+              </ToggleButton>
+            </ToggleButtonGroup>
+            
+            <div className="component-container h-52">
+              {ComponentType[componentType] === "Button" &&
+                <button 
+                  type="button"
+                  style={getStyles()}
+                  className="transition-all duration-75 ease-linear">
+                  Button
+                </button>
+              }
+              {ComponentType[componentType] === "Input" &&
+                <input 
+                style={getStyles()}
+                  maxLength={10}
+                  placeholder="input..." 
+                  className="transition-all duration-75 ease-linear w-5/6"
+                  onKeyDown={event => {if (event.keyCode === 13) event.preventDefault()}}
+                />
+              }
+              {ComponentType[componentType] === "Card" &&
+                <div
+                style={getStyles()}
+                  className="transition-all duration-75 ease-linear card"
+                >
+                  Card
+                </div>
+              }
+            </div>
 
-          <div className="flex flex-row">
-            {getStatesForComponent().map(state => (
-              <Button
-                key={state}
-                className={"normal-case rounded-xl " + (componentState === state ? "text-[#DB2438]" : "text-gray")}
-                onClick={() => toggleComponentState(state)}
+            <div className="flex flex-row">
+              {getStatesForComponent().map(state => (
+                <Button
+                  key={state}
+                  className={"normal-case rounded-xl opacity-50 " + (componentState === state ? "text-gold opacity-100" : "text-black")}
+                  onClick={() => toggleComponentState(state)}
+                >
+                  :{ComponentState[state]}
+                </Button>
+              ))}
+            </div>
+
+            {/* Save Component */}
+            <div className="flex my-2 w-full justify-evenly px-6">
+              <Btn
+                className="rounded-2xl bg-sky-500 text-white hover:shadow-lg"
+                onClick={() => saveAsDraft()}
               >
-                :{ComponentState[state]}
-              </Button>
-            ))}
+                Save 💾 
+              </Btn>
+              <Btn 
+                className="rounded-2xl bg-green-500 text-white hover:shadow-lg"
+              >
+                Publish ✅ 
+              </Btn>
+            </div>
           </div>
 
-          {/* Save Component */}
-          <Button 
-            type="submit"
-            className="border rounded-2xl px-6 py-2 my-2"
-          >
-            Save ✅
-          </Button>
-        </div>
+          {/* Edit the component on the right */}
+          <div className="flex flex-col items-center justify-evenly w-1/3">
 
-        {/* Edit the component on the right */}
-        <div className="flex flex-col items-center justify-evenly w-1/3">
+            {/* Border Edit Section */}
+            <BorderEdit
+              getStyle={getStyle} 
+              resetStyles={resetStyles}
+              setStyle={setStyle}
+              setAnchorEl={setAnchorEl} 
+            />
 
-          {/* Border Edit Section */}
-          <BorderEdit
-            getStyle={getStyle} 
-            resetStyles={resetStyles}
-            setStyle={setStyle}
-            setAnchorEl={setAnchorEl} 
+            {/* Shadow Edit Section */}
+            <ShadowEdit
+              componentState={componentState} componentType={componentType} setStyle={setStyle}
+            />
+            
+          </div>
+
+          {/* Color Picker Pop Up */}
+          <ColorPicker
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(undefined)}
+            onChange={(rgb: RGBColor) => setColorByAnchoredEl(rgb)}
           />
 
-          {/* Shadow Edit Section */}
-          <ShadowEdit
-            componentState={componentState} componentType={componentType} setStyle={setStyle}
-          />
-          
-        </div>
-
-        {/* Color Picker Pop Up */}
-        <ColorPicker
-          anchorEl={anchorEl}
-          onClose={() => setAnchorEl(undefined)}
-          onChange={(rgb: RGBColor) => setColorByAnchoredEl(rgb)}
-        />
-
-      </form>
-
+        </form>
+      </div>
     </div>
     </>
   )
