@@ -1,6 +1,5 @@
 import { IconButton } from "@mui/material"
 import { UndoRounded } from "@mui/icons-material"
-import { StyleGroups, Styles } from "utils/types"
 
 interface BackgroundEditProps {
   getStyle: Function
@@ -10,8 +9,8 @@ interface BackgroundEditProps {
 
 const BackgroundEdit = ({getStyle, resetStyles, setAnchorEl}: BackgroundEditProps) => {
   return (
-    <div className="my-2 w-full flex flex-col mx-2">
-      <div className="text-xl font-medium border-b flex justify-between items-end">
+    <div className="edit-group">
+      <div className="edit-group-header">
         <span>
         🌈 Background
         </span>

@@ -18,10 +18,10 @@ const EditSlider = ({min, max, step, onChange, value}: EditSliderProps ) => {
           color: 'var(--black)'
         },
         '& .MuiSlider-track': {
-          color: 'var(--red)'
+          color: 'var(--gold)'
         },
         '& .MuiSlider-thumb': {
-          color: 'var(--red)'
+          color: 'var(--gold)'
         },
         '& .MuiSlider-thumb:focus': {
           boxShadow: '0 0 0 8px rgb(219, 36, 56, 0.2);'

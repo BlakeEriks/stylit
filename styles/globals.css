@@ -42,11 +42,19 @@ a {
 
 @layer components {
   .component-container {
-    @apply flex flex-grow w-full items-center justify-center px-10 py-5 min-w-[250px] max-w-[300px] rounded-xl
+    @apply flex flex-grow w-full items-center justify-center px-10 py-5 min-w-[230px] max-w-[300px] rounded-xl
   }
 
   .card {
     @apply flex items-center justify-center w-full cursor-pointer h-52
+  }
+
+  .edit-group {
+    @apply my-4 w-full flex flex-col mx-2
+  }
+
+  .edit-group-header {
+    @apply text-xl font-medium border-b border-black flex justify-between items-end text-black
   }
 }
 

@@ -13,8 +13,8 @@ const PaddingEdit = ({getStyle, resetStyles, setStyle}: PaddingEditProps) => {
   const getPadding = (axis: string) => Number(getStyle("padding").split(" ")[axis === 'x' ? 1 : 0].replace("px", ""))
 
   return (
-    <div className="my-2 w-full">
-      <div className="text-xl font-medium border-b flex justify-between items-end">
+    <div className="edit-group">
+      <div className="edit-group-header">
         <span>
         👌 Padding
         </span>

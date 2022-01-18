@@ -11,8 +11,8 @@ interface BorderEditProps {
 
 const BorderEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: BorderEditProps) => {
   return (
-    <div className="my-2 w-full">
-      <div className="text-xl font-medium border-b flex justify-between items-end">
+    <div className="edit-group">
+      <div className="edit-group-header">
         <span>
           🧱 Border
         </span>
