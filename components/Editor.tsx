@@ -131,149 +131,142 @@ const Editor = (props: EditorProps) => {
   }
 
   return (
-    // <div className="flex flex-col items-center w-full mx-4 bg-white text-gray">
-      /* <div className="text-center text-4xl py-3 w-full bg-black bg-opacity-50">
-          🎨{" "}
-          <span className="bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400 bg-clip-text text-transparent">Create a New Component</span> 
-          {" "}🖌
-      </div> */
-      <div className="flex flex-col justify-center max-w-[1100px] w-full min-w-[800px] bg-white bg-opacity-70">
-        
-        <div className="w-full text-3xl text-center pt-4">
-          {props.name}
-        </div>
-
-        <div className="flex flex-row p-5">
-
-          {/* Left Side Edit Panel */}
-          <div className="flex flex-col items-center justify-between w-1/3">
-
-            {/* Text Edit Section */}
-            <TextEdit 
-              getStyle={getStyle} 
-              resetStyles={resetStyles}
-              setStyle={setStyle}
-              setAnchorEl={setAnchorEl} 
-            />
-
-            {/* Background Edit Section */}
-            <BackgroundEdit
-              getStyle={getStyle}
-              resetStyles={resetStyles}
-              setAnchorEl={setAnchorEl}
-            />
-
-            {/* Padding Edit Section */}
-            <PaddingEdit
-              getStyle={getStyle} 
-              resetStyles={resetStyles}
-              setStyle={setStyle}
-            />
-            
-          </div>
-
-          {/* Center Panel Component View */}
-          <div className="flex flex-col items-center w-1/3">
-            <ToggleButtonGroup
-              value={type}
-              exclusive
-              onChange={(e,v) => {if (v !== null) setType(v)}}
-              className="my-4"
-            >
-              <ToggleButton value={ComponentType.Button} aria-label="button">
-                Button
-              </ToggleButton>
-              <ToggleButton value={ComponentType.Input} aria-label="input">
-                Input
-              </ToggleButton>
-              <ToggleButton value={ComponentType.Card} aria-label="card">
-                Card
-              </ToggleButton>
-            </ToggleButtonGroup>
-            
-            <div className="component-container h-52">
-              {ComponentType[type] === "Button" &&
-                <button 
-                  type="button"
-                  style={getStyles()}
-                  className="transition-all duration-75 ease-linear">
-                  Button
-                </button>
-              }
-              {ComponentType[type] === "Input" &&
-                <input
-                style={getStyles()}
-                  maxLength={10}
-                  placeholder="input..." 
-                  className="transition-all duration-75 ease-linear w-5/6"
-                />
-              }
-              {ComponentType[type] === "Card" &&
-                <div
-                style={getStyles()}
-                  className="transition-all duration-75 ease-linear card"
-                >
-                  Card
-                </div>
-              }
-            </div>
-
-            <div className="flex flex-row">
-              {getStatesForComponent().map(state => (
-                <Button
-                  key={state}
-                  className={"normal-case rounded-xl opacity-50 " + (componentState === state ? "text-gold opacity-100" : "text-black")}
-                  onClick={() => toggleComponentState(state)}
-                >
-                  :{ComponentState[state]}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          {/* Edit the component on the right */}
-          <div className="flex flex-col items-center justify-evenly w-1/3">
-
-            {/* Border Edit Section */}
-            <BorderEdit
-              getStyle={getStyle} 
-              resetStyles={resetStyles}
-              setStyle={setStyle}
-              setAnchorEl={setAnchorEl} 
-            />
-
-            {/* Shadow Edit Section */}
-            <ShadowEdit
-              componentState={componentState} componentType={type} setStyle={setStyle}
-            />
-            
-          </div>
-
-          {/* Color Picker Pop Up */}
-          <ColorPicker
-            anchorEl={anchorEl}
-            onClose={() => setAnchorEl(undefined)}
-            onChange={(rgb: RGBColor) => setColorByAnchoredEl(rgb)}
-          />
-        </div>
-
-        {/* Save Component */}
-        <div className="flex w-full justify-evenly p-4 text-3xl bg-gray">
-          <Btn
-            className="rounded-2xl bg-sky-500 text-white hover:shadow-lg"
-            onClick={() => {props.handleSave({styles: styles, type, name})}}
-          >
-            Save 💾 
-          </Btn>
-          <Btn 
-            className="rounded-2xl bg-green-500 text-white hover:shadow-lg"
-            onClick={() => props.handlePublish()}
-          >
-            Publish ✅ 
-          </Btn>
-        </div>
+    <div className="flex flex-col justify-center max-w-[1100px] w-full min-w-[800px] bg-white bg-opacity-70">
+      
+      <div className="w-full text-3xl text-center pt-4">
+        {props.name}
       </div>
-    // </div>
+
+      <div className="flex flex-row p-5">
+
+        {/* Left Side Edit Panel */}
+        <div className="flex flex-col items-center justify-between w-1/3">
+
+          {/* Text Edit Section */}
+          <TextEdit 
+            getStyle={getStyle} 
+            resetStyles={resetStyles}
+            setStyle={setStyle}
+            setAnchorEl={setAnchorEl} 
+          />
+
+          {/* Background Edit Section */}
+          <BackgroundEdit
+            getStyle={getStyle}
+            resetStyles={resetStyles}
+            setAnchorEl={setAnchorEl}
+          />
+
+          {/* Padding Edit Section */}
+          <PaddingEdit
+            getStyle={getStyle} 
+            resetStyles={resetStyles}
+            setStyle={setStyle}
+          />
+          
+        </div>
+
+        {/* Center Panel Component View */}
+        <div className="flex flex-col items-center w-1/3">
+          <ToggleButtonGroup
+            value={type}
+            exclusive
+            onChange={(e,v) => {if (v !== null) setType(v)}}
+            className="my-4"
+          >
+            <ToggleButton value={ComponentType.Button} aria-label="button">
+              Button
+            </ToggleButton>
+            <ToggleButton value={ComponentType.Input} aria-label="input">
+              Input
+            </ToggleButton>
+            <ToggleButton value={ComponentType.Card} aria-label="card">
+              Card
+            </ToggleButton>
+          </ToggleButtonGroup>
+          
+          <div className="component-container h-52">
+            {ComponentType[type] === "Button" &&
+              <button 
+                type="button"
+                style={getStyles()}
+                className="transition-all duration-75 ease-linear">
+                Button
+              </button>
+            }
+            {ComponentType[type] === "Input" &&
+              <input
+              style={getStyles()}
+                maxLength={10}
+                placeholder="input..." 
+                className="transition-all duration-75 ease-linear w-5/6"
+              />
+            }
+            {ComponentType[type] === "Card" &&
+              <div
+              style={getStyles()}
+                className="transition-all duration-75 ease-linear card"
+              >
+                Card
+              </div>
+            }
+          </div>
+
+          <div className="flex flex-row">
+            {getStatesForComponent().map(state => (
+              <Button
+                key={state}
+                className={"normal-case rounded-xl opacity-50 " + (componentState === state ? "text-gold opacity-100" : "text-black")}
+                onClick={() => toggleComponentState(state)}
+              >
+                :{ComponentState[state]}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Edit the component on the right */}
+        <div className="flex flex-col items-center justify-evenly w-1/3">
+
+          {/* Border Edit Section */}
+          <BorderEdit
+            getStyle={getStyle} 
+            resetStyles={resetStyles}
+            setStyle={setStyle}
+            setAnchorEl={setAnchorEl} 
+          />
+
+          {/* Shadow Edit Section */}
+          <ShadowEdit
+            componentState={componentState} componentType={type} setStyle={setStyle}
+          />
+          
+        </div>
+
+        {/* Color Picker Pop Up */}
+        <ColorPicker
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(undefined)}
+          onChange={(rgb: RGBColor) => setColorByAnchoredEl(rgb)}
+        />
+      </div>
+
+      {/* Save Component */}
+      <div className="flex w-full justify-evenly p-4 text-3xl bg-gray">
+        <Btn
+          className="rounded-2xl bg-sky-500 text-white hover:shadow-lg"
+          onClick={() => {props.handleSave({styles: styles, type, name})}}
+        >
+          Save 💾 
+        </Btn>
+        <Btn 
+          className="rounded-2xl bg-green-500 text-white hover:shadow-lg"
+          onClick={() => props.handlePublish()}
+        >
+          Publish ✅ 
+        </Btn>
+      </div>
+    </div>
   )
 }
 
