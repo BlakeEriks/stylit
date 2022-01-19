@@ -1,4 +1,4 @@
-import { Popover } from "@mui/material";
+import Popover from "@mui/material/Popover";
 import { useState } from "react";
 import { ChromePicker, Color, ColorResult } from "react-color";
 

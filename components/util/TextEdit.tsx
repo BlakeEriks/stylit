@@ -1,5 +1,7 @@
-import { UndoRounded } from "@mui/icons-material"
-import { IconButton, MenuItem, Select } from "@mui/material"
+import UndoRounded from "@mui/icons-material/UndoRounded"
+import IconButton from "@mui/material/IconButton"
+import MenuItem from "@mui/material/MenuItem"
+import Select from "@mui/material/Select"
 import EditSlider from "./EditSlider"
 
 interface TextEditProps {

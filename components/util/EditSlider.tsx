@@ -1,4 +1,4 @@
-import { Slider } from "@mui/material"
+import Slider from "@mui/material/Slider"
 
 interface EditSliderProps {
   min?: number

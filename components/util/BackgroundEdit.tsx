@@ -1,5 +1,5 @@
-import { IconButton } from "@mui/material"
-import { UndoRounded } from "@mui/icons-material"
+import UndoRounded from "@mui/icons-material/UndoRounded"
+import IconButton from "@mui/material/IconButton"
 
 interface BackgroundEditProps {
   getStyle: Function

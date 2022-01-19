@@ -1,5 +1,5 @@
-import { UndoRounded } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
+import UndoRounded from "@mui/icons-material/UndoRounded"
+import IconButton from "@mui/material/IconButton"
 import EditSlider from "./EditSlider"
 
 interface PaddingEditProps {
