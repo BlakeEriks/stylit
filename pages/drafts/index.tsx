@@ -4,7 +4,9 @@ import Btn from "components/Btn"
 import Editor from "components/Editor"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Component, ComponentState, ComponentType, defaultStyles, Styles } from "utils/types"
+import { useModalState } from "utils/modal"
+import { Component, ComponentType, defaultStyles } from "utils/types"
+import { useUserState } from "utils/user"
 
 interface IndexProps {
   url: string
@@ -15,6 +17,8 @@ const Index = ({url}: IndexProps) => {
   const router = useRouter()
   const [drafts, setDrafts] = useState<Component[]>([])
   const [selectedDraft, setSelectedDraft] = useState<number>(0)
+  const [modalState, setModalState] = useModalState()
+  const {user} = useUserState()
 
   useEffect( () => {
     setDrafts(JSON.parse(window.localStorage.getItem('drafts') || "[]"))
@@ -35,7 +39,18 @@ const Index = ({url}: IndexProps) => {
     localStorage.setItem("drafts", JSON.stringify([...drafts, newDraft]))
   }
 
-  console.log(drafts)
+  const onPublish = () => {
+    if (!user) {
+      setModalState({
+          open: true, 
+          title: "Sign In to publish a component! 💛",
+          description: "We love to see who our creators are. Own that work! Check out the sign in options below.",
+          promptLogin: true
+        })
+    }
+  }
+
+  // console.log(drafts)
 
   return (
     <div className="flex flex-row w-full">
@@ -91,11 +106,12 @@ const Index = ({url}: IndexProps) => {
 
         </div>
         {drafts.length > 0 ?
-        <Editor {...drafts[selectedDraft]} handleSave={saveDraft}/> :
+        <Editor {...drafts[selectedDraft]} handleSave={saveDraft} handlePublish={onPublish}/> :
         <div>Create a draft to get started!</div>
         }
 
       </div>
+
     </div>
   )
 }
