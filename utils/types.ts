@@ -17,10 +17,11 @@ export interface User {
 // Interface to define our Component model on the frontend
 export interface Component {
   _id?: string
-  creator_id: string
+  creator_id?: string
+  name: string
   type: ComponentType
-  styles: object
-  likes: {count: number, users: string[]}
+  styles: Styles[]
+  likes?: {count: number, users: string[]}
   createdAt?: number
 }
 
@@ -48,4 +49,19 @@ export interface StyleGroups {
 
 export enum ComponentState {
   normal, focus, hover
+}
+
+export const defaultStyles: Styles = {
+  fontFamily: "Montserrat, sans-serif",
+  color: "#000000",
+  fontSize: "24px",
+  fontWeight: "500",
+  letterSpacing: "0px",
+  background: "white",
+  borderColor: "#000000",
+  borderWidth: "2px",
+  padding: "4px 8px",
+  borderRadius: "5px",
+  boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)",
+  outline: "none"
 }
