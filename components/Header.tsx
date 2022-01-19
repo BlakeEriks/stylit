@@ -1,22 +1,30 @@
-import { Button } from '@mui/material';
-import Link from 'next/link';
-import useSocialAuth from 'utils/auth';
 import AddIcon from '@mui/icons-material/Add';
+import { Button, Menu, MenuItem } from '@mui/material';
+import Link from 'next/link';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import useSocialAuth from 'utils/auth';
+import { useUserState } from 'utils/user';
+import Btn from './Btn';
 
 // Define the users props
 interface IndexProps {
-  user: any
-  setUser: Function
 }
 
 const Header = (props: IndexProps) => {
   
-  const {signInWithGithub} = useSocialAuth()
+  const {signInWithGithub, signInWithTwitter, signOut} = useSocialAuth()
+  const {user} = useUserState()
+  const [menu, setMenu] = useState<HTMLButtonElement | null>()
 
   const onClick = async () => {
-    const res = await signInWithGithub()
-    console.log(res)
-    props.setUser(res)
+    await signInWithGithub()
+    toast.success("Signed in to 💄stylit")
+  }
+
+  const handleSignOut = async () => {
+    await signOut()
+    toast.success("Signed out of 💄stylit")
   }
 
   return (
@@ -45,9 +53,28 @@ const Header = (props: IndexProps) => {
           Create
         </Button>
       </Link>
-      <Button variant='contained' onClick={onClick} className="text-black bg-gold">
-        Sign in
-      </Button>
+      {user ?
+        <>
+          <Btn onClick={(event) => setMenu(event.currentTarget)} className="text-black bg-gold">
+            <img src={user.photoURL} alt={user.photoURL} className="h-6 rounded-full mr-2"/>
+            {user.displayName}
+          </Btn>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={menu}
+            open={!!menu}
+            onClose={() => setMenu(null)}
+          >
+            <MenuItem >Published</MenuItem>
+            <MenuItem onClick={() => handleSignOut()}>Sign Out</MenuItem>
+          </Menu>
+        </>
+        :
+        <Button variant='contained' onClick={onClick} className="text-black bg-gold">
+          Sign In
+        </Button>
+      }
     </div>
   )
 }
