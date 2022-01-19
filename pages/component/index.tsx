@@ -3,22 +3,20 @@ import Link from "next/link"
 import Explorer from '../../components/Explorer';
 
 // define the page component
-const Index = ({components}: {components: Component[]}) => {
+const Index = ({url}: {url: string}) => {
   return (
-    <Explorer components={components} />
+    <Explorer url={url} />
   )
 }
 
 // GET PROPS FOR SERVER SIDE RENDERING
 export async function getServerSideProps() {
   // get component data from API
-  const res = await fetch(process.env.API_URL + "/components" as string)
-  console.log(res)
-  const components = await res.json()
+  const url = process.env.API_URL
 
   // return props
   return {
-    props: { components },
+    props: { url }
   }
 }
 
