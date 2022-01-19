@@ -19,6 +19,7 @@ interface EditorProps {
   type: ComponentType
   name: string
   handleSave: Function
+  handlePublish: Function
 }
 
 const styleGroups: StyleGroups = {
@@ -260,12 +261,13 @@ const Editor = (props: EditorProps) => {
         <div className="flex w-full justify-evenly p-4 text-3xl bg-gray">
           <Btn
             className="rounded-2xl bg-sky-500 text-white hover:shadow-lg"
-            onClick={() => {console.log(styles);props.handleSave({styles: styles, type, name})}}
+            onClick={() => {props.handleSave({styles: styles, type, name})}}
           >
             Save 💾 
           </Btn>
           <Btn 
             className="rounded-2xl bg-green-500 text-white hover:shadow-lg"
+            onClick={() => props.handlePublish()}
           >
             Publish ✅ 
           </Btn>
