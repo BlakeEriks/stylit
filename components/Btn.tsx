@@ -1,4 +1,4 @@
-import { EventHandler, MouseEventHandler } from "react"
+import { MouseEventHandler } from "react"
 
 interface ButtonProps {
   active?: boolean
@@ -10,7 +10,7 @@ const Btn: React.FC<ButtonProps> = ({children, active, className, onClick}) => {
   return (
     <button 
       type="button"
-      className={`font-body px-3 py-1 transition-all duration-150 ${className}`}
+      className={`flex items-center rounded-xl font-body px-3 py-1 transition-all duration-150 ${className}`}
       onClick={onClick}  
     >
       {children}
