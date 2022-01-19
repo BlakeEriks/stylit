@@ -1,14 +1,15 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Header from 'components/Header';
-import { useState } from 'react';
-import MetaTags from 'components/MetaTags';
-import Footer from 'components/Footer';
 import { createTheme, ThemeProvider } from '@mui/material';
+import Footer from 'components/Footer';
+import Header from 'components/Header';
+import MetaTags from 'components/MetaTags';
+import Modal from 'components/util/Modal';
+import type { AppProps } from 'next/app';
+import { Toaster } from 'react-hot-toast';
+import { RecoilRoot } from 'recoil';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   
-  const [user, setUser] = useState<object | undefined>()
   const theme = createTheme({
     palette: {
       primary: {
@@ -21,14 +22,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   })
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="bg-gradient-to-b from-[#5d0d0d] via-red to-gray flex flex-col items-center">
-        <MetaTags />
-        <Header user={user} setUser={setUser}/>
-        <Component {...pageProps} />
-        <Footer/>
-      </div>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <div className="bg-gradient-to-b from-[#5d0d0d] via-red to-gray flex flex-col items-center">
+          <MetaTags />
+          <Header />
+          <Component {...pageProps} />
+          <Footer/>
+        </div>
+        <Modal />
+        <Toaster position="bottom-right" reverseOrder={false} />
+      </ThemeProvider>
+    </RecoilRoot>
   )
 }
 
