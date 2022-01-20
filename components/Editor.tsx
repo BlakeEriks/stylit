@@ -1,3 +1,6 @@
+import { Edit } from "@mui/icons-material";
+import UndoRounded from "@mui/icons-material/UndoRounded";
+import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -10,7 +13,7 @@ import ShadowEdit from "components/util/ShadowEdit";
 import TextEdit from "components/util/TextEdit";
 import { useEffect, useState } from "react";
 import { RGBColor } from "react-color";
-import { ComponentState, ComponentType, defaultStyles, DraftComponent, StyleGroups, Styles } from "utils/types";
+import { ComponentState, ComponentType, DraftComponent, StyleGroups, Styles } from "utils/types";
 var _ = require('lodash');
 
 // Define props
@@ -45,29 +48,34 @@ const styleGroups: StyleGroups = {
 /* Component for editing component drafts */
 const Editor = (props: EditorProps) => {
   
-  const [draft, setDraft] = useState(props.draft)
+  const lastSaved: DraftComponent = JSON.parse(JSON.stringify(props.draft))
+  const [draft, setDraft] = useState(lastSaved)
   const [componentState, setComponentState] = useState<ComponentState>(ComponentState.normal);
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
+  const [editNameAnchorEl, setEditNameAnchorEl] = useState<HTMLElement | undefined>();
 
   const {stylesMap, type, name} = draft
-
+  console.log(name)
   /* Update editor on draft change */
   useEffect( () => {
 
     /* Do nothing if draft didn't change */
-    if (_.isMatch(props.draft, draft)) return
-    
-    setDraft(props.draft)
+    if (_.isMatch(lastSaved, draft)) return
+  
+    setDraft(lastSaved)
     setComponentState(ComponentState.normal)
   }, [props])
 
+  /* Retrieve a style for current component state */
   const getStyle = (style: keyof Styles): string => {
     if (stylesMap[componentState].hasOwnProperty(style)) return stylesMap[componentState][style]!
     return stylesMap[ComponentState.normal][style]!
   }
 
+  /* Retrieve all styles */
   const getStyles = () => ({...stylesMap[ComponentState.normal], ...stylesMap[componentState]})
 
+  /* Set style on current component state */
   const setStyle = (style: keyof Styles, value: string) => {
     if (stylesMap[componentState][style] === value) return
     let newstylesMap = {...stylesMap}
@@ -76,6 +84,15 @@ const Editor = (props: EditorProps) => {
     setDraft({...draft, stylesMap: newstylesMap})
   }
 
+  /* Style reset function */
+  const resetStyles = (styleGroup: string) => {
+    const resetState = (componentState === ComponentState.normal) ? lastSaved.stylesMap[ComponentState.normal] : stylesMap[ComponentState.normal]
+    for (const style of styleGroups[styleGroup as keyof StyleGroups]) {
+      setStyle(style, resetState[style]!)
+    }
+  }
+
+  /* Set a color style based on anchored color picker */
   const setColorByAnchoredEl = ({r,g,b,a}: any) => {
     const rgbaString = `rgba(${r},${g},${b},${a})`
     const name = anchorEl?.getAttribute("name")
@@ -92,26 +109,33 @@ const Editor = (props: EditorProps) => {
     if (type === ComponentType.Card) return [ComponentState.hover]
     return [ComponentState.hover, ComponentState.focus]
   }
-  
-  /* Style reset function */
-  const resetStyles = (styleGroup: string) => {
-    const resetState = (componentState === ComponentState.normal) ? defaultStyles : stylesMap[ComponentState.normal]
-    for (const style of styleGroups[styleGroup as keyof StyleGroups]) {
-      setStyle(style, resetState[style]!)
-    }
-  }
 
   return (
     <div className="flex flex-col justify-center max-w-[1100px] w-full min-w-[800px] bg-white bg-opacity-70">
       
-      <div className="w-full text-3xl text-center pt-4">
-        {name}
+      <div className="flex justify-between items-center w-full px-4 py-2 bg-gray text-5xl">
+        <div>
+          🌜
+        </div>
+        <div className="flex items-center justify-center min-w-[25%] max-w-[50%]">
+          {name}
+          <IconButton
+            size="medium"
+            children={<Edit fontSize="medium"/>}
+            onClick={(event) => setEditNameAnchorEl(event.currentTarget)}
+          />
+        </div>
+        <IconButton
+          size="large"
+          children={<UndoRounded fontSize="large"/>}
+          onClick={() => setDraft(lastSaved)}
+        />
       </div>
 
-      <div className="flex flex-row p-5">
+      <div className="flex flex-row">
 
         {/* Left Side Edit Panel */}
-        <div className="flex flex-col items-center justify-between w-1/3">
+        <div className="flex flex-col items-center justify-between w-1/3 bg-rose-50 p-5 shadow-2xl">
 
           {/* Text Edit Section */}
           <TextEdit 
@@ -138,7 +162,7 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Center Panel Component View */}
-        <div className="flex flex-col items-center w-1/3">
+        <div className="flex flex-col items-center w-1/3 bg-offWhite py-8">
 
           {/* Component Type Selector */}
           <ToggleButtonGroup
@@ -159,7 +183,7 @@ const Editor = (props: EditorProps) => {
           </ToggleButtonGroup>
           
           {/* Component View */}
-          <div className="component-container h-52">
+          <div className="component-container">
             {ComponentType[type] === "Button" &&
               <button 
                 type="button"
@@ -201,7 +225,7 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Edit the component on the right */}
-        <div className="flex flex-col items-center justify-evenly w-1/3">
+        <div className="flex flex-col items-center justify-between w-1/3 bg-rose-50 p-5 shadow-2xl">
 
           {/* Border Edit Section */}
           <BorderEdit
