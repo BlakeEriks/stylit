@@ -9,26 +9,31 @@ import ColorPicker from "./ColorPicker";
 import EditSlider from "./EditSlider";
 
 interface ShadowEditProps {
+  shadows: string[]
   componentState: ComponentState
   componentType: ComponentType
   setStyle: Function
 }
 
 const DEFAULT_SHADOW = "0px 0px 0px 0px rgba(0,0,0,1)"
+const SHADOW_SPLIT_REGEX = /,(?![^\(]*\))/
 const MAX_SHADOWS_ALLOWED = 4
 
-const ShadowEdit = ({componentState, componentType, setStyle}: ShadowEditProps) => {
+const ShadowEdit = (props: ShadowEditProps) => {
 
+  const {componentState, componentType, setStyle} = props;
   const [shadows, setShadows] = useState<(string[])[]>([ [DEFAULT_SHADOW], [] , []]);
   const [selectedShadow, setSelectedShadow] = useState<number>(0)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>()
 
   useEffect( () => {
-    setSelectedShadow(0)
-  },[componentState])
+    setShadows(props.shadows.map(shadow => shadow ? splitShadows(shadow) : []))
+  }, [props.shadows])
 
   useEffect( () => {
-    setStyle("boxShadow", getShadows().join(","))
+    if (!getShadows()[selectedShadow]) {
+      setSelectedShadow(0)
+    }
   },[shadows])
 
   const getShadowFragment = (index: number) => {
@@ -46,25 +51,21 @@ const ShadowEdit = ({componentState, componentType, setStyle}: ShadowEditProps) 
     fragments[index] = value + (index !== 4 ? "px" : '')
     newShadows[selectedShadow] = fragments.join(" ")
     allShadows[componentState] = newShadows
-    setShadows(allShadows)
-
+    setStyle("boxShadow", newShadows.join(","))
   }
 
   const addShadow = () => {
-    const newShadows = [...shadows]
-    newShadows[componentState] = [...getShadows(), DEFAULT_SHADOW]
-    setShadows(newShadows)
+    setStyle("boxShadow", [...getShadows(), DEFAULT_SHADOW].join(","))
   }
 
   const getShadows = () => shadows[componentState].length > 0 ? shadows[componentState] : shadows[ComponentState.normal]
 
   const resetShadows = () => {
-    if (componentState === ComponentState.normal) setShadows([[DEFAULT_SHADOW], [] , []])
-    else {
-      const newShadows = [...shadows]
-      newShadows[componentState] = []
-      setShadows(newShadows)
-    }
+    setStyle("boxShadow", componentState === ComponentState.normal ? DEFAULT_SHADOW : null)
+  }
+
+  const splitShadows = (shadows: string) => {
+    return shadows.split(SHADOW_SPLIT_REGEX)
   }
 
   return (
@@ -98,8 +99,8 @@ const ShadowEdit = ({componentState, componentType, setStyle}: ShadowEditProps) 
           offset x
         </div>
         <EditSlider
-          max={25}
-          min={-25}
+          max={15}
+          min={-15}
           onChange={(e, v) => setShadow(Number(v), 0)}
           value={Number(getShadowFragment(0))}
         />
@@ -110,8 +111,8 @@ const ShadowEdit = ({componentState, componentType, setStyle}: ShadowEditProps) 
           offset y
         </div>
         <EditSlider
-          max={25}
-          min={-25}
+          max={15}
+          min={-15}
           onChange={(e, v) => setShadow(Number(v), 1)}
           value={Number(getShadowFragment(1))}
         />
@@ -159,7 +160,7 @@ const ShadowEdit = ({componentState, componentType, setStyle}: ShadowEditProps) 
             <MenuItem 
               key={index} 
               value={index}
-              style={{fontWeight: "600", fontSize: '12px'}}
+              style={{fontSize: '12px'}}
             >
               Box Shadow #{index + 1}
             </MenuItem>
@@ -167,7 +168,7 @@ const ShadowEdit = ({componentState, componentType, setStyle}: ShadowEditProps) 
           {getShadows().length < MAX_SHADOWS_ALLOWED &&
           <MenuItem
             value={getShadows().length}
-            style={{fontWeight: "600", fontSize: '12px'}}
+            style={{fontSize: '12px'}}
             onClick={() => addShadow()}
           >
             + Add Shadow
