@@ -5,7 +5,7 @@ import Editor from "components/Editor"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useModalState } from "utils/modal"
-import { Component, ComponentType, defaultStyles } from "utils/types"
+import { ComponentState, ComponentType, defaultStyles, DraftComponent, PublishedComponent } from "utils/types"
 import { useUserState } from "utils/user"
 
 interface IndexProps {
@@ -15,7 +15,7 @@ interface IndexProps {
 const Index = ({url}: IndexProps) => {
 
   const router = useRouter()
-  const [drafts, setDrafts] = useState<Component[]>([])
+  const [drafts, setDrafts] = useState<DraftComponent[]>([])
   const [selectedDraft, setSelectedDraft] = useState<number>(0)
   const [modalState, setModalState] = useModalState()
   const {user} = useUserState()
@@ -24,7 +24,7 @@ const Index = ({url}: IndexProps) => {
     setDrafts(JSON.parse(window.localStorage.getItem('drafts') || "[]"))
   }, [])
 
-  const saveDraft = (draft: Component) => {
+  const saveDraft = (draft: DraftComponent) => {
     const allDrafts = [...drafts]
     allDrafts[selectedDraft] = draft
     setDrafts(allDrafts)
@@ -33,7 +33,16 @@ const Index = ({url}: IndexProps) => {
   }
 
   const addDraft = () => {
-    const newDraft = {styles: [{...defaultStyles},{},{}], type: 0, name: `Draft #${Math.floor(1000*Math.random())}`}
+    // const newDraft = {styles: [{...defaultStyles},{},{}], type: 0, name: `Draft #${Math.floor(1000*Math.random())}`}
+    const newDraft = {
+      stylesMap: {
+        [ComponentState.normal]: {...defaultStyles},
+        [ComponentState.focus]: {},
+        [ComponentState.hover]: {},
+      }, 
+      type: 0, 
+      name: `Draft #${Math.floor(1000*Math.random())}`
+    }
     setDrafts([...drafts, newDraft])
 
     localStorage.setItem("drafts", JSON.stringify([...drafts, newDraft]))
@@ -48,9 +57,37 @@ const Index = ({url}: IndexProps) => {
           promptLogin: true
         })
     }
-  }
 
-  // console.log(drafts)
+    const {stylesMap} = drafts[selectedDraft]
+
+    // construct new component
+    let component: PublishedComponent = { 
+      creator_id: "61dcce4e2fa77b6e4b654bd7",
+      ...drafts[selectedDraft],
+      stylesMap: {
+        ...stylesMap[ComponentState.normal],
+        '&:hover': {
+          ...stylesMap[ComponentState.hover]
+        },
+        '&:focus': {
+          ...stylesMap[ComponentState.focus]
+        }
+      }, 
+      likes: { count: 0, users: [] }
+    }
+  
+    // Make the API request
+    // await fetch(`${url}/components`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(component),
+    // })
+
+    // after api request, push back to main page
+    router.push("/component")
+  }
 
   return (
     <div className="flex flex-row w-full">
@@ -59,33 +96,33 @@ const Index = ({url}: IndexProps) => {
           🌏 Draft Selector
         </div>
         {/* MAPPING OVER THE COMPONENTS */}
-        <div className="flex flex-col items-center w-full flex-grow px-5 overflow-scroll h-[80vh]">
-          {drafts.map( (component, index) => (
+        <div className="flex flex-col items-center w-full flex-grow px-5 overflow-auto h-[80vh]">
+          {drafts.map( (draft, index) => (
             <div 
               key={index} 
               className="flex flex-col w-full items-center rounded-xl bg-black bg-opacity-40 my-2 hover:bg-red cursor-pointer"
               onClick={() => setSelectedDraft(index)}
             >
               <div className="text-lg text-white">
-                {component.name}
+                {draft.name}
               </div>
               <div className={"component-container bg-white "}>
-                {ComponentType[component.type] === "Button" && 
+                {ComponentType[draft.type] === "Button" && 
                   <button 
-                    css={component.styles as Interpolation<Theme>}
+                    css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
                   >
                     Button
                   </button>
                 }
-                {ComponentType[component.type] === "Input" && 
+                {ComponentType[draft.type] === "Input" && 
                   <input 
-                    css={component.styles as Interpolation<Theme>} 
+                    css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>} 
                     placeholder="input..." 
                   />
                 }
-                {ComponentType[component.type] === "Card" && 
+                {ComponentType[draft.type] === "Card" && 
                   <div 
-                    css={component.styles as Interpolation<Theme>}
+                    css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
                     className="card"
                   >
                     Card
@@ -106,7 +143,7 @@ const Index = ({url}: IndexProps) => {
 
         </div>
         {drafts.length > 0 ?
-        <Editor {...drafts[selectedDraft]} handleSave={saveDraft} handlePublish={onPublish}/> :
+        <Editor draft={drafts[selectedDraft]} handleSave={saveDraft} handlePublish={onPublish}/> :
         <div>Create a draft to get started!</div>
         }
 
