@@ -10,18 +10,17 @@ import ShadowEdit from "components/util/ShadowEdit";
 import TextEdit from "components/util/TextEdit";
 import { useEffect, useState } from "react";
 import { RGBColor } from "react-color";
-import { ComponentState, ComponentType, defaultStyles, StyleGroups, Styles } from "utils/types";
-var _ = require('lodash/core');
+import { ComponentState, ComponentType, defaultStyles, DraftComponent, StyleGroups, Styles } from "utils/types";
+var _ = require('lodash');
 
 // Define props
 interface EditorProps {
-  styles: Styles[]
-  type: ComponentType
-  name: string
+  draft: DraftComponent
   handleSave: Function
   handlePublish: Function
 }
 
+/* Group styling options */
 const styleGroups: StyleGroups = {
   text: [
     "fontFamily",
@@ -43,67 +42,39 @@ const styleGroups: StyleGroups = {
   ]
 }
 
+/* Component for editing component drafts */
 const Editor = (props: EditorProps) => {
   
-  const [styles, setStyles] = useState<Styles[]>(props.styles)
-  const [type, setType] = useState<ComponentType>(props.type)
-  const [name, setName] = useState<string>(props.name)
+  const [draft, setDraft] = useState(props.draft)
+  const [componentState, setComponentState] = useState<ComponentState>(ComponentState.normal);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
 
+  const {stylesMap, type, name} = draft
+
+  /* Update editor on draft change */
   useEffect( () => {
-    setStyles(props.styles)
-    setType(props.type)
-    setName(props.name)
+
+    /* Do nothing if draft didn't change */
+    if (_.isMatch(props.draft, draft)) return
+    
+    setDraft(props.draft)
+    setComponentState(ComponentState.normal)
   }, [props])
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>(undefined);
-  const [componentState, setComponentState] = useState<ComponentState>(ComponentState.normal);
-
   const getStyle = (style: keyof Styles): string => {
-    if (styles[componentState].hasOwnProperty(style)) return styles[componentState][style]!
-    return styles[ComponentState.normal][style]!
+    if (stylesMap[componentState].hasOwnProperty(style)) return stylesMap[componentState][style]!
+    return stylesMap[ComponentState.normal][style]!
   }
 
-  const getStyles = () => ({...styles[ComponentState.normal], ...styles[componentState]})
+  const getStyles = () => ({...stylesMap[ComponentState.normal], ...stylesMap[componentState]})
 
   const setStyle = (style: keyof Styles, value: string) => {
-    if (styles[componentState][style] === value) return
-    let newStyles = [...styles]
-    newStyles[componentState][style] = value
-    setStyles(newStyles)
+    if (stylesMap[componentState][style] === value) return
+    let newstylesMap = {...stylesMap}
+    if (!value) delete newstylesMap[componentState][style]
+    else newstylesMap[componentState][style] = value
+    setDraft({...draft, stylesMap: newstylesMap})
   }
-  
-  // Function to create new component
-  // const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
-  //   event.preventDefault()
-
-  //   // construct new component
-  //   let component: Component = { 
-  //     creator_id: "61dcce4e2fa77b6e4b654bd7", 
-  //     type: componentType, 
-  //     styles: {
-  //       ...styles[ComponentState.normal],
-  //       '&:hover': {
-  //         ...styles[ComponentState.hover]
-  //       },
-  //       '&:focus': {
-  //         ...styles[ComponentState.focus]
-  //       }
-  //     }, 
-  //     likes: { count: 0, users: [] }
-  //   }
-  
-  //   // Make the API request
-  //   await fetch(`${props.url}/components`, {
-  //     method: "post",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(component),
-  //   })
-
-  //   // after api request, push back to main page
-  //   router.push("/component")
-  // }
 
   const setColorByAnchoredEl = ({r,g,b,a}: any) => {
     const rgbaString = `rgba(${r},${g},${b},${a})`
@@ -124,7 +95,7 @@ const Editor = (props: EditorProps) => {
   
   /* Style reset function */
   const resetStyles = (styleGroup: string) => {
-    const resetState = (componentState === ComponentState.normal) ? defaultStyles : styles[ComponentState.normal]
+    const resetState = (componentState === ComponentState.normal) ? defaultStyles : stylesMap[ComponentState.normal]
     for (const style of styleGroups[styleGroup as keyof StyleGroups]) {
       setStyle(style, resetState[style]!)
     }
@@ -134,7 +105,7 @@ const Editor = (props: EditorProps) => {
     <div className="flex flex-col justify-center max-w-[1100px] w-full min-w-[800px] bg-white bg-opacity-70">
       
       <div className="w-full text-3xl text-center pt-4">
-        {props.name}
+        {name}
       </div>
 
       <div className="flex flex-row p-5">
@@ -168,10 +139,12 @@ const Editor = (props: EditorProps) => {
 
         {/* Center Panel Component View */}
         <div className="flex flex-col items-center w-1/3">
+
+          {/* Component Type Selector */}
           <ToggleButtonGroup
             value={type}
             exclusive
-            onChange={(e,v) => {if (v !== null) setType(v)}}
+            onChange={(e,v) => {if (v !== null) setDraft({...draft, type: v})}}
             className="my-4"
           >
             <ToggleButton value={ComponentType.Button} aria-label="button">
@@ -185,6 +158,7 @@ const Editor = (props: EditorProps) => {
             </ToggleButton>
           </ToggleButtonGroup>
           
+          {/* Component View */}
           <div className="component-container h-52">
             {ComponentType[type] === "Button" &&
               <button 
@@ -212,6 +186,7 @@ const Editor = (props: EditorProps) => {
             }
           </div>
 
+          {/* State toggle buttons */}
           <div className="flex flex-row">
             {getStatesForComponent().map(state => (
               <Button
@@ -238,7 +213,10 @@ const Editor = (props: EditorProps) => {
 
           {/* Shadow Edit Section */}
           <ShadowEdit
-            componentState={componentState} componentType={type} setStyle={setStyle}
+            shadows={_.values(_.mapValues(stylesMap, (styles: Styles)=>styles.boxShadow))}
+            componentState={componentState} 
+            componentType={type} 
+            setStyle={setStyle}
           />
           
         </div>
@@ -255,7 +233,7 @@ const Editor = (props: EditorProps) => {
       <div className="flex w-full justify-evenly p-4 text-3xl bg-gray">
         <Btn
           className="rounded-2xl bg-sky-500 text-white hover:shadow-lg"
-          onClick={() => {props.handleSave({styles: styles, type, name})}}
+          onClick={() => {props.handleSave({stylesMap, type, name})}}
         >
           Save 💾 
         </Btn>
