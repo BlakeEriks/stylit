@@ -1,5 +1,4 @@
-import { timeStamp } from "console"
-import mongoose, { Model, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 const { DATABASE_URL } = process.env
 
@@ -26,7 +25,8 @@ export const connect = async () => {
   const ComponentSchema = new Schema({
     creator_id: {type: Schema.Types.ObjectId, ref: 'User'},
     type: Number,
-    styles: Object,
+    name: String,
+    stylesMap: Object,
     likes: {count: Number, users: [{type:Schema.Types.ObjectId, ref: 'User'}]}
   }, {
     timestamps: { createdAt: true, updatedAt: false }
