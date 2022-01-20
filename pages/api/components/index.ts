@@ -1,6 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { connect } from "../../../utils/connection"
-import { ResponseFuncs } from "../../../utils/types"
+import { NextApiRequest, NextApiResponse } from "next";
+import { ComponentType } from 'utils/types';
+import { connect } from "../../../utils/connection";
+import { ResponseFuncs } from "../../../utils/types";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   
@@ -15,9 +16,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // RESPONSE FOR GET REQUESTS
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const includedComponents = (req.query.type as string).split(',').map(type => Number(type))
+      const query: {type?: ComponentType[]} = {}
+      if (req.query.type) {
+        query.type = (req.query.type as string).split(',').map( 
+          (componentType) => ComponentType[componentType as keyof typeof ComponentType]
+        )
+      }
+      console.log(query)
       const { Component } = await connect() // connect to database
-      res.json(await Component.find({type: includedComponents}).catch(catcher))
+      res.json(await Component.find(query).catch(catcher))
     },
 
     // RESPONSE POST REQUESTS
