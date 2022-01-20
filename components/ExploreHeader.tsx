@@ -1,14 +1,11 @@
 import Checkbox from "@mui/material/Checkbox"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup"
+import { ComponentType } from "utils/types"
 import Btn from "./Btn"
 
 interface ExploreHeaderProps {
-  filter: {
-    button: boolean,
-    input: boolean,
-    card: boolean
-  }
+  filter: {[index in ComponentType]: boolean}
   setFilter: Function
 }
 
@@ -20,8 +17,8 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
         <FormControlLabel 
           control={
             <Checkbox 
-              onChange={event => setFilter({...filter, button: event.target.checked})}
-              value={filter.button}
+              onChange={event => setFilter({...filter, [ComponentType.Button]: event.target.checked})}
+              value={filter[ComponentType.Button]}
               color='secondary'
               defaultChecked
             />
@@ -33,8 +30,8 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
         <FormControlLabel 
           control={
             <Checkbox 
-              onChange={event => setFilter({...filter, input: event.target.checked})} 
-              value={filter.input}
+              onChange={event => setFilter({...filter, [ComponentType.Input]: event.target.checked})} 
+              value={filter[ComponentType.Input]}
               color='secondary'
               defaultChecked
             />
@@ -46,8 +43,8 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
         <FormControlLabel 
           control={
             <Checkbox 
-              onChange={event => setFilter({...filter, card: event.target.checked})} 
-              value={filter.card} 
+              onChange={event => setFilter({...filter, [ComponentType.Card]: event.target.checked})} 
+              value={filter[ComponentType.Card]} 
               color='secondary'
               defaultChecked
             />
@@ -57,7 +54,7 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
           labelPlacement="start"
         />
       </FormGroup>
-      <div>
+      <div className="flex flex-row">
         <Btn>
           Popular
         </Btn>
