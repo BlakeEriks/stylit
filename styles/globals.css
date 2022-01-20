@@ -42,7 +42,7 @@ a {
 
 @layer components {
   .component-container {
-    @apply flex flex-grow w-full items-center justify-center px-10 py-5 min-w-[230px] max-w-[300px] rounded-xl
+    @apply flex flex-grow w-full items-center justify-center p-10 min-w-[230px] max-w-[300px] rounded-xl leading-normal
   }
 
   .card {
@@ -55,6 +55,10 @@ a {
 
   .edit-group-header {
     @apply text-xl font-medium border-b border-black flex justify-between items-end text-black
+  }
+
+  .edit-label {
+    @apply w-1/4 opacity-70 capitalize
   }
 }
 
