@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from "@emotion/react"
+import { DeleteOutline } from "@mui/icons-material"
+import { IconButton } from "@mui/material"
 import Btn from "components/Btn"
 import Editor from "components/Editor"
 import { useRouter } from "next/router"
@@ -33,7 +35,6 @@ const Index = ({url}: IndexProps) => {
   }
 
   const addDraft = () => {
-    // const newDraft = {styles: [{...defaultStyles},{},{}], type: 0, name: `Draft #${Math.floor(1000*Math.random())}`}
     const newDraft = {
       stylesMap: {
         [ComponentState.normal]: {...defaultStyles},
@@ -48,7 +49,16 @@ const Index = ({url}: IndexProps) => {
     localStorage.setItem("drafts", JSON.stringify([...drafts, newDraft]))
   }
 
-  const onPublish = () => {
+  const deleteDraft = (index: number) => {
+    const newDrafts = [...drafts.slice(0,index), ...drafts.slice(index+1)]
+    if (selectedDraft === newDrafts.length) setSelectedDraft(newDrafts.length - 1)
+    setDrafts(newDrafts)
+    localStorage.setItem("drafts", JSON.stringify(newDrafts))
+  }
+
+  const getSelectedDraft = () => drafts.length === 0 ? null : selectedDraft === drafts.length ? drafts[drafts.length - 1] : drafts[selectedDraft]
+
+  const onPublish = async () => {
     if (!user) {
       setModalState({
           open: true, 
@@ -77,13 +87,13 @@ const Index = ({url}: IndexProps) => {
     }
   
     // Make the API request
-    // await fetch(`${url}/components`, {
-    //   method: "post",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(component),
-    // })
+    await fetch(`${url}/components`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(component),
+    })
 
     // after api request, push back to main page
     router.push("/component")
@@ -92,21 +102,31 @@ const Index = ({url}: IndexProps) => {
   return (
     <div className="flex flex-row w-full">
       <div className="flex flex-col items-center w-1/4 text-2xl border-r-4 border-black bg-offWhite h-[90vh]">
-        <div className="py-3 w-full text-center text-black">
+        <div className="py-3 w-full text-center text-black bg-white font-bold border-b-2 border-grey-600 shadow-xl">
           🌏 Draft Selector
         </div>
         {/* MAPPING OVER THE COMPONENTS */}
-        <div className="flex flex-col items-center w-full flex-grow px-5 overflow-auto h-[80vh]">
+        <div className="flex flex-col items-center w-full flex-grow p-5 overflow-auto h-[80vh]">
           {drafts.map( (draft, index) => (
             <div 
-              key={index} 
-              className="flex flex-col w-full items-center rounded-xl bg-black bg-opacity-40 my-2 hover:bg-red cursor-pointer"
+              key={index}
+              className={`${selectedDraft === index ? "border-2 border-gold scale-105" : "opacity-70"}
+              flex flex-col w-full items-center rounded-xl my-3 cursor-pointer group
+              hover:shadow-gold bg-white shadow-2xl transition-all duration-150`}
               onClick={() => setSelectedDraft(index)}
             >
-              <div className="text-lg text-white">
+              <div className="flex items-center justify-between text-lg text-center text-grey-600 font-bold shadow-sm w-full">
+                <span className="opacity-0 group-hover:opacity-70 w-0 transition-all duration-150">
+                  <IconButton
+                    size="small"
+                    children={<DeleteOutline />}
+                    onClick={() => deleteDraft(index)}
+                    />
+                </span>
                 {draft.name}
+                <span></span>
               </div>
-              <div className={"component-container bg-white "}>
+              <div className="component-container">
                 {ComponentType[draft.type] === "Button" && 
                   <button 
                     css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
@@ -115,13 +135,14 @@ const Index = ({url}: IndexProps) => {
                   </button>
                 }
                 {ComponentType[draft.type] === "Input" && 
-                  <input 
+                  <input
+                    className="min-w-0"
                     css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>} 
                     placeholder="input..." 
                   />
                 }
                 {ComponentType[draft.type] === "Card" && 
-                  <div 
+                  <div
                     css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
                     className="card"
                   >
@@ -143,7 +164,7 @@ const Index = ({url}: IndexProps) => {
 
         </div>
         {drafts.length > 0 ?
-        <Editor draft={drafts[selectedDraft]} handleSave={saveDraft} handlePublish={onPublish}/> :
+        <Editor draft={getSelectedDraft()!} handleSave={saveDraft} handlePublish={onPublish}/> :
         <div>Create a draft to get started!</div>
         }
 
