@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from "@emotion/react"
 import { useEffect, useState } from "react"
-import { Component, ComponentType } from "utils/types"
+import { ComponentType, PublishedComponent } from "utils/types"
 import ExploreHeader from "./ExploreHeader"
 
 const Explorer = ({url}: {url: string}) => {
 
-  const [components, setComponents] = useState<Component[]>([])
+  const [components, setComponents] = useState<PublishedComponent[]>([])
   const [filter, setFilter] = useState({
     button: true,
     input: true,
@@ -38,20 +38,20 @@ const Explorer = ({url}: {url: string}) => {
           <div key={component._id} className="component-container m-3 border">
             {ComponentType[component.type] === "Button" && 
               <button 
-                css={component.styles as Interpolation<Theme>}
+                css={component.stylesMap as Interpolation<Theme>}
               >
                 Button
               </button>
             }
             {ComponentType[component.type] === "Input" && 
               <input 
-                css={component.styles as Interpolation<Theme>} 
+                css={component.stylesMap as Interpolation<Theme>} 
                 placeholder="input..." 
               />
             }
             {ComponentType[component.type] === "Card" && 
               <div 
-                css={component.styles as Interpolation<Theme>}
+                css={component.stylesMap as Interpolation<Theme>}
                 className="card"
               >
                 Card
