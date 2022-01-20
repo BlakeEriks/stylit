@@ -22,7 +22,7 @@ const BackgroundEdit = ({getStyle, resetStyles, setAnchorEl}: BackgroundEditProp
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           color
         </div>
         <button type="button"

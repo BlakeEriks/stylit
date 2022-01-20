@@ -26,7 +26,7 @@ const PaddingEdit = ({getStyle, resetStyles, setStyle}: PaddingEditProps) => {
       </div>
       
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           x
         </div>
         <EditSlider
@@ -37,7 +37,7 @@ const PaddingEdit = ({getStyle, resetStyles, setStyle}: PaddingEditProps) => {
         />
       </div>
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           y
         </div>
         <EditSlider

@@ -30,11 +30,12 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           font
         </div>
         <Select
           className="w-3/4"
+          color="secondary"
           value={getStyle("fontFamily").split(",")[0]}
           onChange={ event => (
             setStyle("fontFamily", `${event.target.value}, sans-serif`))}
@@ -59,7 +60,7 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           color
         </div>
         <button type="button"
@@ -71,12 +72,12 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           size
         </div>
         <EditSlider
           max={40}
-          min={10}
+          min={20}
           step={2}
           onChange={(e: Event, v: number | number[]) => setStyle("fontSize", `${v}px`)}
           value={Number(getStyle("fontSize").replace("px", ""))}
@@ -84,7 +85,7 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           weight
         </div>
         <EditSlider
@@ -97,7 +98,7 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
       </div>
       
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           space
         </div>
         <EditSlider

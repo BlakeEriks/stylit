@@ -24,7 +24,7 @@ const BorderEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: BorderEditPr
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
             color
         </div>
 
@@ -37,7 +37,7 @@ const BorderEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: BorderEditPr
       </div>
       
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           width
         </div>
         <EditSlider
@@ -49,7 +49,7 @@ const BorderEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: BorderEditPr
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           radius
         </div>
         <EditSlider

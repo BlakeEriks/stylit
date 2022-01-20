@@ -82,7 +82,7 @@ const ShadowEdit = (props: ShadowEditProps) => {
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
             color
         </div>
 
@@ -95,31 +95,31 @@ const ShadowEdit = (props: ShadowEditProps) => {
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           offset x
         </div>
         <EditSlider
-          max={15}
-          min={-15}
+          max={10}
+          min={-10}
           onChange={(e, v) => setShadow(Number(v), 0)}
           value={Number(getShadowFragment(0))}
         />
 
       </div>
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           offset y
         </div>
         <EditSlider
-          max={15}
-          min={-15}
+          max={10}
+          min={-10}
           onChange={(e, v) => setShadow(Number(v), 1)}
           value={Number(getShadowFragment(1))}
         />
 
       </div>
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           blur
         </div>
         <EditSlider
@@ -129,11 +129,11 @@ const ShadowEdit = (props: ShadowEditProps) => {
         />
       </div>
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           size
         </div>
         <EditSlider
-          max={ComponentType[componentType] === "Card" ? 10 : 15}
+          max={8}
           min={-5}
           onChange={(e, v) => setShadow(Number(v), 3)}
           value={Number(getShadowFragment(3))}
@@ -141,7 +141,7 @@ const ShadowEdit = (props: ShadowEditProps) => {
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="w-1/4">
+        <div className="edit-label">
           select
         </div>
         <Select
