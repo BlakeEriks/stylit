@@ -15,13 +15,20 @@ export interface User {
 }
 
 // Interface to define our Component model on the frontend
-export interface Component {
-  _id?: string
-  creator_id?: string
+interface Component {
   name: string
   type: ComponentType
-  styles: Styles[]
-  likes?: {count: number, users: string[]}
+}
+
+export interface DraftComponent extends Component {
+  stylesMap: {[index in ComponentState]: Styles}
+}
+
+export interface PublishedComponent extends Component {
+  _id?: string
+  likes: {count: number, users: string[]}
+  stylesMap: { [index in ('&:hover' | '&:focus')]: Styles | keyof Styles }
+  creator_id: string
   createdAt?: number
 }
 
