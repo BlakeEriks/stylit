@@ -1,23 +1,27 @@
 /** @jsxImportSource @emotion/react */
-import { Interpolation, Theme } from "@emotion/react"
-import { useEffect, useState } from "react"
-import { ComponentType, PublishedComponent } from "utils/types"
-import ExploreHeader from "./ExploreHeader"
+import { Interpolation, Theme } from "@emotion/react";
+import { useEffect, useState } from "react";
+import { ComponentType, PublishedComponent } from "utils/types";
+import ExploreHeader from "./ExploreHeader";
+var _ = require('lodash');
 
 const Explorer = ({url}: {url: string}) => {
 
   const [components, setComponents] = useState<PublishedComponent[]>([])
-  const [filter, setFilter] = useState({
-    button: true,
-    input: true,
-    card: true
+  const [filter, setFilter] = useState<{[index in ComponentType]: boolean}>({
+    [ComponentType.Button]: true,
+    [ComponentType.Input]: true,
+    [ComponentType.Card]: true
   })
   const [loading, setLoading] = useState(false)
 
   useEffect( () => {
     const fetchComponents = async () => {
-      if (Object.entries(filter).filter(type => type[1]).length === 0) return {json: () => []}
-      return await fetch(url + `/components?type=${Object.entries(filter).filter(type => type[1]).map( (type,index) => index).join(',')}`)
+      // console.log( _.pickBy(filter, _.isTruthy) )
+      const types = _.values(_.mapValues(_.pickBy(filter, _.isTruthy), (value: boolean, key: ComponentType) => ComponentType[key] ) ).join(',')
+      // if (Object.entries(filter).filter(type => type[1]).length === 0) return {json: () => []}
+      console.log(`/components?type=${types}`)
+      return await fetch(url + `/components?type=${types}`)
     }
 
     setLoading(true)
