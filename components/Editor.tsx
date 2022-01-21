@@ -55,7 +55,7 @@ const Editor = (props: EditorProps) => {
   const [editNameAnchorEl, setEditNameAnchorEl] = useState<HTMLElement | undefined>();
 
   const {stylesMap, type, name} = draft
-  console.log(name)
+
   /* Update editor on draft change */
   useEffect( () => {
 
