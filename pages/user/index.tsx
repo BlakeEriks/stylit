@@ -1,5 +1,5 @@
-import { User } from "../../utils/types"
 import Link from "next/link"
+import { User } from "../../utils/types"
 
 // Define the users props
 interface IndexProps {

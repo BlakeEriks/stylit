@@ -10,11 +10,12 @@ import { useModalState } from "utils/modal"
 import { ComponentState, ComponentType, defaultStyles, DraftComponent, PublishedComponent } from "utils/types"
 import { useUserState } from "utils/user"
 
-interface IndexProps {
-  url: string
-}
+// interface IndexProps {
+//   url: string
+// }
 
-const Index = ({url}: IndexProps) => {
+const Index = () => {
+// const Index = ({url}: IndexProps) => {
 
   const router = useRouter()
   const [drafts, setDrafts] = useState<DraftComponent[]>([])
@@ -78,7 +79,8 @@ const Index = ({url}: IndexProps) => {
     }
   
     // Make the API request
-    await fetch(`${url}/components`, {
+    // await fetch(`${url}/components`, {
+    await fetch(`api/components`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -195,14 +197,14 @@ const Index = ({url}: IndexProps) => {
 }
 
 // GET PROPS FOR SERVER SIDE RENDERING
-export async function getServerSideProps() {
-  // get component data from API
-  const url = process.env.API_URL
+// export async function getServerSideProps() {
+//   // get component data from API
+//   const url = process.env.API_URL
 
-  // return props
-  return {
-    props: { url }
-  }
-}
+//   // return props
+//   return {
+//     props: { url }
+//   }
+// }
 
 export default Index

@@ -273,13 +273,13 @@ const Editor = (props: EditorProps) => {
 }
 
 // export getStaticProps to provide API_URL to component
-export async function getStaticProps(context: any) {
-  return {
-    props: {
-      url: process.env.API_URL,
-    },
-  }
-}
+// export async function getStaticProps(context: any) {
+//   return {
+//     props: {
+//       url: process.env.API_URL,
+//     },
+//   }
+// }
 
 // export component
 export default Editor

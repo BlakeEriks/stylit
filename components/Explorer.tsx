@@ -5,7 +5,8 @@ import { ComponentType, PublishedComponent } from "utils/types";
 import ExploreHeader from "./ExploreHeader";
 var _ = require('lodash');
 
-const Explorer = ({url}: {url: string}) => {
+// const Explorer = ({url}: {url: string}) => {
+const Explorer = () => {
 
   const [components, setComponents] = useState<PublishedComponent[]>([])
   const [filter, setFilter] = useState<{[index in ComponentType]: boolean}>({
@@ -17,11 +18,9 @@ const Explorer = ({url}: {url: string}) => {
 
   useEffect( () => {
     const fetchComponents = async () => {
-      // console.log( _.pickBy(filter, _.isTruthy) )
       const types = _.values(_.mapValues(_.pickBy(filter, _.isTruthy), (value: boolean, key: ComponentType) => ComponentType[key] ) ).join(',')
-      // if (Object.entries(filter).filter(type => type[1]).length === 0) return {json: () => []}
-      console.log(`/components?type=${types}`)
-      return await fetch(url + `/components?type=${types}`)
+      // return await fetch(url + `/components?type=${types}`)
+      return await fetch(`/api/components?type=${types}`)
     }
 
     setLoading(true)
@@ -39,11 +38,11 @@ const Explorer = ({url}: {url: string}) => {
       {/* MAPPING OVER THE COMPONENTS */}
       <div className="flex flex-row flex-wrap justify-evenly">
         {components.map(component => (
-          <div className="component-card transition-all duration-150 ease-linear hover:scale-105 group">
+          <div key={component._id} className="component-card transition-all duration-150 ease-linear hover:scale-105 group">
             <div className="text-center text-lg text-grey-600 group-hover:font-bold shadow-sm w-full">
               {component.name}
             </div>
-            <div key={component._id} className="component-container ">
+            <div className="component-container ">
               {ComponentType[component.type] === ComponentType[ComponentType.Button] && 
                 <button
                   css={component.stylesMap as Interpolation<Theme>}
