@@ -258,13 +258,13 @@ const Editor = (props: EditorProps) => {
       {/* Save Component */}
       <div className="flex w-full justify-evenly p-4 text-3xl bg-gray">
         <Btn
-          className="rounded-2xl bg-sky-500 text-white hover:shadow-lg"
+          className="rounded-2xl bg-sky-500 text-white hover:shadow-lg shine"
           onClick={() => {props.handleSave({stylesMap, type, name})}}
         >
           Save 💾 
         </Btn>
         <Btn 
-          className="rounded-2xl bg-green-500 text-white hover:shadow-lg"
+          className="rounded-2xl bg-green-500 text-white hover:shadow-lg shine"
           onClick={() => props.handlePublish()}
         >
           Publish ✅ 

@@ -22,7 +22,7 @@ const Modal = () => {
       // }}
     >
       <Fade in={open}>
-        <div className="bg-grey-700 p-5 rounded-xl">
+        <div className="bg-grey-700 p-5 rounded-xl w-[50vw]">
           {type === "loading" ?
             <CircularProgress /> :
             <>
