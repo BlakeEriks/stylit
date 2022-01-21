@@ -1,3 +1,5 @@
+import { useRouter } from "next/router"
+
 const Create = () => {
   const router = useRouter()
   
