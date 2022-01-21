@@ -1,10 +1,11 @@
-import AddIcon from '@mui/icons-material/Add';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaPlus } from 'react-icons/fa';
 import useSocialAuth from 'utils/auth';
+import { useModalState } from 'utils/modal';
 import { useUserState } from 'utils/user';
 import Btn from './Btn';
 
@@ -17,10 +18,17 @@ const Header = (props: IndexProps) => {
   const {signInWithGithub, signInWithTwitter, signOut} = useSocialAuth()
   const {user} = useUserState()
   const [menu, setMenu] = useState<HTMLButtonElement | null>(null)
+  const [modalState, setModalState] = useModalState()
 
-  const onClick = async () => {
-    await signInWithGithub()
-    toast.success("Signed in to 💄stylit")
+  const onSignIn = async () => {
+    setModalState({
+      open: true, 
+      title: "Join the Stylit Community! 💛",
+      description: "We are stoked to have you. This place functions because of people like you. Sign in with any of these methods, and enjoy!",
+      type: "promptLogin"
+    })
+    // await signInWithGithub()
+    // toast.success("Signed in to 💄stylit")
   }
 
   const handleSignOut = async () => {
@@ -32,9 +40,9 @@ const Header = (props: IndexProps) => {
     <div className="w-full flex justify-between items-center p-3 bg-opacity-50 bg-gray text-white border-b border-white">
       <div className="flex w-1/4">
         <Link href="/" passHref>
-          <div className="text-4xl font-semibold cursor-pointer bg-white rounded-2xl pr-3 py-1 pl-1">
+          <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 py-1 pl-1 transition-all duration-300 hover:scale-105 shine">
             <div className="logo-gradient">
-              💄<span className="text-transparent">stylit</span>
+              💄<span className="text-transparent font-body">stylit</span>
             </div>
           </div>
         </Link>
@@ -63,9 +71,10 @@ const Header = (props: IndexProps) => {
       </div>
       <div className="flex flex-row justify-end">
         <Link href="/component/create" passHref>
-          <Button variant='outlined' className="text-gold border-gold hover:border-gold mx-2" endIcon={<AddIcon />}>
+          <Btn className="text-gold border-2 mx-2 border-gold shine">
             Create
-          </Button>
+            <FaPlus className='ml-2'/>
+          </Btn>
         </Link>
         {user ?
           <>
@@ -89,9 +98,9 @@ const Header = (props: IndexProps) => {
             </Menu>
           </>
           :
-          <Button variant='contained' onClick={onClick} className="text-black bg-gold">
+          <Btn onClick={onSignIn} className="text-black bg-gold shine">
             Sign In
-          </Button>
+          </Btn>
         }
       </div>
     </div>
