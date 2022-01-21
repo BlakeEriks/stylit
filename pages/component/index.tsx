@@ -1,5 +1,3 @@
-import { Component, ComponentType } from "utils/types"
-import Link from "next/link"
 import Explorer from '../../components/Explorer';
 
 // define the page component
