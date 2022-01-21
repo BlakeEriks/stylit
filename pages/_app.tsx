@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
       <ThemeProvider theme={theme}>
-        <div className="bg-gradient-to-b from-[#5d0d0d] via-red to-gray flex flex-col items-center">
+        <div className="bg-gradient-to-bl from-pink-900 via-grey-800 to-yellow-600 flex flex-col items-center">
           <MetaTags />
           <Header />
           <Component {...pageProps} />
