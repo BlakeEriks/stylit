@@ -30,6 +30,7 @@ const useSocialAuth = () => {
       .signOut()
       .then((res) => {
         resetUser()
+        window.localStorage.removeItem("user")
       })
       .catch((error) => {
         // An error happened.
