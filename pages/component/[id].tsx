@@ -1,10 +1,10 @@
-import { Component } from "../../utils/types"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { PublishedComponent } from "utils/types"
 
 // Define Prop Interface
 interface ShowProps {
-  todo: Component
+  todo: PublishedComponent
   url: string
 }
 
@@ -14,7 +14,7 @@ function Show(props: ShowProps) {
   const router = useRouter()
 
   // set the todo as state for modification
-  const [component, setComponent] = useState<Component>(props.todo)
+  const [component, setComponent] = useState<PublishedComponent>(props.todo)
 
   // function to complete a todo
   // const handleComplete = async () => {
