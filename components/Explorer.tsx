@@ -33,34 +33,41 @@ const Explorer = ({url}: {url: string}) => {
   },[filter])
 
   return (
-    <div className="flex items-center flex-col p-4 w-full bg-offWhite">
+    <div className="flex items-center flex-col p-8 w-full bg-offWhite overflow-auto">
       <ExploreHeader filter={filter} setFilter={setFilter}/>
 
       {/* MAPPING OVER THE COMPONENTS */}
-      <div className="border flex flex-row flex-wrap justify-center">
+      <div className="flex flex-row flex-wrap justify-evenly">
         {components.map(component => (
-          <div key={component._id} className="component-container m-3 border">
-            {ComponentType[component.type] === "Button" && 
-              <button 
-                css={component.stylesMap as Interpolation<Theme>}
-              >
-                Button
-              </button>
-            }
-            {ComponentType[component.type] === "Input" && 
-              <input 
-                css={component.stylesMap as Interpolation<Theme>} 
-                placeholder="input..." 
-              />
-            }
-            {ComponentType[component.type] === "Card" && 
-              <div 
-                css={component.stylesMap as Interpolation<Theme>}
-                className="card"
-              >
-                Card
-              </div>
-            }
+          <div className="component-card transition-all duration-150 ease-linear hover:scale-105 group">
+            <div className="text-center text-lg text-grey-600 group-hover:font-bold shadow-sm w-full">
+              {component.name}
+            </div>
+            <div key={component._id} className="component-container ">
+              {ComponentType[component.type] === ComponentType[ComponentType.Button] && 
+                <button
+                  css={component.stylesMap as Interpolation<Theme>}
+                >
+                  Button
+                </button>
+              }
+              {ComponentType[component.type] === ComponentType[ComponentType.Input] && 
+                <input
+                  className="min-w-0"
+                  maxLength={10}
+                  css={component.stylesMap as Interpolation<Theme>} 
+                  placeholder="input..." 
+                />
+              }
+              {ComponentType[component.type] === ComponentType[ComponentType.Card] && 
+                <div 
+                  css={component.stylesMap as Interpolation<Theme>}
+                  className="card"
+                >
+                  Card
+                </div>
+              }
+            </div>
           </div>
         ))}
       </div>

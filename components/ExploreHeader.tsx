@@ -12,7 +12,7 @@ interface ExploreHeaderProps {
 const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
 
   return(
-    <div className="flex justify-between items-center bg-white w-11/12 p-4 rounded-xl">
+    <div className="flex justify-between items-center bg-white w-full p-4 rounded-lg">
       <FormGroup className="flex flex-row items-center">
         <FormControlLabel 
           control={
