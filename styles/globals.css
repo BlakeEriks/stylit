@@ -41,6 +41,10 @@ a {
 @tailwind utilities;
 
 @layer components {
+  .component-card {
+    @apply flex flex-col items-center rounded-xl m-3 cursor-pointer bg-white shadow-2xl transition-all duration-300
+  }
+
   .component-container {
     @apply flex flex-grow w-full items-center justify-center p-10 min-w-[230px] max-w-[300px] rounded-xl leading-normal
   }
@@ -68,4 +72,14 @@ a {
     background: linear-gradient(180deg, rgba(219,40,58,1) 40%, rgba(217,188,125,1) 80%, rgba(25,26,25,1) 91%);
     background-clip: text;
   }
+}
+
+/* Line Animations */
+.continuous-line {
+  background: linear-gradient(currentColor 0 0) var(--d, 201%) 100% /200% 1.5px no-repeat;
+  transition: 0.5s;
+  width: fit-content;
+}
+.continuous-line:hover {
+  --d: -101%;
 }
