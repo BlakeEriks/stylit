@@ -18,9 +18,10 @@ const BorderEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: BorderEditPr
         </span>
         <IconButton
           size="small"
-          children={<UndoRounded />}
           onClick={() => resetStyles("border")}
-        />
+        >
+          <UndoRounded />
+        </IconButton>
       </div>
 
       <div className="flex items-center w-full my-1">

@@ -141,9 +141,10 @@ const Index = () => {
                 <span className="opacity-0 group-hover:opacity-70 w-0">
                   <IconButton
                     size="small"
-                    children={<DeleteOutline />}
                     onClick={() => deleteDraft(index)}
-                    />
+                  >
+                    <DeleteOutline />
+                  </IconButton>
                 </span>
                 {draft.name}
                 <span></span>

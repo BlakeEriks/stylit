@@ -76,9 +76,10 @@ const ShadowEdit = (props: ShadowEditProps) => {
         </span>
         <IconButton
           size="small"
-          children={<UndoRounded />}
           onClick={() => {setSelectedShadow(0);resetShadows()}}
-        />
+        >
+          <UndoRounded />
+        </IconButton>
       </div>
 
       <div className="flex items-center w-full my-1">

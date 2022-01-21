@@ -20,9 +20,10 @@ const PaddingEdit = ({getStyle, resetStyles, setStyle}: PaddingEditProps) => {
         </span>
         <IconButton
           size="small"
-          children={<UndoRounded />}
           onClick={() => resetStyles("padding")}
-        />
+        >
+          <UndoRounded />
+        </IconButton>
       </div>
       
       <div className="flex items-center w-full my-1">

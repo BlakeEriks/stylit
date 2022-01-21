@@ -16,9 +16,10 @@ const BackgroundEdit = ({getStyle, resetStyles, setAnchorEl}: BackgroundEditProp
         </span>
         <IconButton
           size="small"
-          children={<UndoRounded />}
           onClick={() => resetStyles("background")}
-        />
+        >
+          <UndoRounded />
+        </IconButton>
       </div>
 
       <div className="flex items-center w-full my-1">

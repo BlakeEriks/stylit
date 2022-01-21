@@ -24,9 +24,10 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
         </span>
         <IconButton
           size="small"
-          children={<UndoRounded />}
           onClick={() => resetStyles("text")}
-        />
+        >
+          <UndoRounded />
+        </IconButton>
       </div>
 
       <div className="flex items-center w-full my-1">

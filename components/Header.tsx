@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Menu, MenuItem } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -43,7 +44,7 @@ const Header = (props: IndexProps) => {
           <a className="hover:font-semibold cursor-pointer continuous-line">
             How It Works
           </a>
-        </Link>
+      </Link>
         <Link href="/component">
           <a className="hover:font-semibold cursor-pointer continuous-line">
             Browse
@@ -69,7 +70,8 @@ const Header = (props: IndexProps) => {
         {user ?
           <>
             <Btn onClick={(event) => setMenu(event.currentTarget)} className="text-black bg-gold">
-              <img src={user.photoURL} alt={user.photoURL} className="h-6 rounded-full mr-2"/>
+              <Image src={user.photoURL} alt={user.photoURL} className="h-6 rounded-full mr-2" />
+              {/* <img /> */}
               {user.displayName}
             </Btn>
             <Menu

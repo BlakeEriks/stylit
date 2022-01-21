@@ -121,15 +121,17 @@ const Editor = (props: EditorProps) => {
           {name}
           <IconButton
             size="medium"
-            children={<Edit fontSize="medium"/>}
             onClick={(event) => setEditNameAnchorEl(event.currentTarget)}
-          />
+          >
+            <Edit fontSize="medium"/>
+          </IconButton>
         </div>
         <IconButton
           size="large"
-          children={<UndoRounded fontSize="large"/>}
           onClick={() => setDraft(lastSaved)}
-        />
+        >
+          <UndoRounded fontSize="large"/>
+      </IconButton>
       </div>
 
       <div className="flex flex-row">
