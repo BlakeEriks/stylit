@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from "@emotion/react"
-import { DeleteOutline } from "@mui/icons-material"
-import { IconButton } from "@mui/material"
+import DeleteOutline from "@mui/icons-material/DeleteOutline"
+import IconButton from "@mui/material/IconButton"
 import Btn from "components/Btn"
 import Editor from "components/Editor"
 import { useRouter } from "next/router"
@@ -58,16 +58,7 @@ const Index = ({url}: IndexProps) => {
 
   const getSelectedDraft = () => drafts.length === 0 ? null : selectedDraft === drafts.length ? drafts[drafts.length - 1] : drafts[selectedDraft]
 
-  const onPublish = async () => {
-    if (!user) {
-      setModalState({
-          open: true, 
-          title: "Sign In to publish a component! 💛",
-          description: "We love to see who our creators are. Own that work! Check out the sign in options below.",
-          promptLogin: true
-        })
-    }
-
+  const publishDraft = async () => {
     const {stylesMap} = drafts[selectedDraft]
 
     // construct new component
@@ -99,6 +90,36 @@ const Index = ({url}: IndexProps) => {
     router.push("/component")
   }
 
+  const onPublish = async () => {
+    if (!user) {
+      setModalState({
+        open: true, 
+        title: "Sign In to publish a component! 💛",
+        description: "We love to see who our creators are. Own that work! Check out the sign in options below.",
+        type: "promptLogin"
+      })
+      return
+    }
+
+    setModalState({
+      open: true,
+      title: "Are you sure you're ready to publish? 👀",
+      description: "You won't be able to edit this component any longer!",
+      type: "yesOrNo",
+      options: {
+        yesText: "✅ Let's do it!",
+        noText: "❕ Wait go back!",
+        onYes: async () => {
+          setModalState({type: "loading"})
+          await publishDraft()
+          setModalState({open: false})
+        },
+        onNo: () => setModalState({open: false})
+      }
+    })
+  
+  }
+
   return (
     <div className="flex flex-row w-full">
       <div className="flex flex-col items-center w-1/4 text-2xl border-r-4 border-black bg-offWhite h-[90vh]">
@@ -111,12 +132,11 @@ const Index = ({url}: IndexProps) => {
             <div 
               key={index}
               className={`${selectedDraft === index ? "border-2 border-gold scale-105" : "opacity-70"}
-              flex flex-col w-full items-center rounded-xl my-3 cursor-pointer group
-              hover:shadow-gold bg-white shadow-2xl transition-all duration-150`}
+              hover:shadow-gold component-card group w-full`}
               onClick={() => setSelectedDraft(index)}
             >
               <div className="flex items-center justify-between text-lg text-center text-grey-600 font-bold shadow-sm w-full">
-                <span className="opacity-0 group-hover:opacity-70 w-0 transition-all duration-150">
+                <span className="opacity-0 group-hover:opacity-70 w-0">
                   <IconButton
                     size="small"
                     children={<DeleteOutline />}
@@ -128,7 +148,7 @@ const Index = ({url}: IndexProps) => {
               </div>
               <div className="component-container">
                 {ComponentType[draft.type] === "Button" && 
-                  <button 
+                  <button
                     css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
                   >
                     Button
