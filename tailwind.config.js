@@ -11,6 +11,7 @@ module.exports = {
       rose: colors.rose,
       lime: colors.lime,
       green: colors.green,
+      grey: colors.gray,
       'transparent': 'transparent',
       'red': '#DB2438',
       'gold': '#f5ba31',
