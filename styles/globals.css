@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 :root {
-  --red: #db2438;
-  --gold: #f5ba31;
+  --red: #800a18;
+  /* --gold: #f5ba31; */
+  --gold: #ffd700;
   --black: #191A19;
   --gray: #a1a1aa;
   --white: #FFFFFF;
@@ -82,4 +83,26 @@ a {
 }
 .continuous-line:hover {
   --d: -101%;
+}
+
+/* Shine Button Animation */
+.shine {
+  position: relative;
+  overflow: hidden;
+  transition: all 100ms linear;
+}
+.shine::after {
+  content: "";
+  top: -50%;
+  display: block;
+  width: 40%;
+  height: 200%;
+  left: -55%;
+  background: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  transform: rotate(25deg);
+  transition: 0.5s;
+}
+.shine:hover::after {
+  left: 120%;
 }
