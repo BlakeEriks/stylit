@@ -49,7 +49,7 @@ function Show(props: ShowProps) {
   return (
     <div>
       <h1>{component._id}</h1>
-      <h2>{component.likes.count}</h2>
+      <h2>{component.likes}</h2>
       {/* <button onClick={handleComplete}>Complete</button> */}
       <button onClick={handleDelete}>Delete</button>
       <button

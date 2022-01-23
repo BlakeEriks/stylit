@@ -15,8 +15,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // RESPONSE FOR GET REQUESTS
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
+
       const { User } = await connect() // connect to database
-      res.json(await User.find({}).catch(catcher))
+      if (!req.query.email) {
+        res.json(await User.find({}).catch(catcher))
+        return
+      }
+
+      const query = {email: req.query.email as string}
+      const user = await User.findOne(query).catch(catcher)
+      if (user) {
+        res.json(user)
+        return
+      }
+      /* Create new user if doesn't exist */
+      res.json(await User.create(query).catch(catcher))
+      
     },
 
     // RESPONSE POST REQUESTS
