@@ -11,27 +11,18 @@ interface EditSliderProps {
 const EditSlider = ({min, max, step, onChange, value}: EditSliderProps ) => {
   return (
     <Slider
-      className="w-3/4"
+      className="w-3/4 transition-all duration-75"
       size="small"
       sx={{
         '& .MuiSlider-rail': {
-          color: 'var(--black)'
+          color: '#3d5eff'
         },
         '& .MuiSlider-track': {
-          color: 'var(--red)'
+          color: '#3d5eff'
         },
         '& .MuiSlider-thumb': {
-          color: 'var(--red)'
+          color: '#3d5eff'
         },
-        '& .MuiSlider-thumb:focus': {
-          boxShadow: '0 0 0 8px rgb(219, 36, 56, 0.2);'
-        },
-        '& .MuiSlider-thumb:hover': {
-          boxShadow: '0 0 0 8px rgb(219, 36, 56, 0.2);'
-        },
-        '& .MuiSlider-thumb:active': {
-          boxShadow: '0 0 0 12px rgb(219, 36, 56, 0.2);'
-        }
       }}
       max={max}
       min={min}
