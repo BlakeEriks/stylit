@@ -19,7 +19,6 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
             <Checkbox 
               onChange={event => setFilter({...filter, [ComponentType.Button]: event.target.checked})}
               value={filter[ComponentType.Button]}
-              color='secondary'
               defaultChecked
             />
           } 
@@ -32,7 +31,6 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
             <Checkbox 
               onChange={event => setFilter({...filter, [ComponentType.Input]: event.target.checked})} 
               value={filter[ComponentType.Input]}
-              color='secondary'
               defaultChecked
             />
           } 
@@ -45,7 +43,6 @@ const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
             <Checkbox 
               onChange={event => setFilter({...filter, [ComponentType.Card]: event.target.checked})} 
               value={filter[ComponentType.Card]} 
-              color='secondary'
               defaultChecked
             />
           } 

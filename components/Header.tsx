@@ -38,7 +38,7 @@ const Header = (props: IndexProps) => {
 
   return (
     <div className="w-full flex justify-between items-center p-3 bg-opacity-50 bg-gray text-white border-b border-white">
-      <div className="flex w-1/4">
+      <div className="flex">
         <Link href="/" passHref>
           <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 py-1 pl-1 transition-all duration-300 hover:scale-105 shine">
             <div className="logo-gradient">
@@ -48,7 +48,7 @@ const Header = (props: IndexProps) => {
         </Link>
       </div>
       <div className="flex flex-row justify-evenly w-1/2 text-lg transition-all duration-100">
-        <Link href="/component">
+        <Link href="/#how-it-works">
           <a className="hover:font-semibold cursor-pointer continuous-line">
             How It Works
           </a>
