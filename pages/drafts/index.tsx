@@ -129,7 +129,7 @@ const Index = () => {
           🌏 Draft Selector
         </div>
         {/* MAPPING OVER THE COMPONENTS */}
-        <div className="flex flex-col items-center w-full flex-grow p-5 overflow-auto h-[80vh]">
+        <div className="flex flex-col items-center w-full flex-grow p-5 overflow-auto h-[80vh] animate__animated animate__fadeInLeft">
           {drafts.map( (draft, index) => (
             <div 
               key={index}
@@ -159,6 +159,7 @@ const Index = () => {
                 }
                 {ComponentType[draft.type] === "Input" && 
                   <input
+                    readOnly
                     className="min-w-0"
                     css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>} 
                     placeholder="input..." 
