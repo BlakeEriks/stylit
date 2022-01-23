@@ -7,7 +7,7 @@
   --black: #191A19;
   --gray: #a1a1aa;
   --white: #FFFFFF;
-  --offWhite: #F2E8E8;
+  --offWhite: #e0e0e0;
 }
 
 html, body {
@@ -16,6 +16,12 @@ html, body {
   font-family: Epilogue ,Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+/* This fixes shifting content when modal opens */
+body {
+  padding-right: 0 !important;
 }
 
 #__next {
@@ -44,7 +50,7 @@ a {
 
 @layer components {
   .component-card {
-    @apply flex flex-col items-center rounded-xl m-3 cursor-pointer bg-white shadow-2xl transition-all duration-300
+    @apply flex flex-col items-center rounded-xl cursor-pointer bg-white  transition-all duration-300 m-6 shadow-2xl
   }
 
   .component-container {
