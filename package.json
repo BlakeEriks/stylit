@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.8",
     "animate.css": "^4.1.1",
+    "aos": "^2.3.4",
     "bcryptjs": "^2.4.3",
     "firebase": "^9.6.2",
     "lodash": "^4.17.21",
@@ -28,6 +29,7 @@
     "recoil": "^0.5.2"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.4",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
     "@types/react-color": "^3.0.6",
