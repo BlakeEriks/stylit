@@ -24,7 +24,7 @@ module.exports = {
       'black': '#191A19',
       'gray': '#a1a1aa',
       'white': '#FFFFFF',
-      'offWhite': '#F2EDED'
+      'offWhite': '#e0e0e0'
     },
     fontFamily: {
       'body': 'Roboto, sans-serif'
