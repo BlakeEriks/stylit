@@ -1,7 +1,8 @@
-import { AuthProvider, GithubAuthProvider, TwitterAuthProvider } from "firebase/auth";
+import { AuthProvider, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import { useEffect } from 'react';
 import Firebase from "./firebase";
 import { useUserState } from './user';
+var _ = require('lodash');
 
 const useSocialAuth = () => {
 
@@ -15,10 +16,12 @@ const useSocialAuth = () => {
 
   const signInWithSocial = (provider: AuthProvider) => Firebase.auth()
     .signInWithPopup(provider)
-    .then(userCredential => {
+    .then( async (userCredential) => {
       const user = JSON.parse(JSON.stringify(userCredential.user))
-      setUser(user);
-      window.localStorage.setItem("user", JSON.stringify(user))
+      const dbUser = await (await fetch(`/api/users?email=${user.email}`)).json()
+      const combinedUserData = {id: dbUser._id, displayName: user.displayName, photoURL: user.photoURL}
+      setUser(combinedUserData);
+      window.localStorage.setItem("user", JSON.stringify(combinedUserData))
     })
     .catch((err) => {
       console.log(err);
@@ -40,7 +43,7 @@ const useSocialAuth = () => {
 
   return {
     signInWithGithub: () => signInWithSocial(new GithubAuthProvider()),
-    signInWithTwitter: () => signInWithSocial(new TwitterAuthProvider()),
+    signInWithGoogle: () => signInWithSocial(new GoogleAuthProvider()),
     signOut
   }
 };
