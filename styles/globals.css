@@ -15,6 +15,7 @@ html, body {
   margin: 0;
   font-family: Epilogue ,Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  scroll-behavior: smooth;
 }
 
 #__next {
@@ -51,7 +52,7 @@ a {
   }
 
   .card {
-    @apply flex items-center justify-center w-full cursor-pointer h-52
+    @apply flex items-center justify-center w-full cursor-pointer h-40
   }
 
   .edit-group {
