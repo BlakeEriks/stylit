@@ -16,6 +16,6 @@
     "incremental": true,
     "baseUrl": "./"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/firebase.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "utils/*"],
   "exclude": ["node_modules"]
 }
