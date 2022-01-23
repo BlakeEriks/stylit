@@ -3,26 +3,24 @@ import Fade from "@mui/material/Fade";
 import MuiModal from "@mui/material/Modal";
 import Btn from "components/Btn";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import useSocialAuth from 'utils/auth';
 import { useModalState } from "utils/modal";
 
 const Modal = () => {
 
   const [modalState, setModalState] = useModalState()
   const {open, title, description, type, options} = modalState
+  const {signInWithGithub, signInWithGoogle} = useSocialAuth()
 
   return (
     <MuiModal
       open={!!open}
       onClose={() => setModalState({...modalState, open: false})}
-      className="flex items-center justify-center"
-      // closeAfterTransition
-      // BackdropComponent={Backdrop}
-      // BackdropProps={{
-      //   timeout: 500,
-      // }}
+      className="flex items-center justify-center box-content"
+      closeAfterTransition
     >
       <Fade in={open}>
-        <div className="bg-grey-700 p-5 rounded-xl w-[50vw]">
+        <div className="bg-grey-700 p-5 rounded-xl w-[50vw] box-content">
           {type === "loading" ?
             <CircularProgress /> :
             <>
@@ -34,10 +32,10 @@ const Modal = () => {
               </p>
               {type === "promptLogin" && 
                 <div className="flex">
-                  <Btn className="bg-sky-500 text-white">
+                  <Btn className="bg-sky-500 text-white" onClick={signInWithGoogle}>
                     Sign In with Google <FaGoogle className="text-xl ml-1 -mr-1" />
                   </Btn>
-                  <Btn className="ml-2 bg-gold text-black">
+                  <Btn className="ml-2 bg-gold text-black" onClick={signInWithGithub}>
                     Sign In with Github
                     <FaGithub className="text-2xl ml-1 -mt-1 -mr-1" />
                   </Btn>
