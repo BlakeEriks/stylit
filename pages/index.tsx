@@ -1,6 +1,5 @@
 import Explorer from 'components/Explorer';
 import Hero from 'components/Hero';
-import Features from '../components/Features';
 
 // interface IndexProps{
 //   url: string
@@ -11,7 +10,6 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <Features />
       <Explorer />
     </>
   )
