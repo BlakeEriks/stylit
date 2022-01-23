@@ -10,13 +10,7 @@ import { useModalState } from "utils/modal"
 import { ComponentState, ComponentType, defaultStyles, DraftComponent, PublishedComponent } from "utils/types"
 import { useUserState } from "utils/user"
 
-// interface IndexProps {
-//   url: string
-// }
-
 const Index = () => {
-// const Index = ({url}: IndexProps) => {
-
   const router = useRouter()
   const [drafts, setDrafts] = useState<DraftComponent[]>([])
   const [selectedDraft, setSelectedDraft] = useState<number>(0)
@@ -26,6 +20,12 @@ const Index = () => {
   useEffect( () => {
     setDrafts(JSON.parse(window.localStorage.getItem('drafts') || "[]"))
   }, [])
+
+  useEffect( () => {
+    if (selectedDraft > 0 && selectedDraft >= drafts.length) {
+      setSelectedDraft(drafts.length - 1)
+    }
+  }, [drafts])
 
   const saveDraft = (draft: DraftComponent) => {
     const allDrafts = [...drafts]
@@ -46,13 +46,12 @@ const Index = () => {
       name: `Draft #${Math.floor(1000*Math.random())}`
     }
     setDrafts([...drafts, newDraft])
-
+    setSelectedDraft(drafts.length)
     localStorage.setItem("drafts", JSON.stringify([...drafts, newDraft]))
   }
 
   const deleteDraft = (index: number) => {
     const newDrafts = [...drafts.slice(0,index), ...drafts.slice(index+1)]
-    if (selectedDraft === newDrafts.length) setSelectedDraft(newDrafts.length - 1)
     setDrafts(newDrafts)
     localStorage.setItem("drafts", JSON.stringify(newDrafts))
   }
@@ -64,7 +63,7 @@ const Index = () => {
 
     // construct new component
     let component: PublishedComponent = { 
-      creator_id: "61dcce4e2fa77b6e4b654bd7",
+      creator_id: user.id,
       ...drafts[selectedDraft],
       stylesMap: {
         ...stylesMap[ComponentState.normal],
@@ -75,7 +74,7 @@ const Index = () => {
           ...stylesMap[ComponentState.focus]
         }
       }, 
-      likes: { count: 0, users: [] }
+      likes: 0
     }
   
     // Make the API request
@@ -121,7 +120,7 @@ const Index = () => {
     })
   
   }
-
+  console.log(selectedDraft)
   return (
     <div className="flex flex-row w-full">
       <div className="flex flex-col items-center w-1/4 text-2xl border-r-4 border-black bg-offWhite h-[90vh]">
@@ -129,7 +128,7 @@ const Index = () => {
           🌏 Draft Selector
         </div>
         {/* MAPPING OVER THE COMPONENTS */}
-        <div className="flex flex-col items-center w-full flex-grow p-5 overflow-auto h-[80vh] animate__animated animate__fadeInLeft">
+        <div className="flex flex-col items-center w-full flex-grow p-5 overflow-auto h-[80vh]">
           {drafts.map( (draft, index) => (
             <div 
               key={index}
@@ -197,16 +196,5 @@ const Index = () => {
     </div>
   )
 }
-
-// GET PROPS FOR SERVER SIDE RENDERING
-// export async function getServerSideProps() {
-//   // get component data from API
-//   const url = process.env.API_URL
-
-//   // return props
-//   return {
-//     props: { url }
-//   }
-// }
 
 export default Index
