@@ -27,7 +27,7 @@ export const connect = async () => {
     type: Number,
     name: String,
     stylesMap: Object,
-    likes: {count: Number, users: [{type:Schema.Types.ObjectId, ref: 'User'}]}
+    likes: Number
   }, {
     timestamps: { createdAt: true, updatedAt: false }
   })

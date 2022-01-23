@@ -26,7 +26,7 @@ export interface DraftComponent extends Component {
 
 export interface PublishedComponent extends Component {
   _id?: string
-  likes: {count: number, users: string[]}
+  likes: number
   stylesMap: { [index in ('&:hover' | '&:focus')]: Styles | keyof Styles }
   creator_id: string
   createdAt?: number
