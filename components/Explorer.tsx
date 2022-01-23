@@ -19,7 +19,6 @@ const Explorer = () => {
   useEffect( () => {
     const fetchComponents = async () => {
       const types = _.values(_.mapValues(_.pickBy(filter, _.isTruthy), (value: boolean, key: ComponentType) => ComponentType[key] ) ).join(',')
-      // return await fetch(url + `/components?type=${types}`)
       return await fetch(`/api/components?type=${types}`)
     }
 

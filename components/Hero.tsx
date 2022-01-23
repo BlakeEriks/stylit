@@ -37,10 +37,10 @@ const Hero = () => {
             Hundreds of components. Open Source. Endless customization. 
           </div>
           <div className="text-5xl font-bold text-white my-3">
-            The component repository you've been looking for. 
+            The component repository you&apos;ve been looking for. 
           </div>
           <div className="text-base text-gray mt-1">
-            Stylit is a growing repository of styled components that are ready to be used in your next project. Experiment with the component editor. Browse by component type, popularity, and creation time to see what's trending. We're here to make sure your designs are smooth and beautiful! 🤙
+            Stylit is a growing repository of styled components that are ready to be used in your next project. Experiment with the component editor. Browse by component type, popularity, and creation time to see what&apos;s trending. We&apos;re here to make sure your designs are smooth and beautiful! 🤙
           </div>
           <div className="flex mt-2">
             <Btn className="text-lg bg-gold shine">
@@ -49,7 +49,7 @@ const Hero = () => {
                 <BoltOutlined fontSize='medium'/>
               </div>
             </Btn>
-            <a href="https://github.com/blakeeriks/stylit" target="_blank">
+            <a href="https://github.com/blakeeriks/stylit" target="_blank" >
               <Btn className="text-lg shine ml-2 border-2 border-gold">
                 <div className="p-1 text-gold">
                   Stars {starCount}
@@ -60,7 +60,7 @@ const Hero = () => {
           </div>
         </div>
         <div className="w-1/2 animate__animated animate__fadeInRight">
-          <Image src={asset2} height={680} width={1000} className='opacity-95'/>
+          <Image src={asset2} height={680} width={1000} className='opacity-95' priority/>
         </div>
       </div>
       <div className="flex flex-col items-center border bg-grey-800 border-fuchsia-500 min-w-[90vw] max-w-[95vw] rounded-2xl p-5 py-10">

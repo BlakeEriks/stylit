@@ -6,7 +6,7 @@ const HowItWorks = () => {
   return (
     <div className="flex flex-col w-full p-10 pb-0" data-aos="fade-left" id="how-it-works">
       <div className="flex w-full flex-start">
-        <div className="text-2xl uppercase font-bold bg-gradient-to-r from-sky-400 via-orange-300 to-fuchsia-700 text-transparent bg-clip-text">
+        <div className="text-2xl uppercase font-bold bg-gradient-to-r from-sky-400 to-fuchsia-700 text-transparent bg-clip-text">
           How it works
         </div>
       </div>
@@ -17,7 +17,7 @@ const HowItWorks = () => {
               3 Easy Steps. Endless Customizations.
             </div>
             <div>
-              Let's get you started! 🏄
+              Let&apos;s get you started! 🏄
             </div>
             <Btn className="text-lg bg-gold shine text-black">
                 <div className="p-1">
@@ -29,18 +29,18 @@ const HowItWorks = () => {
         </div>
         <div className="flex flex-col w-1/5">
           <div className="flex w-full items-center">
-            <div className="uppercase text-xl font-semibold">
+            <div className="uppercase text-xl font-semibold text-gold">
               Step 1
             </div>
             <div className="flex-grow bg-white h-[1px] mx-2"></div>
           </div>
           <div className="text-lg py-4">
-            Sign into Stylit using either Github or Google.
+            Sign in to Stylit using either Github or Twitter.
           </div>
         </div>
         <div className="flex flex-col w-1/5">
           <div className="flex w-full items-center">
-            <div className="uppercase text-xl font-semibold">
+            <div className="uppercase text-xl font-semibold text-gold">
               Step 2
             </div>
             <div className="flex-grow bg-white h-[1px] mx-2"></div>
@@ -57,13 +57,13 @@ const HowItWorks = () => {
         </div>
         <div className="flex flex-col w-1/5">
           <div className="flex w-full items-center">
-            <div className="uppercase text-xl font-semibold">
+            <div className="uppercase text-xl font-semibold text-gold">
               Step 3
             </div>
             <div className="flex-grow bg-white h-[1px] mx-2"></div>
           </div>
           <div className="text-lg py-4">
-            Publish it and show off your styling skills to the Stylit community!
+            Publish the component and show off your skills to the Stylit community!
           </div>
         </div>
       </div>

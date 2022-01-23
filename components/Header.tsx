@@ -15,7 +15,7 @@ interface IndexProps {
 
 const Header = (props: IndexProps) => {
   
-  const {signInWithGithub, signInWithTwitter, signOut} = useSocialAuth()
+  const {signOut} = useSocialAuth()
   const {user} = useUserState()
   const [menu, setMenu] = useState<HTMLButtonElement | null>(null)
   const [modalState, setModalState] = useModalState()
@@ -42,7 +42,7 @@ const Header = (props: IndexProps) => {
         <Link href="/" passHref>
           <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 py-1 pl-1 transition-all duration-300 hover:scale-105 shine">
             <div className="logo-gradient">
-              💄<span className="text-transparent font-body">stylit</span>
+              💄<span className="text-white">styl<span className="text-gold">it</span></span>
             </div>
           </div>
         </Link>
@@ -70,11 +70,13 @@ const Header = (props: IndexProps) => {
         </Link>
       </div>
       <div className="flex flex-row justify-end">
-        <Link href="/component/create" passHref>
-          <Btn className="text-gold border-2 mx-2 border-gold shine">
-            Create
-            <FaPlus className='ml-2'/>
-          </Btn>
+        <Link href="/component/create">
+          <a>
+            <Btn className="text-gold border-2 mx-2 border-gold shine">
+              Create
+              <FaPlus className='ml-2'/>
+            </Btn>
+          </a>
         </Link>
         {user ?
           <>
@@ -82,7 +84,6 @@ const Header = (props: IndexProps) => {
               <span className="rounded-full overflow-hidden mr-2 flex items-center">
                 <Image src={user.photoURL} alt={user.photoURL} height={24} width={24}/>
               </span>
-              {/* <img /> */}
               {user.displayName}
             </Btn>
             <Menu
@@ -93,7 +94,7 @@ const Header = (props: IndexProps) => {
               onClose={() => setMenu(null)}
               transitionDuration={100}
             >
-              <MenuItem >Published</MenuItem>
+              <MenuItem onClick={() => setMenu(null)}><Link href="/published">Published</Link></MenuItem>
               <MenuItem onClick={() => {setMenu(null);handleSignOut()}}>Sign Out</MenuItem>
             </Menu>
           </>
