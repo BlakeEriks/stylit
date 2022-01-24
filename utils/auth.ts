@@ -17,8 +17,21 @@ const useSocialAuth = () => {
   const signInWithSocial = (provider: AuthProvider) => Firebase.auth()
     .signInWithPopup(provider)
     .then( async (userCredential) => {
+      
       const user = JSON.parse(JSON.stringify(userCredential.user))
-      const dbUser = await (await fetch(`/api/users?email=${user.email}`)).json()
+      let dbUser = await (await fetch(`/api/users?email=${user.email}`)).json()
+      
+      /* If user isn't in our system, create a new one */
+      if (!dbUser.length) {
+        dbUser = await (await fetch(`/api/users`, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({email: user.email, displayName: user.displayName}),
+        })).json()
+      }
+
       const combinedUserData = {id: dbUser._id, displayName: user.displayName, photoURL: user.photoURL}
       setUser(combinedUserData);
       window.localStorage.setItem("user", JSON.stringify(combinedUserData))
