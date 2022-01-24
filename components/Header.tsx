@@ -80,7 +80,7 @@ const Header = (props: IndexProps) => {
         </Link>
         {user ?
           <>
-            <Btn onClick={(event) => setMenu(event.currentTarget)} className="text-black bg-gold">
+            <Btn onClick={(event) => setMenu(event.currentTarget)} className="text-black bg-gold shine">
               <span className="rounded-full overflow-hidden mr-2 flex items-center">
                 <Image src={user.photoURL} alt={user.photoURL} height={24} width={24}/>
               </span>
