@@ -16,22 +16,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // RESPONSE FOR GET REQUESTS
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
-      const query: {type?: ComponentType[], creator_id?: string} = {}
+      const query: {type?: ComponentType[], creatorId?: string} = {}
       if (req.query.type) {
         query.type = (req.query.type as string).split(',').map( 
           (componentType) => ComponentType[componentType as keyof typeof ComponentType]
         )
       }
       if (req.query.creatorId) {
-        query.creator_id = req.query.creatorId as string
+        query.creatorId = req.query.creatorId as string
       }
       const { Component } = await connect() // connect to database
-      res.json(await Component.find(query).catch(catcher))
+      res.json(await Component.find(query).populate('creatorId', 'displayName').catch(catcher))
     },
 
     // RESPONSE POST REQUESTS
     POST: async (req: NextApiRequest, res: NextApiResponse) => {
       const { Component } = await connect() // connect to database
+      console.log(req.body)
       res.json(await Component.create(req.body).catch(catcher))
     },
   }

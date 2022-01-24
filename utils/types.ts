@@ -10,6 +10,7 @@ export enum ComponentType {Button, Input, Card}
 
 export interface User {
   _id?: string
+  displayName: string
   email: string
   bookmarks?: string[]
 }
@@ -28,7 +29,7 @@ export interface PublishedComponent extends Component {
   _id?: string
   likes: number
   stylesMap: { [index in ('&:hover' | '&:focus')]: Styles | keyof Styles }
-  creator_id: string
+  creatorId: User
   createdAt?: number
 }
 

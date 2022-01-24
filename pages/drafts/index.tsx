@@ -63,7 +63,7 @@ const Index = () => {
 
     // construct new component
     let component: PublishedComponent = { 
-      creator_id: user.id,
+      creatorId: user.id,
       ...drafts[selectedDraft],
       stylesMap: {
         ...stylesMap[ComponentState.normal],
@@ -120,7 +120,7 @@ const Index = () => {
     })
   
   }
-  console.log(selectedDraft)
+
   return (
     <div className="flex flex-row w-full">
       <div className="flex flex-col items-center w-1/4 text-2xl border-r-4 border-black bg-offWhite h-[90vh]">

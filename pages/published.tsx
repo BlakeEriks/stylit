@@ -24,7 +24,7 @@ const Published = () => {
 
     fetchPublished()
   }, [])
-  console.log(components)
+
   return (
     <div className="w-full">
       <div className="text-4xl text-white">

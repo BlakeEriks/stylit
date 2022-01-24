@@ -50,7 +50,7 @@ a {
 
 @layer components {
   .component-card {
-    @apply flex flex-col items-center rounded-xl cursor-pointer bg-white  transition-all duration-300 m-6 shadow-2xl
+    @apply flex flex-col items-center rounded-xl bg-white transition-all duration-300 m-6 shadow-2xl
   }
 
   .component-container {
