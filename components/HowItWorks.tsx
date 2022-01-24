@@ -11,7 +11,7 @@ const HowItWorks = () => {
         </div>
       </div>
       <div className="flex w-full justify-between text-white items-start">
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start pr-2">
           <div className="text-2xl my-4 font-semibold space-y-2">
             <div>
               3 Easy Steps. Endless Customizations.
@@ -19,12 +19,16 @@ const HowItWorks = () => {
             <div>
               Let&apos;s get you started! 🏄
             </div>
-            <Btn className="text-lg bg-gold shine text-black">
-                <div className="p-1">
-                  Try Now
-                  <BoltOutlined fontSize='medium'/>
-                </div>
-            </Btn>
+            <Link href="/drafts">
+              <a>
+                <Btn className="text-lg bg-gold shine text-black mt-3">
+                    <div className="p-1">
+                      Try Now
+                      <BoltOutlined fontSize='medium'/>
+                    </div>
+                </Btn>
+              </a>
+            </Link>
           </div>
         </div>
         <div className="flex flex-col w-1/5">
