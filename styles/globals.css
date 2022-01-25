@@ -41,7 +41,7 @@ a {
 }
 
 *:focus {
-  outline: none;
+  /* outline: none; */
 }
 
 @tailwind base;
@@ -50,11 +50,11 @@ a {
 
 @layer components {
   .component-card {
-    @apply flex flex-col items-center rounded-xl bg-white transition-all duration-300 m-6 shadow-2xl overflow-hidden
+    @apply flex flex-col items-center rounded-xl bg-white transition-all duration-300 shadow-2xl overflow-hidden dark:bg-grey-600
   }
 
   .component-container {
-    @apply flex flex-grow w-full items-center justify-center p-10 min-w-[230px] max-w-[300px] rounded-xl leading-normal
+    @apply flex flex-grow w-full items-center justify-center p-10 min-w-[230px] max-w-[300px] rounded-xl leading-normal 
   }
 
   .card {
@@ -62,11 +62,11 @@ a {
   }
 
   .edit-group {
-    @apply my-4 w-full flex flex-col mx-2
+    @apply my-4 w-full flex flex-col mx-2 dark:text-white
   }
 
   .edit-group-header {
-    @apply text-xl font-medium border-b border-black flex justify-between items-end text-black
+    @apply text-xl font-medium border-b border-black dark:border-white flex justify-between items-end text-black dark:text-white
   }
 
   .edit-label {
