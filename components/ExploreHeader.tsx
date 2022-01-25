@@ -50,15 +50,15 @@ const ExploreHeader = ({componentType, setComponentType, sort, setSort}: Explore
         Explorer
       </div>
       <div className="flex flex-row justify-end w-1/4">
-        <div className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Popular" ? "text-sky-500 font-bold" : "hover:text-sky-300")} onClick={() => setSort("Popular")}>
+        <button className={"text-xl mx-2 cursor-pointer transition- duration-200 " + (sort === "Popular" ? "text-sky-500 font-bold" : "hover:text-sky-300 focus:text-sky-300")} onClick={() => setSort("Popular")}>
           Popular
-        </div>
-        <div className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Newest" ? "text-sky-500 font-bold" : "hover:text-sky-300")} onClick={() => setSort("Newest")}>
+        </button>
+        <button className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Newest" ? "text-sky-500 font-bold" : "hover:text-sky-300 focus:text-sky-300")} onClick={() => setSort("Newest")}>
           Newest
-        </div>
-        <div className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Oldest" ? "text-sky-500 font-bold" : "hover:text-sky-300")} onClick={() => setSort("Oldest")}>
+        </button>
+        <button className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Oldest" ? "text-sky-500 font-bold" : "hover:text-sky-300 focus:text-sky-300")} onClick={() => setSort("Oldest")}>
           Oldest
-        </div>        
+        </button>        
       </div>
     </div>
   )
