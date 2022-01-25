@@ -31,6 +31,9 @@ const useSocialAuth = () => {
           body: JSON.stringify({email: user.email, displayName: user.displayName}),
         })).json()
       }
+      else {
+        dbUser = dbUser[0]
+      }
 
       const combinedUserData = {id: dbUser._id, displayName: user.displayName, photoURL: user.photoURL}
       setUser(combinedUserData);
