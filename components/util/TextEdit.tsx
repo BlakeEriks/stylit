@@ -16,9 +16,9 @@ const fontOptions = ["Montserrat", "Open Sans", "Raleway", "Roboto"]
 const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps) => {
   
   return (
-    <div className="my-2 w-full flex flex-col mx-2">
+    <div className="edit-group">
 
-      <div className="text-xl font-medium border-b flex justify-between items-end">
+      <div className="edit-group-header">
         <span>
           ✍🏼 Text
         </span>
@@ -36,7 +36,7 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
         </div>
         <Select
           className="w-3/4"
-          color="secondary"
+          color="primary"
           value={getStyle("fontFamily").split(",")[0]}
           onChange={ event => (
             setStyle("fontFamily", `${event.target.value}, sans-serif`))}
