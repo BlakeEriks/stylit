@@ -39,7 +39,7 @@ const HowItWorks = () => {
             <div className="flex-grow bg-white h-[1px] mx-2"></div>
           </div>
           <div className="text-lg py-4">
-            Sign in to Stylit using either Github or Twitter.
+            Sign in to Stylit using either Github or Google.
           </div>
         </div>
         <div className="flex flex-col w-1/5">
