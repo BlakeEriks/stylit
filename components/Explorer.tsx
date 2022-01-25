@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from "@emotion/react";
-import { Bookmark, BookmarkBorderOutlined } from "@mui/icons-material";
+import { Bookmark, BookmarkBorderOutlined, ContentCopy } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
@@ -21,17 +22,14 @@ const Explorer = () => {
 
   const sortComponents = (components: PublishedComponent[]) => {
     if (sort === "Popular") {
-      return components.sort((a,b) => b.likes - a.likes)
+      components.sort((a,b) => b.likes - a.likes)
     }
     if (sort === "Newest") {
-      console.log('sorting newesst')
-      return components.sort( (a,b) => new Date(b.createdAt!).getTime() -  new Date(a.createdAt!).getTime() )
+      components.sort( (a,b) => new Date(b.createdAt!).getTime() -  new Date(a.createdAt!).getTime() )
     }
     if (sort === "Oldest") {
-      console.log('sorting oldest')
-      return components.sort( (a,b) => new Date(a.createdAt!).getTime() -  new Date(b.createdAt!).getTime())
+      components.sort( (a,b) => new Date(a.createdAt!).getTime() -  new Date(b.createdAt!).getTime())
     }
-    return components
   }
 
   useEffect( () => {
@@ -42,9 +40,8 @@ const Explorer = () => {
     setLoading(true)
     fetchComponents().then( res => res.json())
       .then(components => {
-        const sortedComponents = sortComponents(components)
-        console.log(sortedComponents)
-        setComponents(sortedComponents)
+        sortComponents(components)
+        setComponents(components)
         setLoading(false)
       })
   },[componentType, sort])
@@ -109,11 +106,12 @@ const Explorer = () => {
 
       {/* MAPPING OVER THE COMPONENTS */}
       <div className="flex flex-row flex-wrap justify-evenly">
-        {components.map(component => (
-          <div key={component._id} className="component-card transition-all duration-150 ease-linear hover:scale-105 group relative border border-grey-400">
-            {/* <div className="text-center text-lg text-black  w-full">
-              {component.name}
-            </div> */}
+        {components.map( (component, key) => (
+          <div 
+            key={key} 
+            className="component-card m-3 transition-all duration-150 ease-linear hover:scale-105 group relative border border-grey-400"
+            data-aos="fade-left"
+          >
             <div className="component-container flex-col shadow-inner">
               {ComponentType[component.type] === ComponentType[ComponentType.Button] && 
                 <button
@@ -142,8 +140,8 @@ const Explorer = () => {
             <div className="flex flex-col justify-center w-full border-t border-grey-400 rounded-b-xl bg-grey-200">
                 <div className="flex w-full justify-between p-2">
                   <div className="flex items-center">
-                    <span 
-                      className="text-pink-300 text-xl cursor-pointer rounded-full mb-1 mr-1 p-1 hover:scale-125 transition-all duration-200" 
+                    <button 
+                      className="text-pink-300 text-xl cursor-pointer rounded-full mb-1 mr-1 p-1 hover:scale-125 focus:scale-125 transition-all duration-200" 
                       onClick={() => toggleLike(component._id!)}
                     >
                       {likedComponents.includes(component._id || '') ?
@@ -151,25 +149,30 @@ const Explorer = () => {
                       :
                         <FiHeart />
                       }
-                    </span>
-                    {component.likes} likes
+                    </button>
+                    {component.likes} like{component.likes !== 1 && 's'}
                   </div>
-                  <span 
-                    className="rounded-full p-1 cursor-pointer hover:scale-125 transition-all duration-200"
+                  <button
+                    className="rounded-full p-1 cursor-pointer hover:scale-125 focus:scale-125 transition-all duration-200"
                     onClick={() => toggleBookmark(component._id!)}
-                  > 
+                  >
                     {bookmarks.includes(component._id!) ?
                       <Bookmark  className="text-[#F5BA31] animate__animated animate__heartBeat"/>
                     :
-                      <BookmarkBorderOutlined className="text-gray"/>
+                      <BookmarkBorderOutlined className="text-gray animate__animated animate__heartBeat"/>
                     }
-                  </span>
+                  </button>
                 </div>
-                <div className="text-sm text-center">
+                {/* <div className="text-sm text-center">
                   Created by {component.creatorId?.displayName}
-                </div>
+                </div> */}
                 {/* {formatDistance(new Date(), new Date(component.createdAt!))} */}
             </div>
+            <Button className="!absolute top-3 left-3 !p-1 !min-w-0 !text-sm cursor-pointer opacity-0 group-hover:opacity-100 hover:scale-125 transition-all duration-200"
+              onClick={() => navigator.clipboard.writeText(JSON.stringify(component.stylesMap, null, "\t"))} 
+            >
+              <ContentCopy className="text-lg text-gray"/>
+            </Button>
           </div>
         ))}
       </div>
