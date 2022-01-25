@@ -12,29 +12,42 @@ var _ = require('lodash');
 const Explorer = () => {
 
   const [components, setComponents] = useState<PublishedComponent[]>([])
-  const [filter, setFilter] = useState<{[index in ComponentType]: boolean}>({
-    [ComponentType.Button]: true,
-    [ComponentType.Input]: true,
-    [ComponentType.Card]: true
-  })
+  const [componentType, setComponentType] = useState<ComponentType>(ComponentType.Button)
+  const [sort, setSort] = useState<string>("Popular")
   const [loading, setLoading] = useState(false)
   const [likedComponents, setLikedComponentes] = useState<string[]>([])
   const [bookmarks, setBookmarks] = useState<string[]>([])
   const {user} = useUserState()
 
+  const sortComponents = (components: PublishedComponent[]) => {
+    if (sort === "Popular") {
+      return components.sort((a,b) => b.likes - a.likes)
+    }
+    if (sort === "Newest") {
+      console.log('sorting newesst')
+      return components.sort( (a,b) => new Date(b.createdAt!).getTime() -  new Date(a.createdAt!).getTime() )
+    }
+    if (sort === "Oldest") {
+      console.log('sorting oldest')
+      return components.sort( (a,b) => new Date(a.createdAt!).getTime() -  new Date(b.createdAt!).getTime())
+    }
+    return components
+  }
+
   useEffect( () => {
     const fetchComponents = async () => {
-      const types = _.values(_.mapValues(_.pickBy(filter, _.isTruthy), (value: boolean, key: ComponentType) => ComponentType[key] ) ).join(',')
-      return await fetch(`/api/components?type=${types}`)
+      return await fetch(`/api/components?type=${componentType}`)
     }
 
     setLoading(true)
     fetchComponents().then( res => res.json())
       .then(components => {
-        setComponents(components)
+        const sortedComponents = sortComponents(components)
+        console.log(sortedComponents)
+        setComponents(sortedComponents)
         setLoading(false)
       })
-  },[filter])
+  },[componentType, sort])
 
   useEffect(() => {
     if (window.localStorage.getItem("likes")) {
@@ -87,7 +100,12 @@ const Explorer = () => {
 
   return (
     <div className="flex items-center flex-col p-8 w-full bg-offWhite overflow-auto">
-      <ExploreHeader filter={filter} setFilter={setFilter}/>
+      <ExploreHeader 
+        componentType={componentType}
+        setComponentType={setComponentType}
+        sort={sort}
+        setSort={setSort}
+      />
 
       {/* MAPPING OVER THE COMPONENTS */}
       <div className="flex flex-row flex-wrap justify-evenly">
@@ -148,8 +166,9 @@ const Explorer = () => {
                   </span>
                 </div>
                 <div className="text-sm text-center">
-                  Created by {component.creatorId.displayName}
+                  Created by {component.creatorId?.displayName}
                 </div>
+                {/* {formatDistance(new Date(), new Date(component.createdAt!))} */}
             </div>
           </div>
         ))}

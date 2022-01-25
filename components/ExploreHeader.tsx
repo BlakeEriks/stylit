@@ -1,66 +1,64 @@
-import Checkbox from "@mui/material/Checkbox"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import FormGroup from "@mui/material/FormGroup"
+import { MenuItem, Select } from "@mui/material"
 import { ComponentType } from "utils/types"
-import Btn from "./Btn"
 
 interface ExploreHeaderProps {
-  filter: {[index in ComponentType]: boolean}
-  setFilter: Function
+  componentType: ComponentType
+  setComponentType: Function
+  sort: string
+  setSort: Function
 }
 
-const ExploreHeader = ({filter, setFilter}: ExploreHeaderProps) => {
+const ExploreHeader = ({componentType, setComponentType, sort, setSort}: ExploreHeaderProps) => {
 
   return(
-    <div className="flex justify-between items-center bg-white w-full p-4 rounded-lg">
-      <FormGroup className="flex flex-row items-center">
-        <FormControlLabel 
-          control={
-            <Checkbox 
-              onChange={event => setFilter({...filter, [ComponentType.Button]: event.target.checked})}
-              value={filter[ComponentType.Button]}
-              defaultChecked
-            />
-          } 
-          label="Buttons"
-          className="m-0 hover:bg-gold hover:bg-opacity-20 pl-3 rounded-lg"
-          labelPlacement="start"
-        />
-        <FormControlLabel 
-          control={
-            <Checkbox 
-              onChange={event => setFilter({...filter, [ComponentType.Input]: event.target.checked})} 
-              value={filter[ComponentType.Input]}
-              defaultChecked
-            />
-          } 
-          label="Inputs"
-          className="m-0 hover:bg-gold hover:bg-opacity-20 pl-3 rounded-lg"
-          labelPlacement="start"
-        />
-        <FormControlLabel 
-          control={
-            <Checkbox 
-              onChange={event => setFilter({...filter, [ComponentType.Card]: event.target.checked})} 
-              value={filter[ComponentType.Card]} 
-              defaultChecked
-            />
-          } 
-          label="Cards"
-          className="m-0 hover:bg-gold hover:bg-opacity-20 pl-3 rounded-lg"
-          labelPlacement="start"
-        />
-      </FormGroup>
-      <div className="flex flex-row">
-        <Btn>
+    <div className="flex justify-between items-center bg-white w-full p-4 px-8 rounded-lg border border-grey-400">
+      <div className="flex items-center w-1/4 my-1 text-xl">
+        <div className="mr-2">
+          Type:
+        </div>
+        <Select
+          color="primary"
+          value={componentType}
+          onChange={ event => setComponentType(event.target.value)}
+          className="text-xl"
+          // variant="standard"
+          sx={{
+            '& .MuiSelect-select': {
+              padding: '3px 0px 3px 8px',
+              // fontSize: '24px'
+            }
+          }}
+        >
+          <MenuItem
+            value={ComponentType.Button}
+          >
+              Button
+          </MenuItem>
+          <MenuItem
+            value={ComponentType.Input}
+          >
+              Input
+          </MenuItem>
+          <MenuItem
+            value={ComponentType.Card}
+          >
+              Card
+          </MenuItem>
+        </Select>
+      </div>
+      <div className="flex items-end text-5xl pt-2 uppercase font-bold bg-gradient-to-r from-sky-500 via-fuchsia-600 to-orange-600 text-transparent bg-clip-text">
+        Explorer
+      </div>
+      <div className="flex flex-row justify-end w-1/4">
+        <div className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Popular" ? "text-sky-500 font-bold" : "hover:text-sky-300")} onClick={() => setSort("Popular")}>
           Popular
-        </Btn>
-        <Btn>
+        </div>
+        <div className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Newest" ? "text-sky-500 font-bold" : "hover:text-sky-300")} onClick={() => setSort("Newest")}>
           Newest
-        </Btn>
-        <Btn>
+        </div>
+        <div className={"text-xl mx-2 cursor-pointer transition-all duration-200 " + (sort === "Oldest" ? "text-sky-500 font-bold" : "hover:text-sky-300")} onClick={() => setSort("Oldest")}>
           Oldest
-        </Btn>
+        </div>        
       </div>
     </div>
   )
