@@ -9,11 +9,7 @@ import { useModalState } from 'utils/modal';
 import { useUserState } from 'utils/user';
 import Btn from './Btn';
 
-// Define the users props
-interface IndexProps {
-}
-
-const Header = (props: IndexProps) => {
+const Header = () => {
   
   const {signOut} = useSocialAuth()
   const {user} = useUserState()
@@ -27,8 +23,6 @@ const Header = (props: IndexProps) => {
       description: "We are stoked to have you. This place functions because of people like you. Sign in with any of these methods, and enjoy!",
       type: "promptLogin"
     })
-    // await signInWithGithub()
-    // toast.success("Signed in to 💄stylit")
   }
 
   const handleSignOut = async () => {
