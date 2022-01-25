@@ -49,7 +49,7 @@ const Hero = () => {
                 <BoltOutlined fontSize='medium'/>
               </div>
             </Btn>
-            <a href="https://github.com/blakeeriks/stylit" target="_blank" >
+            <a href="https://github.com/blakeeriks/stylit" target="_blank" rel="noreferrer">
               <Btn className="text-lg shine ml-2 border-2 border-gold">
                 <div className="p-1 text-gold">
                   Stars {starCount}
