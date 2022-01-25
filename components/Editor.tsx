@@ -1,4 +1,6 @@
 import { Edit } from "@mui/icons-material";
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import UndoRounded from "@mui/icons-material/UndoRounded";
 import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -13,6 +15,7 @@ import ShadowEdit from "components/util/ShadowEdit";
 import TextEdit from "components/util/TextEdit";
 import { useEffect, useState } from "react";
 import { RGBColor } from "react-color";
+import { useDarkModeState } from "utils/darkMode";
 import { ComponentState, ComponentType, DraftComponent, StyleGroups, Styles } from "utils/types";
 var _ = require('lodash');
 
@@ -53,7 +56,7 @@ const Editor = (props: EditorProps) => {
   const [componentState, setComponentState] = useState<ComponentState>(ComponentState.normal);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
   const [editNameAnchorEl, setEditNameAnchorEl] = useState<HTMLElement | undefined>();
-
+  const {darkMode, setDarkMode} = useDarkModeState()
   const {stylesMap, type, name} = draft
 
   /* Update editor on draft change */
@@ -111,14 +114,30 @@ const Editor = (props: EditorProps) => {
   }
 
   return (
-    <div className="flex flex-col justify-center max-w-[1100px] w-full min-w-[800px] bg-white bg-opacity-70">
+    <div className="flex flex-col justify-center max-w-[1100px] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__zoomInRight">
       
-      <div className="flex justify-between items-center w-full px-4 py-2 bg-gray text-5xl">
-        <div>
-          🌜
-        </div>
+      <div className="flex justify-between items-center w-full px-4 py-2 text-5xl">
+        <IconButton
+          size="large"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {
+            darkMode ?
+              <DarkModeIcon 
+                fontSize="large" 
+                color="primary"
+              />
+            :
+              <LightModeIcon 
+                fontSize="large" 
+                color="primary"
+              />
+          }
+        </IconButton>
         <div className="flex items-center justify-center min-w-[25%] max-w-[50%]">
-          {name}
+          <span className="pt-2 uppercase font-bold bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text">
+            {name}
+          </span>
           <IconButton
             size="medium"
             onClick={(event) => setEditNameAnchorEl(event.currentTarget)}
@@ -130,14 +149,14 @@ const Editor = (props: EditorProps) => {
           size="large"
           onClick={() => setDraft(lastSaved)}
         >
-          <UndoRounded fontSize="large"/>
-      </IconButton>
+          <UndoRounded fontSize="large" color="primary"/>
+        </IconButton>
       </div>
 
-      <div className="flex flex-row">
+      <div className="flex flex-row border-y border-grey-300">
 
         {/* Left Side Edit Panel */}
-        <div className="flex flex-col items-center justify-between w-1/3 bg-rose-50 p-5 shadow-2xl">
+        <div className="flex flex-col items-center justify-between w-1/3 p-5">
 
           {/* Text Edit Section */}
           <TextEdit 
@@ -164,7 +183,7 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Center Panel Component View */}
-        <div className="flex flex-col items-center w-1/3 bg-offWhite py-8">
+        <div className="flex flex-col items-center w-1/3 shadow-inner py-8">
 
           {/* Component Type Selector */}
           <ToggleButtonGroup
@@ -173,13 +192,13 @@ const Editor = (props: EditorProps) => {
             onChange={(e,v) => {if (v !== null) setDraft({...draft, type: v})}}
             className="my-4"
           >
-            <ToggleButton value={ComponentType.Button} aria-label="button">
+            <ToggleButton value={ComponentType.Button} color="primary" aria-label="button">
               Button
             </ToggleButton>
-            <ToggleButton value={ComponentType.Input} aria-label="input">
+            <ToggleButton value={ComponentType.Input} color="primary" aria-label="input">
               Input
             </ToggleButton>
-            <ToggleButton value={ComponentType.Card} aria-label="card">
+            <ToggleButton value={ComponentType.Card} color="primary" aria-label="card">
               Card
             </ToggleButton>
           </ToggleButtonGroup>
@@ -190,7 +209,7 @@ const Editor = (props: EditorProps) => {
               <button 
                 type="button"
                 style={getStyles()}
-                className="transition-all duration-75 ease-linear">
+                className="transition-all duration-75 ease-linear animate__animated animate__bounceIn">
                 Button
               </button>
             }
@@ -199,13 +218,13 @@ const Editor = (props: EditorProps) => {
               style={getStyles()}
                 maxLength={10}
                 placeholder="input..." 
-                className="transition-all duration-75 ease-linear w-5/6"
+                className="transition-all duration-75 ease-linear w-5/6 animate__animated animate__bounceIn"
               />
             }
             {ComponentType[type] === "Card" &&
               <div
               style={getStyles()}
-                className="transition-all duration-75 ease-linear card"
+                className="transition-all duration-75 ease-linear card animate__animated animate__bounceIn"
               >
                 Card
               </div>
@@ -217,7 +236,7 @@ const Editor = (props: EditorProps) => {
             {getStatesForComponent().map(state => (
               <Button
                 key={state}
-                className={"normal-case rounded-xl opacity-50 " + (componentState === state ? "text-gold opacity-100" : "text-black")}
+                className={"!lowercase rounded-xl opacity-50 " + (componentState === state ? "text-sky-500 opacity-100" : "text-black dark:text-white")}
                 onClick={() => toggleComponentState(state)}
               >
                 :{ComponentState[state]}
@@ -227,7 +246,7 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Edit the component on the right */}
-        <div className="flex flex-col items-center justify-between w-1/3 bg-rose-50 p-5 shadow-2xl">
+        <div className="flex flex-col items-center justify-between w-1/3 p-5">
 
           {/* Border Edit Section */}
           <BorderEdit
@@ -256,7 +275,7 @@ const Editor = (props: EditorProps) => {
       </div>
 
       {/* Save Component */}
-      <div className="flex w-full justify-evenly p-4 text-3xl bg-gray">
+      <div className="flex w-full justify-evenly p-4 text-3xl">
         <Btn
           className="rounded-2xl bg-sky-500 text-white hover:shadow-lg shine"
           onClick={() => {props.handleSave({stylesMap, type, name})}}
@@ -265,7 +284,7 @@ const Editor = (props: EditorProps) => {
         </Btn>
         <Btn 
           className="rounded-2xl bg-green-500 text-white hover:shadow-lg shine"
-          onClick={() => props.handlePublish()}
+          onClick={() => props.handlePublish({stylesMap, type, name})}
         >
           Publish ✅ 
         </Btn>
@@ -274,14 +293,4 @@ const Editor = (props: EditorProps) => {
   )
 }
 
-// export getStaticProps to provide API_URL to component
-// export async function getStaticProps(context: any) {
-//   return {
-//     props: {
-//       url: process.env.API_URL,
-//     },
-//   }
-// }
-
-// export component
 export default Editor
