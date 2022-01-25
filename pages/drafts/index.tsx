@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from "@emotion/react"
+import { Add } from "@mui/icons-material"
 import DeleteOutline from "@mui/icons-material/DeleteOutline"
+import { Button } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
-import Btn from "components/Btn"
 import Editor from "components/Editor"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { useModalState } from "utils/modal"
 import { ComponentState, ComponentType, defaultStyles, DraftComponent, PublishedComponent } from "utils/types"
 import { useUserState } from "utils/user"
@@ -33,6 +35,7 @@ const Index = () => {
     setDrafts(allDrafts)
     
     localStorage.setItem("drafts", JSON.stringify(allDrafts))
+    toast.success("Saved " + draft.name)
   }
 
   const addDraft = () => {
@@ -50,13 +53,22 @@ const Index = () => {
     localStorage.setItem("drafts", JSON.stringify([...drafts, newDraft]))
   }
 
-  const deleteDraft = (index: number) => {
-    const newDrafts = [...drafts.slice(0,index), ...drafts.slice(index+1)]
+  const deleteDraft = (name: string) => {
+    const newDrafts = [...drafts.filter(draft => draft.name !== name)]
     setDrafts(newDrafts)
     localStorage.setItem("drafts", JSON.stringify(newDrafts))
   }
 
-  const getSelectedDraft = () => drafts.length === 0 ? null : selectedDraft === drafts.length ? drafts[drafts.length - 1] : drafts[selectedDraft]
+  const getSelectedDraft = () => (drafts.length === 0 ? 
+    {
+      stylesMap: {
+        [ComponentState.normal]: {...defaultStyles},
+        [ComponentState.focus]: {},
+        [ComponentState.hover]: {},
+      }, 
+      type: 0, 
+      name: `Draft #${Math.floor(1000*Math.random())}`
+    } : selectedDraft === drafts.length ? drafts[drafts.length - 1] : drafts[selectedDraft])
 
   const publishDraft = async () => {
     const {stylesMap} = drafts[selectedDraft]
@@ -87,11 +99,12 @@ const Index = () => {
       body: JSON.stringify(component),
     })
 
-    // after api request, push back to main page
-    router.push("/component")
+    return component
   }
 
-  const onPublish = async () => {
+  const onPublish = async (draft: DraftComponent) => {
+    saveDraft(draft)
+
     if (!user) {
       setModalState({
         open: true, 
@@ -111,36 +124,38 @@ const Index = () => {
         yesText: "✅ Let's do it!",
         noText: "❕ Wait go back!",
         onYes: async () => {
-          setModalState({type: "loading"})
-          await publishDraft()
+          setModalState({open: true, type: "loading"})
+          const component = await publishDraft()
+          router.push("/component")
+          deleteDraft(component.name)
           setModalState({open: false})
+          toast.success("Published " + component.name)
         },
         onNo: () => setModalState({open: false})
       }
     })
-  
   }
 
   return (
-    <div className="flex flex-row w-full">
-      <div className="flex flex-col items-center w-1/4 text-2xl border-r-4 border-black bg-offWhite h-[90vh]">
-        <div className="py-3 w-full text-center text-black bg-white font-bold border-b-2 border-grey-600 shadow-xl">
+    <div className="flex flex-row w-full bg-gradient-to-br from-pink-700 via-grey-800 to-yellow-700 dark:from-pink-300 dark:via-grey-400 dark:to-yellow-300">
+      <div className="flex flex-col items-center w-1/4 max-w-xs text-2xl border-r-2 border-grey-600 dark:border-white bg-offWhite h-[90vh] animate__animated animate__fadeInLeft dark:bg-grey-800 transition-all duration-200">
+        <div className="py-3 w-full text-center text-black bg-white font-bold border-b border-grey-600 shadow-xl dark:text-white dark:bg-grey-600 dark:border-white transition-all duration-200">
           🌏 Draft Selector
         </div>
         {/* MAPPING OVER THE COMPONENTS */}
-        <div className="flex flex-col items-center w-full flex-grow p-5 overflow-auto h-[80vh]">
+        <div className="flex flex-col items-center justify-start w-full flex-grow p-5 overflow-auto h-[80vh]">
           {drafts.map( (draft, index) => (
             <div 
               key={index}
-              className={`${selectedDraft === index ? "border-2 border-gold scale-105" : "opacity-70"}
-              hover:shadow-gold component-card group w-full`}
+              className={`${selectedDraft === index ? "border-2 border-sky-500 scale-105" : "opacity-70"}
+              hover:shadow-sky-500 component-card my-3 cursor-pointer group w-full shrink-0`}
               onClick={() => setSelectedDraft(index)}
             >
-              <div className="flex items-center justify-between text-lg text-center text-grey-600 font-bold shadow-sm w-full">
+              <div className="flex items-center justify-between text-lg text-center text-grey-600 dark:text-white font-bold shadow-sm w-full">
                 <span className="opacity-0 group-hover:opacity-70 w-0">
                   <IconButton
                     size="small"
-                    onClick={() => deleteDraft(index)}
+                    onClick={() => deleteDraft(draft.name)}
                   >
                     <DeleteOutline />
                   </IconButton>
@@ -177,20 +192,19 @@ const Index = () => {
           ))}
         </div>
         <div className="py-3 w-full text-center text-black">
-          <Btn onClick={addDraft}>
-            Add Draft +
-          </Btn>
+          <Button onClick={addDraft} className="rounded-md text-xl text-grey-600 dark:text-gray" startIcon={<Add />}>
+            New Draft
+          </Button>
+          {/* <IconButton >
+            <div className="">
+              <Add />
+              
+            </div>
+          </IconButton> */}
         </div>
       </div>
-      <div className="flex items-center flex-col w-3/4">
-        <div className="text-2xl text-white ">
-
-        </div>
-        {drafts.length > 0 ?
-        <Editor draft={getSelectedDraft()!} handleSave={saveDraft} handlePublish={onPublish}/> :
-        <div>Create a draft to get started!</div>
-        }
-
+      <div className="flex items-center justify-center flex-col flex-grow">
+        <Editor draft={getSelectedDraft()!} handleSave={saveDraft} handlePublish={onPublish}/> 
       </div>
 
     </div>
