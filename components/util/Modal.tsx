@@ -12,17 +12,25 @@ const Modal = () => {
   const {open, title, description, type, options} = modalState
   const {signInWithGithub, signInWithGoogle} = useSocialAuth()
 
+  const onLogin = async (action: () => Promise<void>) => {
+    setModalState({open: true, type: "loading"})
+    await action()
+  }
+
   return (
     <MuiModal
       open={!!open}
-      onClose={() => setModalState({...modalState, open: false})}
+      onClose={() => {if (type !== "loading") setModalState({...modalState, open: false})}}
       className="flex items-center justify-center box-content"
       closeAfterTransition
     >
       <Fade in={open}>
-        <div className="bg-grey-700 p-5 rounded-xl w-[50vw] box-content">
+        <div className="flex flex-col items-center bg-grey-700 p-5 rounded-xl box-content transition-all duration-200">
           {type === "loading" ?
-            <CircularProgress /> :
+            <div className="w-full flex justify-center">
+              <CircularProgress /> 
+            </div>
+            :
             <>
               <h1 className="text-white text-3xl">
                 {title}
@@ -32,20 +40,20 @@ const Modal = () => {
               </p>
               {type === "promptLogin" && 
                 <div className="flex">
-                  <Btn className="bg-sky-500 text-white" onClick={signInWithGoogle}>
+                  <Btn className="bg-sky-500 text-white" onClick={() => onLogin(signInWithGoogle)}>
                     Sign In with Google <FaGoogle className="text-xl ml-1 -mr-1" />
                   </Btn>
-                  <Btn className="ml-2 bg-gold text-black" onClick={signInWithGithub}>
+                  <Btn className="ml-2 bg-gold text-black" onClick={() => onLogin(signInWithGoogle)}>
                     Sign In with Github
                     <FaGithub className="text-2xl ml-1 -mt-1 -mr-1" />
                   </Btn>
                 </div>
               }
               {type === "yesOrNo" &&
-                <div className="flex flex-row justify-end w-full text-lg">
+                <div className="flex text-lg">
                   <Btn 
                     onClick={() => options?.onYes()}
-                    className="rounded-2xl bg-green-500 text-white hover:shadow-lg mr-2"
+                    className="rounded-2xl bg-green-500 text-white hover:shadow-lg mr-5"
                   >
                     {options?.yesText ||  'Yes'}
                   </Btn>
