@@ -20,12 +20,10 @@ const ExploreHeader = ({componentType, setComponentType, sort, setSort}: Explore
           color="primary"
           value={componentType}
           onChange={ event => setComponentType(event.target.value)}
-          className="text-xl"
-          // variant="standard"
+          className="text-xl text-black"
           sx={{
             '& .MuiSelect-select': {
               padding: '3px 0px 3px 8px',
-              // fontSize: '24px'
             }
           }}
         >
