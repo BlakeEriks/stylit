@@ -5,9 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc",
-    "typecheck:watch": "tsc -w"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
