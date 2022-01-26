@@ -45,7 +45,6 @@ export interface Styles {
   padding?: string
   borderRadius?: string
   boxShadow?: string
-  outline?: string
   transition?: string
 }
 
@@ -72,6 +71,5 @@ export const defaultStyles: Styles = {
   padding: "4px 8px",
   borderRadius: "5px",
   boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)",
-  outline: "none",
   transition: "all 0.3s ease"
 }
