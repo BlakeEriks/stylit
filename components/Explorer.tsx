@@ -2,24 +2,24 @@
 import { Interpolation, Theme } from "@emotion/react";
 import { Bookmark, BookmarkBorderOutlined, ContentCopy } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { useBookmarks } from "utils/bookmarks";
 import { ComponentType, PublishedComponent } from "utils/types";
-import { useUserState } from "utils/user";
 import ExploreHeader from "./ExploreHeader";
 var _ = require('lodash');
 
 const Explorer = () => {
 
+  const router = useRouter()
   const [components, setComponents] = useState<PublishedComponent[]>([])
-  const [componentType, setComponentType] = useState<ComponentType>(ComponentType.Button)
-  const [sort, setSort] = useState<string>("Popular")
+  const [componentType, setComponentType] = useState<ComponentType>(Number(router.query.type) as ComponentType || ComponentType.Button)
+  const [sort, setSort] = useState<string>(router.query.sort as string || "Popular")
   const [loading, setLoading] = useState(false)
   const [likedComponents, setLikedComponentes] = useState<string[]>([])
   const {bookmarks, setBookmarks} = useBookmarks()
-  const {user} = useUserState()
 
   const sortComponents = (components: PublishedComponent[]) => {
     if (sort === "Popular") {
@@ -32,6 +32,11 @@ const Explorer = () => {
       components.sort( (a,b) => new Date(a.createdAt!).getTime() -  new Date(b.createdAt!).getTime())
     }
   }
+
+  useEffect(() => {
+    setSort(router.query.sort as string || "Popular")
+    setComponentType(Number(router.query.type) as ComponentType || ComponentType.Button)
+  }, [router.query])
 
   useEffect( () => {
     const fetchComponents = async () => {
@@ -89,7 +94,7 @@ const Explorer = () => {
       setBookmarks([...bookmarks, componentId])
     }
   }
-  console.log(bookmarks)
+
   return (
     <div className="flex items-center flex-col p-8 w-full bg-offWhite overflow-auto dark:bg-grey-800">
       <ExploreHeader 
