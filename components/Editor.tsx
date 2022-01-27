@@ -1,4 +1,3 @@
-import { Edit } from "@mui/icons-material";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import UndoRounded from "@mui/icons-material/UndoRounded";
@@ -114,7 +113,7 @@ const Editor = (props: EditorProps) => {
   }
 
   return (
-    <div className="flex flex-col justify-center max-w-[1100px] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__zoomInRight">
+    <div className="flex flex-col justify-center max-w-[1100px] md:max-h-[calc(100vh-73px)] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 md:min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__fadeIn">
       
       <div className="flex justify-between items-center w-full px-4 py-2 text-5xl">
         <IconButton
@@ -135,15 +134,15 @@ const Editor = (props: EditorProps) => {
           }
         </IconButton>
         <div className="flex items-center justify-center min-w-[25%] max-w-[50%]">
-          <span className="pt-2 uppercase font-bold bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text">
+          <span className="pt-2 uppercase font-bold bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text text-center">
             {name}
           </span>
-          <IconButton
+          {/* <IconButton
             size="medium"
             onClick={(event) => setEditNameAnchorEl(event.currentTarget)}
           >
             <Edit fontSize="medium"/>
-          </IconButton>
+          </IconButton> */}
         </div>
         <IconButton
           size="large"
@@ -153,10 +152,10 @@ const Editor = (props: EditorProps) => {
         </IconButton>
       </div>
 
-      <div className="flex flex-row border-y border-grey-300">
+      <div className="flex flex-col md:flex-row border-y border-grey-300">
 
         {/* Left Side Edit Panel */}
-        <div className="flex flex-col items-center justify-between w-1/3 p-5">
+        <div className="flex flex-col items-center order-2 justify-between md:w-1/3 px-5 md:p-5">
 
           {/* Text Edit Section */}
           <TextEdit 
@@ -183,7 +182,7 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Center Panel Component View */}
-        <div className="flex flex-col items-center w-1/3 shadow-inner py-8">
+        <div className="flex flex-col items-center order-1 md:order-2 md:w-1/3 shadow-inner py-8">
 
           {/* Component Type Selector */}
           <ToggleButtonGroup
@@ -246,7 +245,7 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Edit the component on the right */}
-        <div className="flex flex-col items-center justify-between w-1/3 p-5">
+        <div className="flex flex-col items-center order-2 justify-between md:w-1/3 px-5 md:p-5">
 
           {/* Border Edit Section */}
           <BorderEdit
