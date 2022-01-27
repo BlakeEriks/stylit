@@ -16,8 +16,8 @@ const ExploreHeader = ({componentType, setComponentType, sort, setSort}: Explore
   const {darkMode, setDarkMode} = useDarkModeState()
 
   return(
-    <div className="flex justify-between items-center bg-white w-full p-4 px-8 rounded-lg border border-grey-400  dark:bg-grey-600">
-      <div className="flex items-center w-1/4 my-1 text-xl">
+    <div className="flex flex-col md:flex-row justify-between items-center bg-white md:w-full p-4 px-8 rounded-lg border border-grey-400  dark:bg-grey-600">
+      <div className="flex items-center md:w-1/4 my-1 text-xl">
         <IconButton
           size="large"
           onClick={() => setDarkMode(!darkMode)}
@@ -71,7 +71,7 @@ const ExploreHeader = ({componentType, setComponentType, sort, setSort}: Explore
       <div className="flex items-end text-5xl pt-2 uppercase font-bold bg-gradient-to-r from-sky-500 via-fuchsia-600 to-orange-600 text-transparent bg-clip-text">
         Explorer
       </div>
-      <div className="flex flex-row justify-end w-1/4 dark:text-white">
+      <div className="flex flex-row justify-end py-3 md:w-1/4 dark:text-white">
         <button className={"text-xl mx-2 cursor-pointer transition- duration-200 " + (sort === "Popular" ? "text-sky-500 font-bold" : "hover:text-sky-300 focus:text-sky-300")} onClick={() => setSort("Popular")}>
           Popular
         </button>

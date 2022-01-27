@@ -96,7 +96,7 @@ const ShadowEdit = (props: ShadowEditProps) => {
       </div>
 
       <div className="flex items-center w-full my-1">
-        <div className="edit-label">
+        <div className="edit-label mr-2">
           offset x
         </div>
         <EditSlider
@@ -108,7 +108,7 @@ const ShadowEdit = (props: ShadowEditProps) => {
 
       </div>
       <div className="flex items-center w-full my-1">
-        <div className="edit-label">
+        <div className="edit-label mr-2">
           offset y
         </div>
         <EditSlider

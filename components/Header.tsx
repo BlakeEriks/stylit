@@ -15,6 +15,14 @@ const Header = () => {
   const {user} = useUserState()
   const [menu, setMenu] = useState<HTMLButtonElement | null>(null)
   const [modalState, setModalState] = useModalState()
+  const [showNav, setShowNav] = useState(false)
+
+  const links = [
+    {name: "How It Works", path: "/#how-it-works"},
+    {name: "Browse", path: "/component"},
+    {name: "Bookmarks", path: "/bookmarks"},
+    {name: "Drafts", path: "/drafts"},
+  ]
 
   const onSignIn = async () => {
     setModalState({
@@ -31,7 +39,7 @@ const Header = () => {
   }
 
   return (
-    <div className="w-full flex justify-between items-center p-3 bg-opacity-50 bg-gray text-white border-b border-white">
+    <div className="flex flex-col md:flex-row w-full justify-between items-center p-3 bg-opacity-50 bg-gray text-white border-b border-white">
       <div className="flex">
         <Link href="/" passHref>
           <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 py-1 pl-1 transition-all duration-300 hover:scale-105 shine">
@@ -41,29 +49,26 @@ const Header = () => {
           </div>
         </Link>
       </div>
-      <div className="flex flex-row justify-evenly w-1/2 text-lg transition-all duration-100">
-        <Link href="/#how-it-works">
-          <a className="hover:font-semibold cursor-pointer continuous-line">
-            How It Works
-          </a>
-      </Link>
-        <Link href="/component">
-          <a className="hover:font-semibold cursor-pointer continuous-line">
-            Browse
-          </a>
-        </Link>
-        <Link href="/bookmarks">
-          <a className="hover:font-semibold cursor-pointer continuous-line">
-            Bookmarks
-          </a>
-        </Link>
-        <Link href="/drafts">
-          <a className="hover:font-semibold cursor-pointer continuous-line">
-            Drafts
-          </a>
-        </Link>
+      <div className={`${showNav ? 'flex' : 'hidden'} md:flex flex-col md:flex-row justify-evenly items-center order-1 w-1/2 text-lg transition-all duration-100 mt-2`}>
+        {links.map( link => (   
+          <Link href={link.path} key={link.name}>
+            <a className="hover:font-semibold cursor-pointer continuous-line py-1" onClick={() => setShowNav(false)}>
+              {link.name}
+            </a>
+          </Link>
+        ))}
       </div>
-      <div className="flex flex-row justify-end">
+      <div className="flex flex-row justify-end md:order-1">
+        <Btn className="rounded-md block lg:hidden md:hidden xl:hidden">
+          <div
+            className={`text-white duration-500 text-lg flex items-center justify-center menu-animation-hover menu-toggle ${
+              showNav && "menu-toggle-active"
+            }`}
+            onClick={() => setShowNav(!showNav)}
+          >
+            <span></span>
+          </div>
+        </Btn>
         <Link href="/component/create">
           <a>
             <Btn className="text-gold border-2 mx-2 border-gold shine">

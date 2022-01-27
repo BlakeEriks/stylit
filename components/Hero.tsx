@@ -32,12 +32,12 @@ const Hero = () => {
   
   return (
     <div className="flex flex-col w-full p-10">
-      <div className="flex flex-col md:flex-row items-center md:h-[66vh] min-h-[40rem] w-full ">
-        <div className="w-full md:w-1/2 flex flex-col animate__animated animate__fadeInLeft">
+      <div className="flex flex-col md:flex-row justify-evenly items-center md:h-[66vh] min-h-[40rem] w-full ">
+        <div className="w-full md:w-1/2 flex flex-col justify-center animate__animated animate__fadeInLeft min-h-[350px]">
           <div className="text-base uppercase font-bold bg-gradient-to-r from-sky-500 via-fuchsia-600 to-orange-600 text-transparent bg-clip-text">
             Hundreds of components. Open Source. Endless customization. 
           </div>
-          <div className="text-3xl md:text-5xl font-bold text-white my-3">
+          <div className="text-5xl font-bold text-white my-3">
             The component repository you&apos;ve been looking for. 
           </div>
           <div className="text-base text-gray mt-1">
@@ -64,8 +64,8 @@ const Hero = () => {
             </a>
           </div>
         </div>
-        <div className="md:w-1/2 my-8 animate__animated animate__fadeInRight">
-          <Image src={asset2} height={680} width={1000} className='opacity-95' priority/>
+        <div className="md:w-1/2 max-w-[400px] my-8 animate__animated animate__fadeInRight">
+          <Image src={asset2} className='opacity-95' priority/>
         </div>
       </div>
       <div className="w-full flex flex-col items-center border bg-grey-800 border-fuchsia-500 min-w-[80vw] max-w-[95vw] rounded-2xl p-5 py-10">

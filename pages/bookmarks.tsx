@@ -27,7 +27,7 @@ const Bookmarks = () => {
     <>
       <SubHero />
       <div className="w-full flex flex-col bg-offWhite">
-        <div className="flex justify-center items-center">
+        <div className="flex flex-col md:flex-row justify-center items-center p-4">
           <div>
             <div className="text-3xl font-semibold">
               Your Saved Components
@@ -36,7 +36,7 @@ const Bookmarks = () => {
               All your favs from across the galaxy whenever you need them.
             </div>
           </div>
-          <div className="w-1/2 p-6 animate__animated animate__fadeInRight max-w-[400px]">
+          <div className="md:w-1/2 p-6 animate__animated animate__fadeInRight max-w-[400px]">
             <Image src={asset} priority/>
           </div>
         </div>
