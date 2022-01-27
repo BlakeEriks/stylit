@@ -12,6 +12,7 @@ export interface User {
   _id?: string
   displayName: string
   email: string
+  photoURL: string
   bookmarks?: string[]
 }
 
@@ -29,7 +30,7 @@ export interface PublishedComponent extends Component {
   _id?: string
   likes: number
   stylesMap: { [index in ('&:hover' | '&:focus')]: Styles | keyof Styles }
-  creatorId: User
+  creator: User
   createdAt?: number
 }
 

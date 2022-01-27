@@ -21,7 +21,7 @@ const Published = () => {
     }
 
     const fetchPublished = async () => {
-      const res = await fetch(`/api/components?creatorId=${user.id}`)
+      const res = await fetch(`/api/components?creator=${user.id}`)
       setComponents(await res.json())
     }
 

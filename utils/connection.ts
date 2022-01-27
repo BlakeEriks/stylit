@@ -13,6 +13,7 @@ export const connect = async () => {
   const UserSchema = new Schema({
     email: {type: String, required: true, unique: true},
     displayName: {type: String, required: true},
+    photoURL: {type: String},
     bookmarks: [
       {
         type: Schema.Types.ObjectId, 
@@ -24,7 +25,7 @@ export const connect = async () => {
 
   // Component SCHEMA
   const ComponentSchema = new Schema({
-    creatorId: {type: Schema.Types.ObjectId, ref: 'User'},
+    creator: {type: Schema.Types.ObjectId, ref: 'User'},
     type: Number,
     name: String,
     stylesMap: Object,

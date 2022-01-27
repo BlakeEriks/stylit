@@ -37,7 +37,7 @@ const useSocialAuth = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({email: user.email, displayName: user.displayName}),
+          body: JSON.stringify({email: user.email, displayName: user.displayName, photoURL: user.photoURL}),
         })).json()
       }
       else {
