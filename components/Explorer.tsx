@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from "@emotion/react";
 import { Bookmark, BookmarkBorderOutlined, ContentCopy } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
@@ -96,7 +96,7 @@ const Explorer = () => {
   }
 
   return (
-    <div className="flex items-center flex-col p-8 w-full bg-offWhite overflow-auto dark:bg-grey-800">
+    <div className="flex items-center flex-col p-8 w-full min-h-[100vh] bg-offWhite overflow-auto dark:bg-grey-800">
       <ExploreHeader 
         componentType={componentType}
         setComponentType={setComponentType}
@@ -106,12 +106,19 @@ const Explorer = () => {
 
       {/* MAPPING OVER THE COMPONENTS */}
       <div className="flex flex-row flex-wrap justify-evenly pt-6">
-        {components.map( (component, key) => (
-          <div 
-            key={key} 
+        {loading ? <CircularProgress size={80}/> :
+        components.map( (component, key) => (
+          <div
+            key={key}
             className="component-card m-3 transition-all duration-150 ease-linear hover:scale-105 group relative border border-grey-400"
             data-aos="fade-left"
           >
+            <div className="text-sm text-center">
+              {/* <div>
+                  {component.creator.displayName}
+              </div> */}
+                {/* {formatDistance(new Date(), new Date(component.createdAt!))} */}
+            </div>
             <div className="component-container flex-col shadow-inner">
               {ComponentType[component.type] === ComponentType[ComponentType.Button] && 
                 <button
@@ -119,10 +126,10 @@ const Explorer = () => {
                 >
                   Button
                 </button>
-              }
+            }
               {ComponentType[component.type] === ComponentType[ComponentType.Input] && 
                 <input
-                  className="min-w-0"
+                  className="min-w-0 w-full"
                   maxLength={10}
                   css={component.stylesMap as Interpolation<Theme>} 
                   placeholder="input..." 
@@ -165,10 +172,6 @@ const Explorer = () => {
                     }
                   </button>
                 </div>
-                {/* <div className="text-sm text-center">
-                  Created by {component.creatorId?.displayName}
-                </div> */}
-                {/* {formatDistance(new Date(), new Date(component.createdAt!))} */}
             </div>
             <Button className="!absolute top-3 left-3 !p-1 !min-w-0 !text-sm cursor-pointer opacity-0 group-hover:opacity-100 hover:scale-125 transition-all duration-200"
               onClick={() => navigator.clipboard.writeText(JSON.stringify(component.stylesMap, null, "\t"))} 
