@@ -26,7 +26,7 @@ const Stylit = ({children}: any) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={`${darkMode ? "dark" : "light"} bg-gradient-to-bl from-pink-900 via-grey-800 to-yellow-600 flex flex-col items-center `}>
+      <div className={`${darkMode ? "dark" : "light"} bg-gradient-to-bl from-pink-900 via-[#1d2241] to-yellow-600 flex flex-col items-center `}>
         <MetaTags />
         <Header />
         {children}
