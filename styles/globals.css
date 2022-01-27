@@ -62,7 +62,7 @@ a {
   }
 
   .edit-group {
-    @apply md:my-2 w-full flex flex-col mx-2 dark:text-white
+    @apply w-full flex flex-col mx-2 dark:text-white
   }
 
   .edit-group-header {
