@@ -113,7 +113,7 @@ const Editor = (props: EditorProps) => {
   }
 
   return (
-    <div className="flex flex-col justify-center max-w-[1100px] md:max-h-[calc(100vh-73px)] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 md:min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__fadeIn">
+    <div className="flex flex-col justify-center max-w-[1100px] md:max-h-[calc(100vh-73px)] md:min-h-[660px] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 md:min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__fadeIn">
       
       <div className="flex justify-between items-center w-full px-4 py-2 text-5xl">
         <IconButton
