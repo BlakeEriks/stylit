@@ -28,7 +28,7 @@ const Bookmarks = () => {
       <SubHero />
       <div className="w-full flex flex-col bg-offWhite">
         <div className="flex flex-col md:flex-row justify-center items-center p-4">
-          <div>
+          <div className="animate__animated animate__fadeInLeft">
             <div className="text-3xl font-semibold">
               Your Saved Components
             </div>
