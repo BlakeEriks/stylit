@@ -9,7 +9,7 @@ const SubHero = () => {
           💄<span className="text-white">styl<span className="text-gold">it</span></span>
         </div>
         <div className="text-grey-200 font-normal max-w-[50vw] text-sm p-2">
-          Introducing Stylit, the mega repository of CSS styled components ready to be dropped into your projects. Stylit consists of 100+ customized creations from tons of talented developers. Select the component type you're looking for, filtering by popularity or creation, try out dark mode, publish new components for the world to see, and much more! Stylit is as awesome as people like you make it. 🤙 
+          Introducing Stylit, the mega repository of CSS styled components ready to be dropped into your projects. Stylit consists of 100+ customized creations from tons of talented developers. Select the component type you&apos;re looking for, filtering by popularity or creation, try out dark mode, publish new components for the world to see, and much more! Stylit is as awesome as people like you make it. 🤙 
         </div>
         <div className="flex">
           <a href="https://github.com/blakeeriks/stylit" target="_blank" rel="noreferrer">
