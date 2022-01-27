@@ -5,6 +5,7 @@ import DeleteOutline from "@mui/icons-material/DeleteOutline"
 import { Button } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
 import Editor from "components/Editor"
+import SubHero from "components/SubHero"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -75,7 +76,7 @@ const Index = () => {
 
     // construct new component
     let component: PublishedComponent = { 
-      creatorId: user.id,
+      creator: user.id,
       ...drafts[selectedDraft],
       stylesMap: {
         ...stylesMap[ComponentState.normal],
@@ -137,77 +138,74 @@ const Index = () => {
   }
 
   return (
-    <div className="flex flex-col-reverse xl:flex-row w-full bg-gradient-to-br from-pink-700 via-grey-800 to-yellow-700 dark:from-pink-300 dark:via-grey-400 dark:to-yellow-300">
-      <div className="flex flex-col items-center w-full xl:w-1/4 xl:max-w-xs text-2xl border-r-2 border-grey-600 dark:border-white bg-offWhite  xl:h-[90vh] animate__animated animate__fadeInLeft dark:bg-grey-800 transition-all duration-200">
-        <div className="py-3 w-full text-center text-black bg-white font-bold border-b border-grey-600 shadow-xl dark:text-white dark:bg-grey-600 dark:border-white transition-all duration-200">
-          🌏 Draft Selector
-        </div>
-        {/* MAPPING OVER THE COMPONENTS */}
-        <div className="flex xl:flex-col items-center justify-start w-full flex-grow p-5 overflow-auto xl:h-[80vh]">
-          {drafts.map( (draft, index) => (
-            <div 
-              key={index}
-              className={`${selectedDraft === index ? "border-2 border-sky-500 scale-105" : "opacity-70"}
-              hover:shadow-sky-500 component-card xl:my-3 xl:mx-0 cursor-pointer group xl:w-full shrink-0 mx-3`}
-              onClick={() => setSelectedDraft(index)}
-            >
-              <div className="flex items-center justify-between text-lg text-center text-grey-600 dark:text-white font-bold shadow-sm w-full">
-                <span className="opacity-0 group-hover:opacity-70 w-0">
-                  <IconButton
-                    size="small"
-                    onClick={() => deleteDraft(draft.name)}
-                  >
-                    <DeleteOutline />
-                  </IconButton>
-                </span>
-                {draft.name}
-                <span></span>
+    <>
+      <SubHero />
+      <div className="flex flex-col-reverse xl:flex-row w-full bg-gradient-to-br from-pink-300 via-orange-100 to-sky-200 border-t border-white">
+        <div className="flex flex-col items-center xl:w-1/4 xl:max-w-xs text-2xl border-r-2 border-grey-600 dark:border-white bg-offWhite flex-grow animate__animated animate__fadeInLeft dark:bg-grey-800 transition-all duration-200">
+          <div className="py-3 w-full text-center text-black bg-white font-bold border-b border-grey-600 shadow-xl dark:text-white dark:bg-grey-600 dark:border-white transition-all duration-200">
+            🌏 Draft Selector
+          </div>
+          {/* MAPPING OVER THE COMPONENTS */}
+          <div className="flex xl:flex-col items-center justify-start w-full flex-grow p-5 overflow-auto xl:h-[80vh]">
+            {drafts.map( (draft, index) => (
+              <div 
+                key={index}
+                className={`${selectedDraft === index ? "border-2 border-sky-500 scale-105" : "opacity-70"}
+                hover:shadow-sky-500 component-card xl:my-3 xl:mx-0 cursor-pointer group xl:w-full shrink-0 mx-3`}
+                onClick={() => setSelectedDraft(index)}
+              >
+                <div className="flex items-center justify-between text-lg text-center text-grey-600 dark:text-white font-bold shadow-sm w-full">
+                  <span className="opacity-0 group-hover:opacity-70 w-0">
+                    <IconButton
+                      size="small"
+                      onClick={() => deleteDraft(draft.name)}
+                    >
+                      <DeleteOutline />
+                    </IconButton>
+                  </span>
+                  {draft.name}
+                  <span></span>
+                </div>
+                <div className="component-container">
+                  {ComponentType[draft.type] === "Button" && 
+                    <button
+                      css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
+                    >
+                      Button
+                    </button>
+                  }
+                  {ComponentType[draft.type] === "Input" && 
+                    <input
+                      readOnly
+                      className="min-w-0"
+                      css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>} 
+                      placeholder="input..." 
+                    />
+                  }
+                  {ComponentType[draft.type] === "Card" && 
+                    <div
+                      css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
+                      className="card"
+                    >
+                      Card
+                    </div>
+                  }
+                </div>
               </div>
-              <div className="component-container">
-                {ComponentType[draft.type] === "Button" && 
-                  <button
-                    css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
-                  >
-                    Button
-                  </button>
-                }
-                {ComponentType[draft.type] === "Input" && 
-                  <input
-                    readOnly
-                    className="min-w-0"
-                    css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>} 
-                    placeholder="input..." 
-                  />
-                }
-                {ComponentType[draft.type] === "Card" && 
-                  <div
-                    css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>}
-                    className="card"
-                  >
-                    Card
-                  </div>
-                }
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="py-3 w-full text-center text-black">
+            <Button onClick={addDraft} className="rounded-md text-xl !text-grey-600 dark:text-gray" startIcon={<Add />}>
+              New Draft
+            </Button>
+          </div>
         </div>
-        <div className="py-3 w-full text-center text-black">
-          <Button onClick={addDraft} className="rounded-md text-xl text-grey-600 dark:text-gray" startIcon={<Add />}>
-            New Draft
-          </Button>
-          {/* <IconButton >
-            <div className="">
-              <Add />
-              
-            </div>
-          </IconButton> */}
+        <div className="flex items-center justify-center flex-col flex-grow p-[2vw]">
+          <Editor draft={getSelectedDraft()!} handleSave={saveDraft} handlePublish={onPublish}/> 
         </div>
-      </div>
-      <div className="flex items-center justify-center flex-col flex-grow p-[2vw]">
-        <Editor draft={getSelectedDraft()!} handleSave={saveDraft} handlePublish={onPublish}/> 
-      </div>
 
-    </div>
+      </div>
+    </>
   )
 }
 
