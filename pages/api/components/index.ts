@@ -20,7 +20,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (req.query.id) {
         req.query._id = (req.query.id as string).split(',')
       }
-      res.json(await Component.find(req.query).populate('creatorId', 'displayName').catch(catcher))
+      const components = await Component.find(req.query)
+                                        .populate('creator', 'displayName photoURL -_id')
+                                        .catch(catcher)
+      res.json(components)
     },
 
     // RESPONSE POST REQUESTS
