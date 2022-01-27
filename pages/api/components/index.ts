@@ -16,6 +16,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // RESPONSE FOR GET REQUESTS
     GET: async (req: NextApiRequest, res: NextApiResponse) => {
       const { Component } = await connect() // connect to database
+
+      if (req.query.id) {
+        req.query._id = (req.query.id as string).split(',')
+      }
       res.json(await Component.find(req.query).populate('creatorId', 'displayName').catch(catcher))
     },
 
