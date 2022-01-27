@@ -43,7 +43,7 @@ const Modal = () => {
                   <Btn className="bg-sky-500 text-white" onClick={() => onLogin(signInWithGoogle)}>
                     Sign In with Google <FaGoogle className="text-xl ml-1 -mr-1" />
                   </Btn>
-                  <Btn className="ml-2 bg-gold text-black" onClick={() => onLogin(signInWithGoogle)}>
+                  <Btn className="ml-2 bg-gold text-black" onClick={() => onLogin(signInWithGithub)}>
                     Sign In with Github
                     <FaGithub className="text-2xl ml-1 -mt-1 -mr-1" />
                   </Btn>
