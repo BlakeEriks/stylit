@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
+import { useBookmarks } from "utils/bookmarks";
 import { ComponentType, PublishedComponent } from "utils/types";
 import { useUserState } from "utils/user";
 import ExploreHeader from "./ExploreHeader";
@@ -17,7 +18,7 @@ const Explorer = () => {
   const [sort, setSort] = useState<string>("Popular")
   const [loading, setLoading] = useState(false)
   const [likedComponents, setLikedComponentes] = useState<string[]>([])
-  const [bookmarks, setBookmarks] = useState<string[]>([])
+  const {bookmarks, setBookmarks} = useBookmarks()
   const {user} = useUserState()
 
   const sortComponents = (components: PublishedComponent[]) => {
@@ -50,9 +51,6 @@ const Explorer = () => {
     if (window.localStorage.getItem("likes")) {
       setLikedComponentes(JSON.parse(window.localStorage.getItem("likes")!))
     }
-    if (window.localStorage.getItem("bookmarks")) {
-      setBookmarks(JSON.parse(window.localStorage.getItem("bookmarks")!))
-    }
   }, [])
 
   const updateLikes =  (componentId: String, like: number) => {
@@ -84,19 +82,16 @@ const Explorer = () => {
   }
   
   const toggleBookmark = (componentId: string) => {
-    let newBookmarks: string[] = []
     if (bookmarks.some(bookmark => bookmark === componentId)) {
-      newBookmarks = [...bookmarks.filter(bookmark => bookmark !== componentId)]
+      setBookmarks([...bookmarks.filter(bookmark => bookmark !== componentId)])
     }
     else {
-      newBookmarks = [...bookmarks, componentId]
+      setBookmarks([...bookmarks, componentId])
     }
-    setBookmarks(newBookmarks)
-    window.localStorage.setItem("bookmarks", JSON.stringify(newBookmarks))
   }
-
+  console.log(bookmarks)
   return (
-    <div className="flex items-center flex-col p-8 w-full bg-offWhite overflow-auto">
+    <div className="flex items-center flex-col p-8 w-full bg-offWhite overflow-auto dark:bg-grey-800">
       <ExploreHeader 
         componentType={componentType}
         setComponentType={setComponentType}
@@ -105,7 +100,7 @@ const Explorer = () => {
       />
 
       {/* MAPPING OVER THE COMPONENTS */}
-      <div className="flex flex-row flex-wrap justify-evenly">
+      <div className="flex flex-row flex-wrap justify-evenly pt-6">
         {components.map( (component, key) => (
           <div 
             key={key} 
@@ -137,7 +132,7 @@ const Explorer = () => {
                 </div>
               }
             </div>
-            <div className="flex flex-col justify-center w-full border-t border-grey-400 rounded-b-xl bg-grey-200">
+            <div className="flex flex-col justify-center w-full border-t border-grey-400 rounded-b-xl bg-offWhite dark:bg-grey-800">
                 <div className="flex w-full justify-between p-2">
                   <div className="flex items-center">
                     <button 
@@ -145,12 +140,14 @@ const Explorer = () => {
                       onClick={() => toggleLike(component._id!)}
                     >
                       {likedComponents.includes(component._id || '') ?
-                        <FaHeart className="animate__animated animate__heartBeat"/>
+                        <FaHeart className="animate__animated animate__heartBeat text-pink-400"/>
                       :
                         <FiHeart />
                       }
                     </button>
-                    {component.likes} like{component.likes !== 1 && 's'}
+                    <span className="dark:text-offWhite">
+                      {component.likes} like{component.likes !== 1 && 's'}
+                    </span>
                   </div>
                   <button
                     className="rounded-full p-1 cursor-pointer hover:scale-125 focus:scale-125 transition-all duration-200"
