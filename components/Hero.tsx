@@ -1,6 +1,7 @@
 import { BoltOutlined, GitHub } from '@mui/icons-material';
 import Btn from "components/Btn";
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Features from './Features';
 import HowItWorks from './HowItWorks';
@@ -43,12 +44,16 @@ const Hero = () => {
             Stylit is a growing repository of styled components that are ready to be used in your next project. Experiment with the component editor. Browse by component type, popularity, and creation time to see what&apos;s trending. We&apos;re here to make sure your designs are smooth and beautiful! 🤙
           </div>
           <div className="flex mt-2">
-            <Btn className="text-lg bg-gold shine">
-              <div className="p-1">
-                Try Now
-                <BoltOutlined fontSize='medium'/>
-              </div>
-            </Btn>
+            <Link href="/drafts">
+              <a>
+                <Btn className="text-lg bg-gold shine text-black border-2 border-gold">
+                    <div className="p-1">
+                      Try Now
+                      <BoltOutlined fontSize='medium'/>
+                    </div>
+                </Btn>
+              </a>
+            </Link>
             <a href="https://github.com/blakeeriks/stylit" target="_blank" rel="noreferrer">
               <Btn className="text-lg shine ml-2 border-2 border-gold">
                 <div className="p-1 text-gold">
