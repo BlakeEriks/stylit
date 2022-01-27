@@ -7,7 +7,7 @@
   --black: #191A19;
   --gray: #a1a1aa;
   --white: #FFFFFF;
-  --offWhite: #e0e0e0;
+  --offWhite: #ECF2F5;
 }
 
 html, body {
@@ -79,6 +79,10 @@ a {
     background: rgb(219,40,58);
     background: linear-gradient(180deg, rgba(219,40,58,1) 40%, rgba(217,188,125,1) 80%, rgba(25,26,25,1) 91%);
     background-clip: text;
+  }
+  .diagonal-bg {
+    background-size: 10px 10px;
+    background-image: repeating-linear-gradient(45deg, var(--red) 0, var(--red) 1px, transparent 0, rgb(75, 85, 99, 0.3) 50%);
   }
 }
 
