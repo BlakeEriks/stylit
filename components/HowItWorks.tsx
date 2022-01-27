@@ -10,7 +10,7 @@ const HowItWorks = () => {
           How it works
         </div>
       </div>
-      <div className="flex w-full justify-between text-white items-start">
+      <div className="flex flex-col md:flex-row w-full justify-between text-white items-start">
         <div className="flex flex-col items-start pr-2">
           <div className="text-2xl my-4 font-semibold space-y-2">
             <div>
@@ -31,7 +31,7 @@ const HowItWorks = () => {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col md:w-1/5">
           <div className="flex w-full items-center">
             <div className="uppercase text-xl font-semibold text-gold">
               Step 1
@@ -42,7 +42,7 @@ const HowItWorks = () => {
             Sign in to Stylit using either Github or Google.
           </div>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col md:w-1/5">
           <div className="flex w-full items-center">
             <div className="uppercase text-xl font-semibold text-gold">
               Step 2
@@ -59,7 +59,7 @@ const HowItWorks = () => {
             dashboard to create your first component.
           </div>
         </div>
-        <div className="flex flex-col w-1/5">
+        <div className="flex flex-col md:w-1/5">
           <div className="flex w-full items-center">
             <div className="uppercase text-xl font-semibold text-gold">
               Step 3

@@ -58,9 +58,9 @@ const Features = () => {
   ]
 
   return (
-    <div className="flex flex-wrap justify-between">
+    <div className="w-full flex justify-center flex-wrap ">
       {features.map(({icon, title, description}, index) => (
-        <div key={index} className="flex flex-col items-center flex-wrap min-w-[10vw] max-w-[15vw] mx-4 my-10" data-aos="fade-left">
+        <div key={index} className="flex flex-col items-center flex-wrap min-w-[10vw] max-w-[250px] px-4 py-8" data-aos="fade-left">
           <div className="rounded-lg bg-gradient-to-b from-fuchsia-600 via-pink-700 to-sky-600 text-white p-2 text-6xl">
             {icon}
           </div>

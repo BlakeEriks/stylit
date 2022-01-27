@@ -78,7 +78,7 @@ const Header = () => {
               <span className="rounded-full overflow-hidden mr-2 flex items-center">
                 <Image src={user.photoURL} alt={user.photoURL} height={24} width={24}/>
               </span>
-              {user.displayName}
+              {user.displayName.split(' ')[0]}
             </Btn>
             <Menu
               id="demo-positioned-menu"
