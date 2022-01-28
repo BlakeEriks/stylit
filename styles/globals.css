@@ -17,6 +17,7 @@ html, body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
   overflow-x: clip;
+  background: var(--gray);
 }
 
 /* This fixes shifting content when modal opens */
@@ -41,7 +42,8 @@ a {
 }
 
 *:focus {
-  /* outline: none; */
+  /* outline: 1px dotted #0ea5e9; */
+  /* outline: 5px auto #0ea5e9; */
 }
 
 @tailwind base;
@@ -54,11 +56,11 @@ a {
   }
 
   .component-container {
-    @apply flex flex-grow w-full items-center justify-center p-10 min-w-[230px] max-w-[300px] rounded-xl leading-normal 
+    @apply flex flex-grow w-full items-center justify-center min-w-[230px] max-w-[300px] rounded-xl leading-normal py-2 min-h-[100px] transition-all duration-100
   }
 
   .card {
-    @apply flex items-center justify-center w-full cursor-pointer h-40
+    @apply flex items-center justify-center cursor-pointer h-40 w-40
   }
 
   .edit-group {
