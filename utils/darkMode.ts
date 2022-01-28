@@ -3,7 +3,7 @@ import { atom, useRecoilState } from 'recoil';
 
 const darkModeState = atom<boolean>({
     key: 'darkModeState',
-    default: false
+    default: true
 })
 
 export const useDarkModeState = () => {
