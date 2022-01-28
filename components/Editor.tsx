@@ -139,7 +139,7 @@ const Editor = (props: EditorProps) => {
             <form onSubmit={(event) => {event.preventDefault();setEditMode(false)}}>
               <input 
                 value={name}
-                className='uppercase font-bold pt-2 bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text text-center min-w-0 caret-white border-sky-500 outline-none focus:border-2 rounded-xl'
+                className='uppercase font-bold pt-2 bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text text-center min-w-0 caret-sky-500 border-sky-500 outline-none focus:border-2 rounded-xl'
                 onChange={(event) => setDraft({...draft, name: event.target.value})}
                 onBlur={() => setEditMode(false)}
                 maxLength={16}
