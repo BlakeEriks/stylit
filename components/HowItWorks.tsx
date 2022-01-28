@@ -11,7 +11,7 @@ const HowItWorks = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row w-full justify-between text-white items-start">
-        <div className="flex flex-col items-start pr-2 w-full md:min-w-[300px]">
+        <div className="flex flex-col items-start pr-2 w-full md:min-w-[300px] max-w-[500px]">
           <div className="text-2xl my-4 font-semibold space-y-2">
             <div>
               3 Easy Steps. Endless Customizations.
