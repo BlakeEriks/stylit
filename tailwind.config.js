@@ -17,6 +17,8 @@ module.exports = {
       pink: colors.pink,
       fuchsia: colors.fuchsia,
       orange: colors.orange,
+      teal: colors.teal,
+      purple: colors.purple,
       'transparent': 'transparent',
       // 'red': '#DB2438',
       'red': '#800a18',
