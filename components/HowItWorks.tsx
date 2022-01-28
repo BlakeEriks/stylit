@@ -19,16 +19,14 @@ const HowItWorks = () => {
             <div>
               Let&apos;s get you started! 🏄
             </div>
-            <Link href="/drafts">
-              <a>
-                <Btn className="text-lg bg-gold shine text-black mt-3">
-                    <div className="p-1">
-                      Try Now
-                      <BoltOutlined fontSize='medium'/>
-                    </div>
-                </Btn>
-              </a>
-            </Link>
+            <Btn className="text-lg bg-gold shine text-black mt-3">
+              <Link href="/drafts">
+                <div className="p-1">
+                  Try Now
+                  <BoltOutlined fontSize='medium'/>
+                </div>
+              </Link>
+            </Btn>
           </div>
         </div>
         <div className="flex flex-col ">

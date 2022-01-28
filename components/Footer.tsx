@@ -17,21 +17,15 @@ const Footer = () => {
         <div className="pt-2">
           Created by Blake Eriks
         </div>
-        <a href="https://www.linkedin.com/in/blake-eriks/" target="_blank" rel="noreferrer">
-          <Btn className="bg-[#0a66c2] mx-2 shine">
-            <FiLinkedin />
-          </Btn>
-        </a>
-        <a href="https://twitter.com/be_lockay" target="_blank" rel="noreferrer">
-          <Btn className="bg-sky-500 mx-2 shine">
-            <FiTwitter />
-          </Btn>
-        </a>
-        <a href="https://github.com/BlakeEriks" target="_blank" rel="noreferrer">
-          <Btn className="bg-grey-600 mx-2 shine">
-            <FiGithub />
-          </Btn>
-        </a>
+        <Btn className="bg-[#0a66c2] mx-2 shine" href="https://www.linkedin.com/in/blake-eriks/">
+          <FiLinkedin />
+        </Btn>
+        <Btn className="bg-sky-500 mx-2 shine" href="https://twitter.com/be_lockay">
+          <FiTwitter />
+        </Btn>
+        <Btn className="bg-grey-600 mx-2 shine" href="https://github.com/BlakeEriks">
+          <FiGithub />
+        </Btn>
       </div>
       <div className="flex justify-center items-center">
         {links.map( link => (   
@@ -41,13 +35,13 @@ const Footer = () => {
             </a>
           </Link>
         ))}
-        <Link href="/" passHref>
-          <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 pl-1 transition-all duration-300 hover:scale-105 shine">
-            <div className="logo-gradient">
+        <Btn className="flex shadow-none">
+          <Link href="/" passHref>
+            <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 py-1 pl-1 transition-all duration-300 hover:scale-105 shine">
               💄<span className="text-white">styl<span className="text-gold">it</span></span>
             </div>
-          </div>
-        </Link>
+          </Link>
+        </Btn>
       </div>
     </div>
   )

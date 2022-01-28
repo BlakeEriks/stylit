@@ -13,7 +13,7 @@ const Header = () => {
   
   const {signOut} = useSocialAuth()
   const {user} = useUserState()
-  const [menu, setMenu] = useState<HTMLButtonElement | null>(null)
+  const [menu, setMenu] = useState<HTMLElement | null>(null)
   const [modalState, setModalState] = useModalState()
   const [showNav, setShowNav] = useState(false)
 
@@ -40,15 +40,13 @@ const Header = () => {
 
   return (
     <div className="flex flex-col md:flex-row w-full justify-between items-center p-3 bg-opacity-50 bg-gray text-white border-b border-white">
-      <div className="flex">
+      <Btn className="flex shadow-none">
         <Link href="/" passHref>
           <div className="text-4xl font-semibold cursor-pointer  rounded-2xl pr-3 py-1 pl-1 transition-all duration-300 hover:scale-105 shine">
-            <div className="logo-gradient">
-              💄<span className="text-white">styl<span className="text-gold">it</span></span>
-            </div>
+            💄<span className="text-white">styl<span className="text-gold">it</span></span>
           </div>
         </Link>
-      </div>
+      </Btn>
       <div className={`${showNav ? 'flex' : 'hidden'} md:flex flex-col md:flex-row justify-evenly items-center order-1 w-1/2 text-lg transition-all duration-100 mt-2`}>
         {links.map( link => (   
           <Link href={link.path} key={link.name}>
@@ -69,14 +67,14 @@ const Header = () => {
             <span></span>
           </div>
         </Btn>
-        <Link href="/component/create">
-          <a>
-            <Btn className="text-gold border-2 mx-2 border-gold shine">
+        <Btn className="text-gold border-2 mx-2 border-gold shine">
+          <Link href="/component/create">
+            <div className="flex items-center">
               Create
               <FaPlus className='ml-2'/>
-            </Btn>
-          </a>
-        </Link>
+            </div>
+          </Link>
+        </Btn>
         {user ?
           <>
             <Btn onClick={(event) => setMenu(event.currentTarget)} className="text-black bg-gold shine">

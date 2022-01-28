@@ -44,24 +44,20 @@ const Hero = () => {
             Stylit is a growing repository of styled components that are ready to be used in your next project. Experiment with the component editor. Browse by component type, popularity, and creation time to see what&apos;s trending. We&apos;re here to make sure your designs are smooth and beautiful! 🤙
           </div>
           <div className="flex mt-2">
-            <Link href="/drafts">
-              <a>
-                <Btn className="text-lg bg-gold shine text-black border-2 border-gold">
-                    <div className="p-1">
-                      Try Now
-                      <BoltOutlined fontSize='medium'/>
-                    </div>
-                </Btn>
-              </a>
-            </Link>
-            <a href="https://github.com/blakeeriks/stylit" target="_blank" rel="noreferrer">
-              <Btn className="text-lg shine ml-2 border-2 border-gold">
-                <div className="p-1 text-gold">
-                  Stars {starCount}
-                  <GitHub className="ml-1"/>
+            <Btn className="text-lg bg-gold shine text-black border-2 border-gold">
+              <Link href="/drafts">
+                <div className="p-1">
+                  Try Now
+                  <BoltOutlined fontSize='medium'/>
                 </div>
-              </Btn>
-            </a>
+              </Link>
+            </Btn>
+            <Btn className="text-lg shine ml-2 border-2 border-gold" href="https://github.com/blakeeriks/stylit">
+              <div className="p-1 text-gold capitalize">
+                Stars {starCount}
+                <GitHub className="ml-1"/>
+              </div>
+            </Btn>
           </div>
         </div>
         <div className="md:w-1/2 max-w-[400px] my-8 animate__animated animate__fadeInRight">
