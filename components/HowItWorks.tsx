@@ -20,7 +20,7 @@ const HowItWorks = () => {
               Let&apos;s get you started! 🏄
             </div>
             <Btn className="text-lg bg-gold shine text-black mt-3">
-              <Link href="/drafts">
+              <Link href="/drafts" passHref>
                 <div className="p-1">
                   Try Now
                   <BoltOutlined fontSize='medium'/>
@@ -51,8 +51,9 @@ const HowItWorks = () => {
             Head over to the 
             <Link
               href="/drafts" 
+              passHref
             >
-              <a className="font-bold bg-gradient-to-r from-orange-400 to-fuchsia-700 text-transparent bg-clip-text">{" "}drafts{" "}</a>
+              <span className="font-bold bg-gradient-to-r from-orange-400 to-fuchsia-700 text-transparent bg-clip-text">{" "}drafts{" "}</span>
             </Link>
             dashboard to create your first component.
           </div>

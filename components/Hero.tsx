@@ -45,7 +45,7 @@ const Hero = () => {
           </div>
           <div className="flex mt-2">
             <Btn className="text-lg bg-gold shine text-black border-2 border-gold">
-              <Link href="/drafts">
+              <Link href="/drafts" passHref>
                 <div className="p-1">
                   Try Now
                   <BoltOutlined fontSize='medium'/>
@@ -61,7 +61,7 @@ const Hero = () => {
           </div>
         </div>
         <div className="md:w-1/2 max-w-[400px] my-8 animate__animated animate__fadeInRight">
-          <Image src={asset2} className='opacity-95' priority/>
+          <Image src={asset2} alt={asset2} className='opacity-95' priority/>
         </div>
       </div>
       <div className="w-full flex flex-col items-center border bg-grey-800 border-fuchsia-500 min-w-[80vw] max-w-[95vw] rounded-2xl p-5 py-10">
