@@ -20,7 +20,7 @@ const Header = () => {
   const links = [
     {name: "How It Works", path: "/#how-it-works"},
     {name: "Browse", path: "/component"},
-    {name: "Bookmarks", path: "/bookmarks"},
+    {name: "Stars", path: "/stars"},
     {name: "Drafts", path: "/drafts"},
   ]
 
@@ -68,7 +68,7 @@ const Header = () => {
           </div>
         </Btn>
         <Btn className="text-gold border-2 mx-2 border-gold shine">
-          <Link href="/component/create">
+          <Link href="/drafts">
             <div className="flex items-center">
               Create
               <FaPlus className='ml-2'/>
