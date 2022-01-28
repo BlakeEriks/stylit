@@ -27,11 +27,11 @@ export interface DraftComponent extends Component {
 }
 
 export interface PublishedComponent extends Component {
-  _id?: string
+  _id: string
   likes: number
   stylesMap: { [index in ('&:hover' | '&:focus')]: Styles | keyof Styles }
   creator: User
-  createdAt?: number
+  createdAt: number
 }
 
 export interface Styles {
