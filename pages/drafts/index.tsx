@@ -9,8 +9,9 @@ import SubHero from "components/SubHero"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import { useLiked } from "utils/liked"
 import { useModalState } from "utils/modal"
-import { ComponentState, ComponentType, defaultStyles, DraftComponent, PublishedComponent } from "utils/types"
+import { ComponentState, ComponentType, defaultStyles, DraftComponent } from "utils/types"
 import { useUserState } from "utils/user"
 
 const Index = () => {
@@ -19,6 +20,7 @@ const Index = () => {
   const [selectedDraft, setSelectedDraft] = useState<number>(0)
   const [modalState, setModalState] = useModalState()
   const {user} = useUserState()
+  const {toggleLike} = useLiked()
 
   useEffect( () => {
     setDrafts(JSON.parse(window.localStorage.getItem('drafts') || "[]"))
@@ -75,7 +77,7 @@ const Index = () => {
     const {stylesMap} = drafts[selectedDraft]
 
     // construct new component
-    let component: PublishedComponent = { 
+    let component = { 
       creator: user.id,
       ...drafts[selectedDraft],
       stylesMap: {
@@ -87,12 +89,12 @@ const Index = () => {
           ...stylesMap[ComponentState.focus]
         }
       }, 
-      likes: 0
+      likes: 1
     }
   
     // Make the API request
     // await fetch(`${url}/components`, {
-    await fetch(`api/components`, {
+    const res = await fetch(`api/components`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +102,7 @@ const Index = () => {
       body: JSON.stringify(component),
     })
 
-    return component
+    return await res.json()
   }
 
   const onPublish = async (draft: DraftComponent) => {
@@ -129,6 +131,8 @@ const Index = () => {
           const component = await publishDraft()
           router.push(`/component?sort=Newest&type=${component.type}`)
           deleteDraft(component.name)
+          console.log(component)
+          toggleLike(component._id, component.likes)
           setModalState({open: false})
           toast.success("Published " + component.name)
         },
@@ -140,9 +144,9 @@ const Index = () => {
   return (
     <>
       <SubHero />
-      <div className="flex flex-col-reverse xl:flex-row w-full bg-gradient-to-br from-pink-300 via-orange-100 to-sky-200 border-t border-white">
+      <div className="flex flex-col xl:flex-row w-full bg-gradient-to-br from-pink-300 via-orange-100 to-sky-200 border-t border-white">
         <div className="flex flex-col items-center xl:w-1/4 xl:max-w-xs text-2xl border-r-2 border-grey-600 dark:border-white bg-offWhite flex-grow animate__animated animate__fadeInLeft dark:bg-grey-800 transition-all duration-200">
-          <div className="py-3 w-full text-center text-black bg-white font-bold border-b border-grey-600 shadow-xl dark:text-white dark:bg-grey-600 dark:border-white transition-all duration-200">
+          <div className="py-3 w-full text-center text-black bg-white font-bold border-b border-grey-600 shadow-xl dark:text-white dark:bg-grey-600 dark:border-white transition-all duration-100">
             🌏 Draft Selector
           </div>
           {/* MAPPING OVER THE COMPONENTS */}
@@ -163,7 +167,9 @@ const Index = () => {
                       <DeleteOutline />
                     </IconButton>
                   </span>
-                  {draft.name}
+                  <span className="uppercase">
+                    {draft.name}
+                  </span>
                   <span></span>
                 </div>
                 <div className="component-container">
@@ -177,7 +183,7 @@ const Index = () => {
                   {ComponentType[draft.type] === "Input" && 
                     <input
                       readOnly
-                      className="min-w-0"
+                      className="min-w-0 w-full max-w-[200px]"
                       css={draft.stylesMap[ComponentState.normal] as Interpolation<Theme>} 
                       placeholder="input..." 
                     />
