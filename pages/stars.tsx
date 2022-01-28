@@ -15,7 +15,10 @@ const Starred = () => {
   const [loading, setLoading] = useState(false)
 
   const updateComponents = async () => {
-    if (!starred || !starred.length) return
+    if (!starred || !starred.length) {
+      setLoading(false)
+      return
+    }
     fetch(`/api/components?id=${starred.join(',')}`).then(res => res.json())
       .then(components => {
         setComponents(components)
