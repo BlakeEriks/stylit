@@ -31,8 +31,7 @@ const PaddingEdit = ({getStyle, resetStyles, setStyle}: PaddingEditProps) => {
           x
         </div>
         <EditSlider
-          max={40}
-          step={2}
+          max={20}
           onChange={(e, v) => setStyle("padding", `${getStyle("padding").split(" ")[0]} ${v}px`)}
           value={getPadding("x")}
         />
@@ -42,8 +41,7 @@ const PaddingEdit = ({getStyle, resetStyles, setStyle}: PaddingEditProps) => {
           y
         </div>
         <EditSlider
-          max={30}
-          step={2}
+          max={15}
           onChange={(e, v) => setStyle("padding", `${v}px ${getStyle("padding").split(" ")[1]}`)}
           value={getPadding("y")}
         />

@@ -77,9 +77,9 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
           size
         </div>
         <EditSlider
-          max={40}
+          max={30}
           min={20}
-          step={2}
+          step={1}
           onChange={(e: Event, v: number | number[]) => setStyle("fontSize", `${v}px`)}
           value={Number(getStyle("fontSize").replace("px", ""))}
         />
@@ -103,7 +103,8 @@ const TextEdit = ({getStyle, resetStyles, setStyle, setAnchorEl}: TextEditProps)
           space
         </div>
         <EditSlider
-          max={10}
+          max={5}
+          step={0.5}
           onChange={(e, v) => setStyle("letterSpacing", v + 'px')}
           value={Number(getStyle("letterSpacing").replace("px",""))}
         />
