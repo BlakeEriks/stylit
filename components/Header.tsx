@@ -49,10 +49,10 @@ const Header = () => {
       </Btn>
       <div className={`${showNav ? 'flex' : 'hidden'} md:flex flex-col md:flex-row justify-evenly items-center order-1 w-1/2 text-lg transition-all duration-100 mt-2`}>
         {links.map( link => (   
-          <Link href={link.path} key={link.name}>
-            <a className="hover:font-semibold cursor-pointer continuous-line py-1" onClick={() => setShowNav(false)}>
+          <Link href={link.path} key={link.name} passHref>
+            <span className="hover:font-semibold cursor-pointer continuous-line py-1" onClick={() => setShowNav(false)}>
               {link.name}
-            </a>
+            </span>
           </Link>
         ))}
       </div>
@@ -68,7 +68,7 @@ const Header = () => {
           </div>
         </Btn>
         <Btn className="text-gold border-2 mx-2 border-gold shine">
-          <Link href="/drafts">
+          <Link href="/drafts" passHref>
             <div className="flex items-center">
               Create
               <FaPlus className='ml-2'/>
