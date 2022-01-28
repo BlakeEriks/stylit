@@ -1,3 +1,4 @@
+import { Edit } from '@mui/icons-material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import UndoRounded from "@mui/icons-material/UndoRounded";
@@ -54,7 +55,7 @@ const Editor = (props: EditorProps) => {
   const [draft, setDraft] = useState(lastSaved)
   const [componentState, setComponentState] = useState<ComponentState>(ComponentState.normal);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | undefined>();
-  const [editNameAnchorEl, setEditNameAnchorEl] = useState<HTMLElement | undefined>();
+  const [editMode, setEditMode] = useState(false);
   const {darkMode, setDarkMode} = useDarkModeState()
   const {stylesMap, type, name} = draft
 
@@ -113,7 +114,7 @@ const Editor = (props: EditorProps) => {
   }
 
   return (
-    <div className="flex flex-col justify-center max-w-[1100px] md:max-h-[calc(100vh-73px)] md:min-h-[660px] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 md:min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__fadeIn">
+    <div className="flex flex-col justify-center max-w-[1100px] md:max-h-[calc(100vh-73px)] md:min-h-[600px] w-full bg-white dark:bg-grey-600 transition-all duration-200 border-2 border-grey-400 md:min-w-[800px] rounded-3xl overflow-hidden shadow-2xl animate__animated animate__fadeIn">
       
       <div className="flex justify-between items-center w-full px-4 py-2 text-5xl">
         <IconButton
@@ -134,15 +135,28 @@ const Editor = (props: EditorProps) => {
           }
         </IconButton>
         <div className="flex items-center justify-center min-w-[25%] max-w-[50%]">
-          <span className="pt-2 uppercase font-bold bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text text-center">
-            {name}
-          </span>
-          {/* <IconButton
+          {editMode ? 
+            <form onSubmit={(event) => {event.preventDefault();setEditMode(false)}}>
+              <input 
+                value={name}
+                className='uppercase font-bold pt-2 bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text text-center min-w-0 caret-white border-sky-500 outline-none focus:border-2 rounded-xl'
+                onChange={(event) => setDraft({...draft, name: event.target.value})}
+                onBlur={() => setEditMode(false)}
+                maxLength={16}
+                autoFocus
+              />
+            </form>
+          :
+            <span className="pt-2 uppercase font-bold bg-gradient-to-r from-fuchsia-400 via-yellow-300 to-green-200 text-transparent bg-clip-text text-center">
+              {name}
+            </span>
+          }
+          <IconButton
             size="medium"
-            onClick={(event) => setEditNameAnchorEl(event.currentTarget)}
+            onClick={() => setEditMode(true)}
           >
             <Edit fontSize="medium"/>
-          </IconButton> */}
+          </IconButton>
         </div>
         <IconButton
           size="large"
