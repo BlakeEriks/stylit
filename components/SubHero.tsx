@@ -1,7 +1,28 @@
-import { GitHub, Twitter } from "@mui/icons-material"
-import Btn from "./Btn"
+import { GitHub, Twitter } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import Btn from "./Btn";
 
 const SubHero = () => {
+
+  const [starCount, setStarCount] = useState<number>()
+
+  const fetchStarCount = () => {
+    fetch("https://api.github.com/repos/blakeeriks/stylit", {
+        method: "get"
+      })
+      .then(response => response.json())
+      .then(data => {
+        setStarCount(data.stargazers_count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchStarCount();
+  }, []);
+
   return (
     <div className="flex justify-center w-full p-10 diagonal-bg bg-opacity-80  border-white">
       <div className="p-4 rounded-lg bg-grey-600 flex flex-col items-center text-xl">
@@ -19,7 +40,7 @@ const SubHero = () => {
           </Btn>
           <Btn className="text-lg shine border-2 border-gold ml-2" href="https://github.com/blakeeriks/stylit">
             <div className=" text-gold">
-              Stars 1
+              Stars {starCount}
               <GitHub className="ml-1"/>
             </div>
           </Btn>
