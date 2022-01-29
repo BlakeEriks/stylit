@@ -103,6 +103,7 @@ npm run start
 ## 📡 Tools & Technologies
 
 - [NextJS](https://nextjs.org/) SSR + builtin express server
+- [TypeScript](https://www.typescriptlang.org/) Typed JavaScript
 - [Mongo Cloud](https://www.mongodb.com/cloud): Cloud Database-as-a-Service
 - [Tailwind](https://tailwindcss.com/): easy drop in styles
 - [lodash](https://lodash.com/): utility functions
