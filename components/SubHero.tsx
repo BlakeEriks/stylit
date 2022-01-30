@@ -33,7 +33,7 @@ const SubHero = () => {
           Introducing Stylit, the mega repository of CSS styled components ready to be dropped into your projects. Stylit consists of 100+ customized creations from tons of talented developers. Select the component type you&apos;re looking for, filtering by popularity or creation, try out dark mode, publish new components for the world to see, and much more! Stylit is as awesome as people like you make it. 🤙 
         </div>
         <div className="flex">
-          <Btn className="text-lg bg-gold shine text-black border-2 border-gold" href="https://github.com/blakeeriks/stylit">
+          <Btn className="text-lg bg-gold shine text-black border-2 border-gold" href="https://blakeeriks.hashnode.dev/introducing-stylit">
               <div>
                 Read Blog
               </div>
