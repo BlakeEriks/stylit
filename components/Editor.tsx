@@ -280,11 +280,13 @@ const Editor = (props: EditorProps) => {
         </div>
 
         {/* Color Picker Pop Up */}
-        <ColorPicker
-          anchorEl={anchorEl}
-          onClose={() => setAnchorEl(undefined)}
-          onChange={(rgb: RGBColor) => setColorByAnchoredEl(rgb)}
-        />
+        {anchorEl &&
+          <ColorPicker
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(undefined)}
+            onChange={setColorByAnchoredEl}
+          />
+        }
       </div>
 
       {/* Save Component */}
