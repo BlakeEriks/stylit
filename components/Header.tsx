@@ -19,7 +19,7 @@ const Header = () => {
 
   const links = [
     {name: "How It Works", path: "/#how-it-works"},
-    {name: "Browse", path: "/component"},
+    {name: "Browse", path: "/components"},
     {name: "Stars", path: "/stars"},
     {name: "Drafts", path: "/drafts"},
   ]
