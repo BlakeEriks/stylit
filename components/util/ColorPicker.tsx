@@ -3,14 +3,14 @@ import { useState } from "react";
 import { ChromePicker, Color, ColorResult } from "react-color";
 
 interface ColorPickerProps {
-  anchorEl: HTMLElement | undefined
+  anchorEl: HTMLElement
   onClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void
   onChange: Function
 }
 
 const ColorPicker = ({anchorEl, onClose, onChange}: ColorPickerProps) => {
 
-  const [color, setColor] = useState<Color | undefined>(undefined)
+  const [color, setColor] = useState<Color>()
   
   return (
     <Popover
