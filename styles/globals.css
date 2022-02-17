@@ -2,7 +2,6 @@
 
 :root {
   --red: #800a18;
-  /* --gold: #f5ba31; */
   --gold: #ffd700;
   --black: #191A19;
   --gray: #a1a1aa;
@@ -39,11 +38,6 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-*:focus {
-  /* outline: 1px dotted #0ea5e9; */
-  /* outline: 5px auto #0ea5e9; */
 }
 
 @tailwind base;
